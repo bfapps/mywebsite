@@ -67,10 +67,32 @@ a.disabled-link::after {
     content: "Disabled";
     margin-left: 6px;
 }
+/*
+a.home-link {
+    background-color: #cda3ff;
+}
+a.home-link:hover {
+    background-color: #bd88ff;
+} */
 p {
     color: white;
     font-size: medium;
     font-weight: 400;
+}
+h2,h3,h4,h1 {
+    color: white;
+}
+
+img {
+    width: 100%;
+}
+
+div.image {
+    width: 100%;
+    margin-top: 20px;
+}
+.image>img {
+    border-radius: 30px;
 }
 @media only screen and (max-width: 900px) {
     .main-body {

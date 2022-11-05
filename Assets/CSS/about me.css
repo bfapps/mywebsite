@@ -12,9 +12,7 @@ img.profile-picture {
     height: 80px;
     border-radius: 50%;
 }
-p,h2 {
-    color: white;
-}
+
 @media only screen and (max-width: 350px) {
     img.profile-picture {
         width: 70px;
