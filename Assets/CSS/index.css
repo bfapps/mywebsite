@@ -10,6 +10,7 @@ body {
     align-items: center;
     width: 100%;
     min-height: 100vh;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .main-body {
     width: 700px;
@@ -35,10 +36,11 @@ body {
     text-align: center;
     text-emphasis: 87%;
 }
-.main-link {
+a.main-link {
     color: #252525;
     font-weight: bold;
-    background-color: #c696fd;
+    /* background-color: #c696fd; */
+    background-color: #03dac5;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,8 +49,20 @@ body {
     text-decoration: none;
     margin: 8px 0;
 }
-.main-link:hover {
-    background-color: #c08bfd;
+a.main-link:hover {
+    background-color: #06f1da;
+}
+a.disabled-link {
+    background-color: #03dac5a6;
+}
+a.disabled-link:hover {
+    background-color: #03dac5a6;
+}
+a.disabled-link::after {
+    font-size: x-small;
+    color: #444444;
+    content: "Disabled";
+    margin-left: 6px;
 }
 p {
     color: white;
@@ -61,6 +75,13 @@ p {
     }
 }
 @media only screen and (max-width: 600px) {
+    body {
+        align-items: flex-start;
+        padding-top: 7%;
+    }
+    h2 {
+        font-size: 1em;
+    }
     .main-body {
         width: 93%;
         padding: 20px;
@@ -73,5 +94,9 @@ p {
     }
     .main-link {
         font-size: 0.8em;
+    }
+    a.disabled-link::after {
+        font-size: 0.7em;
+        margin-left: 4px;
     }
 }

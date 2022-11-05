@@ -1,0 +1,20 @@
+#picture {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+img.profile-picture {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+p,h2 {
+    color: white;
+    text-emphasis-color: 87%;
+}
+@media only screen and (max-width: 35px) {
+    img.profile-picture {
+        width: 50px;
+        height: 50px;
+    }
+}
