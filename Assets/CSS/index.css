@@ -28,7 +28,7 @@ body {
    color: white; 
    display: block;
    margin: 0.05em;
-   text-emphasis: 87%;
+   text-emphasis-color: 87%;
 }
 .sub-title {
     display: block;
@@ -75,10 +75,6 @@ p {
     }
 }
 @media only screen and (max-width: 600px) {
-    body {
-        align-items: flex-start;
-        padding-top: 7%;
-    }
     h2 {
         font-size: 1em;
     }
