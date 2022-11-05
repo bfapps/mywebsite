@@ -4,6 +4,20 @@
 
 body {
     margin: 0;
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+.main-body {
+    width: 700px;
+    padding: 60px;
+    border-style: none;
+    border-width: 2px;
+    border-color: white;
+    border-radius: 10px;
     background-color: #252525;
 }
 .title {
@@ -11,9 +25,53 @@ body {
    font-size: 30px;
    font-weight: 600;
    color: white; 
+   display: block;
+   margin: 0.05em;
+   text-emphasis: 87%;
+}
+.sub-title {
+    display: block;
+    color: white;
+    text-align: center;
+    text-emphasis: 87%;
+}
+.main-link {
+    color: #252525;
+    font-weight: bold;
+    background-color: #c696fd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    border-radius: 3px;
+    text-decoration: none;
+    margin: 8px 0;
+}
+.main-link:hover {
+    background-color: #c08bfd;
 }
 p {
     color: white;
     font-size: medium;
     font-weight: 400;
+}
+@media only screen and (max-width: 900px) {
+    .main-body {
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .main-body {
+        width: 93%;
+        padding: 20px;
+    }
+    .title {
+        font-size: 1.5em;
+    }
+    .sub-title {
+        font-size: 0.8em;
+    }
+    .main-link {
+        font-size: 0.8em;
+    }
 }
