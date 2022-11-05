@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #252525;
+}
+.title {
+   text-align: center;
+   font-size: 30px;
+   font-weight: 600;
+   color: white; 
+}
+p {
+    color: white;
+    font-size: medium;
+    font-weight: 400;
+}
