@@ -1,6 +1,10 @@
 * {
     box-sizing: border-box;
 }
+@font-face {
+    font-family: Segoe UI;
+    src: url(../Fonts/Segoe\ UI.ttf);
+}
 
 body {
     margin: 0;
