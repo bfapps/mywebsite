@@ -104,7 +104,10 @@ div.image {
 }
 @media only screen and (max-width: 600px) {
     h2 {
-        font-size: 1em;
+        font-size: 1.3em;
+    }
+    h3 {
+        font-size: 1.2em;
     }
     .main-body {
         width: 93%;
