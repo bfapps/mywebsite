@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguFun</title>
+    <script src="https://kit.fontawesome.com/32f77a75ad.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../../../Assets/CSS/index.css">
+</head>
+
+<body onload="passwordChecker()">
+    <div class="main-body">
+        <span class="title">Scoring Table</span>
+        <span class="sub-title">10th Science</span>
+        <br>
+        <div class="table-container" id="table-container" style="overflow-x:auto ;display: none;">
+            <table>
+                <tr>
+                    <th></th>
+                    <td style="font-weight: bold;">Test 1 (7/30)</td>
+                    <td style="font-weight: bold;">Test 2 (8/14)</td>
+                    <td style="font-weight: bold;">Test 3</td>
+                    <td style="font-weight: bold;">Semester</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div style="padding-top: 13px;">
+            <a class="main-link home-link" href="../../../index.html">Go Home</a>
+        </div>
+    </div>
+</body>
+<script>
+    function passwordChecker() {
+        let pass = prompt("Password:");
+        if (pass == 1082 || pass === "۱۰۸۲") {
+            document.getElementById("table-container").style.display = "block";
+        }
+        else {
+            passwordChecker();
+        }
+    }
+</script>
+
+</html>
