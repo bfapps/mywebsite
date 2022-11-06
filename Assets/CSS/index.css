@@ -54,6 +54,7 @@ a.main-link {
     border-radius: 3px;
     text-decoration: none;
     margin: 8px 0;
+    position: relative;
 }
 a.main-link:hover {
     background-color: #06f1da;
@@ -68,6 +69,12 @@ a.disabled-link::after {
     font-size: x-small;
     color: #444444;
     content: "Disabled";
+    margin-left: 6px;
+}
+a.updated::after {
+    font-size: x-small;
+    color: rgb(199, 0, 0);
+    content: "Updated!";
     margin-left: 6px;
 }
 
@@ -141,6 +148,10 @@ div.image>img {
         font-size: 0.8em;
     }
     a.disabled-link::after {
+        font-size: 0.7em;
+        margin-left: 4px;
+    }
+    a.updated::after {
         font-size: 0.7em;
         margin-left: 4px;
     }
