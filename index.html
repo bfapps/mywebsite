@@ -26,6 +26,7 @@
                 <a class="main-link" href="Pages/Linguistics.html">Linguistics</a>
                 <a class="main-link disabled-link" href="">Teaching</a>
                 <a class="main-link disabled-link" href="">Learning</a>
+                <a class="main-link disabled-link" href="">Extras</a>
                 <a class="main-link" href="Pages/About me/About me.html">About me</a>
             </div>
         <button id="change-theme"><i class="fas fa-sun    "></i></button>
@@ -48,7 +49,7 @@
                 minute: "numeric"
             });
             const onlyClock = time.slice(0, 2);
-            if (onlyClock >= 20 || onlyClock <= 15) {
+            if (onlyClock >= 17 || onlyClock <= 07) {
                 localStorage.setItem("mode", "night");
                 document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index-night.css');
                 document.getElementById("change-theme").innerHTML = '<i class="fas fa-moon    "></i>';

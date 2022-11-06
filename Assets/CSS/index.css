@@ -110,6 +110,7 @@ div.image>img {
     position: absolute;
     top: 15px;
     color: #252525;
+    display: none;
 }
 
 @media only screen and (max-width: 900px) {
