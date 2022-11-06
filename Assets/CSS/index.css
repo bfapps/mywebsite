@@ -8,34 +8,37 @@
 
 body {
     margin: 0;
-    background-color: #121212;
+    position: relative;
+    background-color: #efefef;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding: 15px 0;
     width: 100%;
     min-height: 100vh;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .main-body {
-    width: 700px;
+    position: relative;
+    width: 900px;
     padding: 60px;
     border-style: none;
     border-width: 2px;
     border-color: white;
     border-radius: 10px;
-    background-color: #252525;
+    background-color: #f5f5f5;
 }
 .title {
    text-align: center;
-   font-size: 30px;
-   font-weight: 600;
-   color: white; 
+   font-size: 33px;
+   font-weight: 900;
+   color: #252525; 
    display: block;
    margin: 0.05em;
 }
 .sub-title {
     display: block;
-    color: white;
+    color: #252525;
     text-align: center;
     text-emphasis: 87%;
 }
@@ -67,21 +70,21 @@ a.disabled-link::after {
     content: "Disabled";
     margin-left: 6px;
 }
-/*
+
 a.home-link {
-    background-color: #cda3ff;
+    background-color: #f88c66;
 }
 a.home-link:hover {
-    background-color: #bd88ff;
-} */
+    background-color: #fc8155;
+} 
 p {
-    color: white;
+    color: #252525;
     font-size: medium;
     font-weight: 400;
     margin-top: 4px;
 }
-h2,h3,h4,h1,b {
-    color: white;
+h2,h3,h4,h1 {
+    color: #252525;
 }
 h3 {
     padding-left: 6px;
@@ -94,9 +97,21 @@ div.image {
     width: 100%;
     margin-top: 20px;
 }
-.image>img {
+div.image>img {
     border-radius: 30px;
 }
+
+
+/*   Theme button    */
+#change-theme {
+    background: none;
+    border: none;
+    font-size: 40px;
+    position: absolute;
+    top: 15px;
+    color: #252525;
+}
+
 @media only screen and (max-width: 900px) {
     .main-body {
         width: 90%;
@@ -125,5 +140,14 @@ div.image {
     a.disabled-link::after {
         font-size: 0.7em;
         margin-left: 4px;
+    }
+    #change-theme {
+        font-size: 30px;
+    }
+}
+@media only screen and (max-width: 450px) {
+    #change-theme {
+        font-size: 25px;
+        top: 0px;
     }
 }

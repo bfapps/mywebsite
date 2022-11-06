@@ -4,13 +4,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>LinguFun</title>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
-            integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
-        <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js"
-            integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
-            crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/32f77a75ad.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="Assets/CSS/index.css">
+        <link id="theme-selector" rel="stylesheet" href="Assets/CSS/index.css">
     </head>
+    <style>
+        body {
+            align-items:center;
+            padding: 0;
+        }
+        #change-theme {
+            top: -50px;
+            left: 43%;
+        }
+    </style>
     <body>
         <div class="main-body">
             <span class="title">Welcome To LinguFun</span>
@@ -18,10 +25,50 @@
             <div style="padding-top: 13px;">
                 <a class="main-link" href="Pages/Linguistics.html">Linguistics</a>
                 <a class="main-link disabled-link" href="">Teaching</a>
+                <a class="main-link disabled-link" href="">Learning</a>
                 <a class="main-link" href="Pages/About me/About me.html">About me</a>
             </div>
-
-
+        <button id="change-theme"><i class="fas fa-sun    "></i></button>
         </div>
     </body>
+    <script>
+        // function to set first mode of night mode or day mode
+        let mode = localStorage.getItem("mode");
+        if (mode === "night") {
+            document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index-night.css');
+            document.getElementById("change-theme").innerHTML='<i class="fas fa-moon    "></i>';
+        }
+        else if (mode === "day") {
+            document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index.css');
+        }
+        else {
+            const time = new Date().toLocaleTimeString('en-US', {
+                hour12: false,
+                hour: "numeric",
+                minute: "numeric"
+            });
+            const onlyClock = time.slice(0, 2);
+            if (onlyClock >= 20 || onlyClock <= 15) {
+                localStorage.setItem("mode", "night");
+                document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index-night.css');
+                document.getElementById("change-theme").innerHTML = '<i class="fas fa-moon    "></i>';
+            }
+        }
+        
+
+        // function to change mode by clicks
+        document.getElementById("change-theme").addEventListener("click", function () {
+                mode = localStorage.getItem("mode");
+                if (mode === "night") {
+                    localStorage.setItem("mode", "day");
+                    document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index.css');
+                    document.getElementById("change-theme").innerHTML = '<i class="fas fa-sun    "></i>';
+                }
+                else if (mode === "day") {
+                    localStorage.setItem("mode", "night");
+                    document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index-night.css');
+                    document.getElementById("change-theme").innerHTML = '<i class="fas fa-moon    "></i>';
+                }
+        })
+    </script>
 </html>
