@@ -11,7 +11,7 @@
 
 <body>
     <div class="main-body">
-        <div class="question" id="question" name="3">Party</div>
+        <div class="question" id="question" name="2">Party</div>
         <div class="answers-div">
             <button class="answer-btn" id="a1" name="1">der</button>
             <button class="answer-btn" id="a2" name="2">die</button>
@@ -21,15 +21,31 @@
         </div>
     </div>
     <div class="quesrions" style="display: none;">
-        <p id="1" name="3">party</p>
+        <p id="1" name="2">party</p>
         <p id="2" name="2">steckbrief</p>
         <p id="3" name="1">name</p>
+        <p id="4" name="3">lied</p>
+        <p id="5" name="3">sternzeichen</p>
+        <p id="6" name="3">gespräch</p>
+        <p id="7" name="2">persönlichkeit</p>
+        <p id="8" name="3">befinden</p>
+        <p id="9" name="2">Kanferenz</p>
+        <p id="10" name="1">glaube</p>
+        <p id="11" name="2">karte</p>
+        <p id="12" name="1">Beruf</p>
+        <p id="13" name="3">praktikum</p>
+        <p id="14" name="2">ausbildung</p>
+        <p id="15" name="1">text</p>
+        <p id="16" name="3">schreiben</p>
+        <p id="17" name="2">herkunft</p>
+        <p id="18" name="1">wohnort</p>
+        <p id="19" name="1">familienstand</p>
     </div>
 </body>
 <script>
     let qid = 1;
     let btnNumber= 0;
-    let answer = 3;
+    let answer = 2;
     let clickedBtn = 0;
     let questionText = "";
     let questionName = "";
@@ -46,7 +62,7 @@
         check();
     });
     document.getElementById("next-page").addEventListener("click", function () {
-        if (qid <= 2)
+        if (qid <= 18)
         {
             qid = qid + 1;
             next();
@@ -61,6 +77,10 @@
         if (qid >= 2) {
             qid = qid - 1;
             previous();
+        }
+        else {
+            qid = 19;
+            previous ();
         }
     })
     function check () {
