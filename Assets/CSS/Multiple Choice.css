@@ -42,6 +42,7 @@ body {
     width: 100%;
     height: 78px;
     margin-bottom: 20px;
+    text-transform: capitalize;
 }
 .answers-div
 {
@@ -55,7 +56,7 @@ body {
     background-color: #ffffff;
     border-radius: 13px;
 }
-.answer-btn {
+button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,9 +69,10 @@ body {
     margin: 17.5px 0;
     font-size: 22px;
 }
-.answer-btn:hover {
+button:hover {
     box-shadow: 0 2px 2px 0 rgba(124, 124, 124, 0.8);
 }
+/*
 #a1 {
     background-color: #ff3b30;
     color: white;
@@ -79,6 +81,7 @@ body {
     background-color: #34c759;
     color: white;
 }
+*/
 .page-changer {
     background-color: #007aff;
     color: white;
@@ -105,7 +108,7 @@ body {
         width: 280px;
         height: 400px;
     }
-    .answer-btn {
+     button {
         width: 230px;
         height: 54px;
         margin: 8px 0;
