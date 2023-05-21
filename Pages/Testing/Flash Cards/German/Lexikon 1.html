@@ -11,8 +11,9 @@
 <body>
     <div class="main-body">
         <div class="container def-container">
+            <!-- set word inner text to the first (p) name-->
             <p id="word">gebiet</p>
-            <p id="definition">area</p>
+            <p id="definition">?</p>
         </div>
         <div class="container btn-container">
             <button class="definition" name="1">Definition</button>
@@ -22,11 +23,86 @@
         </div>
     </div>
     <div class="quesrions" style="display: none;">
-        <p id="1">definition</p>4   
+        <!-- only change name , plural, inner text-->
+        <p id="1" name="gebiet" plural="gebiete">area</p>
+        <p id="2" name="party" plural="partys">party</p>
+        <p id="3" name="sprache" plural="sprachen">language</p>
     </div>
 </body>
 <script>
 
+    let qid = 1;
+    let definition = "";
+    let plural = "";
+    let wordText="";
+    let defCheck = false;
+    let pluralCheck = false;
+    // setting this is important
+    let topNumber = 3;
+
+    // show definition
+
+    document.getElementsByClassName("definition")[0].addEventListener("click", function () {
+        setdefinition ();
+    })
+    function setdefinition () {
+        if (defCheck === false) {
+            defCheck = true;
+            definition = document.getElementById(qid).innerText;
+            document.getElementById("definition").innerText = definition;
+        }
+        else {
+            defCheck = false;
+            document.getElementById("definition").innerText = "?";
+        }
+        pluralCheck = false;
+    }
+
+    // show plural 
+    document.getElementsByClassName("plural")[0].addEventListener("click", function () {
+        setplural ();
+    })
+    function setplural () {
+        if (pluralCheck === false) {
+            pluralCheck = true;
+            plural = document.getElementById(qid).getAttribute("plural");
+            document.getElementById("definition").innerText = plural;
+        }
+        else {
+            pluralCheck = false;
+            document.getElementById("definition").innerText = "?";
+        }
+        defCheck = false;
+    }
+
+    // next and previous btn
+    document.getElementById("next-page").addEventListener("click", function () {
+        if (qid <= topNumber -1) {
+            qid = qid +1;
+        }
+        else {
+            qid = 1;
+        }
+         pagechanger (); 
+    })
+
+    document.getElementById("previous-page").addEventListener("click", function () {
+        if (qid >= 2) {
+            qid = qid - 1;
+        }
+        else {
+            qid = topNumber;
+        }
+        pagechanger ();
+    })
+
+    function pagechanger () {
+        document.getElementById("definition").innerText = "?";
+        wordText = document.getElementById(qid).getAttribute("name");
+        document.getElementById("word").innerText = wordText;
+        defCheck = false;
+        pluralCheck = false;
+    } 
 </script>
 
 </html>
