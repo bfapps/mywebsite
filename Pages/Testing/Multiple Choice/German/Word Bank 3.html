@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguFun</title>
+    <link rel="stylesheet" href="../../../../Assets/CSS/Multiple Choice.css">
+</head>
+
+<body>
+    <div class="main-body">
+        <div class="question" id="question" name="3">hobby</div>
+        <div class="answers-div">
+            <button class="answer-btn" id="a1" name="1">der</button>
+            <button class="answer-btn" id="a2" name="2">die</button>
+            <button class="answer-btn" id="a3" name="3">das</button>
+            <button class="page-changer" id="next-page">Next</button>
+            <button class="page-changer" id="previous-page">Previous</button>
+        </div>
+    </div>
+    <div class="quesrions" style="display: none;">
+        <p id="1" name="3">hobby</p>
+        <p id="2" name="3">leben</p>
+        <p id="3" name="2">heimstadt</p>
+        <p id="4" name="1">satz</p>
+        <p id="5" name="1">film</p>
+        <p id="6" name="2">reportage</p>
+        <p id="7" name="1">kunde (costumer)</p>
+        <p id="8" name="3">projekt</p>
+        <p id="9" name="2">landeskunde</p>
+        <p id="10" name="2">kunde (news)</p>
+        <p id="11" name="1">stamm</p>
+        <p id="12" name="1">baum</p>
+        <p id="13" name="2">show</p>
+        <p id="14" name="1">sänger</p>
+        <p id="15" name="2">information</p>
+        <p id="16" name="3">internet</p>
+        <p id="17" name="3">ergebnis</p>
+        <p id="18" name="2">stadt</p>
+        
+    </div>
+</body>
+<script>
+    let qid = 1;
+    let btnNumber = 0;
+    let answer = "";
+    let clickedBtn = 0;
+    let questionText = "";
+    let questionName = "";
+    // set this to top number
+    let topNumber = 10;
+    document.querySelectorAll(".answer-btn")[0].addEventListener("click", function () {
+        btnNumber = 1;
+        check();
+    });
+    document.querySelectorAll(".answer-btn")[1].addEventListener("click", function () {
+        btnNumber = 2;
+        check();
+    });
+    document.querySelectorAll(".answer-btn")[2].addEventListener("click", function () {
+        btnNumber = 3;
+        check();
+    });
+    document.getElementById("next-page").addEventListener("click", function () {
+        if (qid <= topNumber -1) {
+            qid = qid + 1;
+        }
+        else {
+            qid = 1;
+        }
+        pagechanger();
+
+    })
+    document.getElementById("previous-page").addEventListener("click", function () {
+        if (qid >= 2) {
+            qid = qid - 1;
+
+        }
+        else {
+            qid = topNumber;
+
+        }
+        pagechanger();
+    })
+    function check() {
+        answer = document.getElementById(qid).getAttribute("name");
+        clickedBtn = "a" + btnNumber;
+        if (btnNumber == answer) {
+            document.getElementById(clickedBtn).style.backgroundColor = "#34c759";
+            document.getElementById(clickedBtn).style.color = "white";
+        }
+        else {
+            document.getElementById(clickedBtn).style.backgroundColor = "#ff3b30";
+            document.getElementById(clickedBtn).style.color = "white";
+        }
+    }
+
+    function pagechanger() {
+        clearAll();
+        questionText = document.getElementById(qid).innerText;
+        questionName = document.getElementById(qid).getAttribute("name");
+        document.getElementById("question").innerText = questionText;
+        document.getElementById("question").setAttribute("name", questionName);
+    }
+    function clearAll() {
+        document.querySelectorAll(".answer-btn")[0].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[1].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[2].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[0].style.color = "black";
+        document.querySelectorAll(".answer-btn")[1].style.color = "black";
+        document.querySelectorAll(".answer-btn")[2].style.color = "black";
+    }
+</script>
+
+</html>
