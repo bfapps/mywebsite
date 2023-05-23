@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguFun</title>
+    <link rel="stylesheet" href="../../../../Assets/CSS/Multiple Choice.css">
+</head>
+
+<body>
+    <div class="main-body">
+        <div class="question" id="question" name="1">tisch</div>
+        <div class="answers-div">
+            <button class="answer-btn" id="a1" name="1">der</button>
+            <button class="answer-btn" id="a2" name="2">die</button>
+            <button class="answer-btn" id="a3" name="3">das</button>
+            <button class="page-changer" id="next-page">Next</button>
+            <button class="page-changer" id="previous-page">Previous</button>
+        </div>
+    </div>
+    <div class="quesrions" style="display: none;">
+        <p id="1" name="1">tisch</p>
+        <p id="2" name="3">möbel</p>
+        <p id="3" name="3">wort</p>
+        <p id="4" name="2">beratung</p>
+        <p id="5" name="1">preis</p>
+        <p id="6" name="3">bett</p>
+        <p id="7" name="1">sessel</p>
+        <p id="8" name="2">lampe</p>
+        <p id="9" name="1">stuhl</p>
+        <p id="10" name="3">sofa</p>
+        <p id="11" name="2">couch</p>
+        <p id="12" name="1">schrank</p>
+        <p id="13" name="1">teppisch</p>
+        <p id="14" name="2">aufgabe</p>
+    </div>
+</body>
+<script>
+    let qid = 1;
+    let btnNumber = 0;
+    let answer = "";
+    let clickedBtn = 0;
+    let questionText = "";
+    let questionName = "";
+    // set this to top number
+    let topNumber = 14;
+    document.querySelectorAll(".answer-btn")[0].addEventListener("click", function () {
+        btnNumber = 1;
+        check();
+    });
+    document.querySelectorAll(".answer-btn")[1].addEventListener("click", function () {
+        btnNumber = 2;
+        check();
+    });
+    document.querySelectorAll(".answer-btn")[2].addEventListener("click", function () {
+        btnNumber = 3;
+        check();
+    });
+    document.getElementById("next-page").addEventListener("click", function () {
+        if (qid <= topNumber - 1) {
+            qid = qid + 1;
+        }
+        else {
+            qid = 1;
+        }
+        pagechanger();
+
+    })
+    document.getElementById("previous-page").addEventListener("click", function () {
+        if (qid >= 2) {
+            qid = qid - 1;
+
+        }
+        else {
+            qid = topNumber;
+
+        }
+        pagechanger();
+    })
+    function check() {
+        answer = document.getElementById(qid).getAttribute("name");
+        clickedBtn = "a" + btnNumber;
+        if (btnNumber == answer) {
+            document.getElementById(clickedBtn).style.backgroundColor = "#34c759";
+            document.getElementById(clickedBtn).style.color = "white";
+        }
+        else {
+            document.getElementById(clickedBtn).style.backgroundColor = "#ff3b30";
+            document.getElementById(clickedBtn).style.color = "white";
+        }
+    }
+
+    function pagechanger() {
+        clearAll();
+        questionText = document.getElementById(qid).innerText;
+        questionName = document.getElementById(qid).getAttribute("name");
+        document.getElementById("question").innerText = questionText;
+        document.getElementById("question").setAttribute("name", questionName);
+    }
+    function clearAll() {
+        document.querySelectorAll(".answer-btn")[0].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[1].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[2].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[0].style.color = "black";
+        document.querySelectorAll(".answer-btn")[1].style.color = "black";
+        document.querySelectorAll(".answer-btn")[2].style.color = "black";
+    }
+</script>
+
+</html>
