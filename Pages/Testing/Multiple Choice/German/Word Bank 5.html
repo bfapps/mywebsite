@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguFun</title>
+    <link rel="stylesheet" href="../../../../Assets/CSS/Multiple Choice.css">
+</head>
+
+<body>
+    <div class="main-body">
+        <div class="question" id="question" name="2">wiederholung</div>
+        <div class="answers-div">
+            <button class="answer-btn" id="a1" name="1">der</button>
+            <button class="answer-btn" id="a2" name="2">die</button>
+            <button class="answer-btn" id="a3" name="3">das</button>
+            <button class="page-changer" id="next-page">Next</button>
+            <button class="page-changer" id="previous-page">Previous</button>
+        </div>
+    </div>
+    <div class="quesrions" style="display: none;">
+        <p id="1" name="2">wiederholung</p>
+        <p id="2" name="3">auge</p>
+        <p id="3" name="3">feld</p>
+        <p id="4" name="1">comic</p>
+        <p id="5" name="1">gegenstande</p>
+        <p id="6" name="2">tafel</p>
+        <p id="7" name="1">kunststoff</p>
+        <p id="8" name="3">glas</p>
+        <p id="9" name="3">metall</p>
+        <p id="10" name="3">gestell</p>
+        <p id="11" name="3">lager</p>
+        <p id="12" name="2">armbanduhr</p>
+        <p id="13" name="1">regenschrim</p>
+        <p id="14" name="3">holz</p>
+        <p id="15" name="2">seife</p>
+        <p id="16" name="3">papier</p>
+        <p id="17" name="3">produkt</p>
+        <p id="18" name="3">streichholz</p>
+        <p id="19" name="2">Geldtasche - Geldbörse</p>
+        <p id="20" name="1">geldbeutel</p>
+        <p id="21" name="2">bestellung</p>
+        <p id="22" name="2">wand</p>
+        <p id="23" name="3">geburtsdatum</p>
+        <p id="24" name="1">schlüssel</p>
+        <p id="25" name="2">angabe</p>
+        <p id="26" name="1">bleistift</p>
+        <p id="27" name="2">brille</p>
+        <p id="28" name="1">buch</p>
+        <p id="29" name="2">flasche</p>
+        <p id="30" name="1">fotoapparat</p>
+        <p id="31" name="3">feuerzug</p>
+        <p id="32" name="2">kette</p>
+        <p id="33" name="1">klugelscheiber</p>
+        
+    </div>
+</body>
+<script>
+    let qid = 1;
+    let btnNumber = 0;
+    let answer = "";
+    let clickedBtn = 0;
+    let questionText = "";
+    let questionName = "";
+    // set this to top number
+    let topNumber = 33;
+    document.querySelectorAll(".answer-btn")[0].addEventListener("click", function () {
+        btnNumber = 1;
+        check();
+    });
+    document.querySelectorAll(".answer-btn")[1].addEventListener("click", function () {
+        btnNumber = 2;
+        check();
+    });
+    document.querySelectorAll(".answer-btn")[2].addEventListener("click", function () {
+        btnNumber = 3;
+        check();
+    });
+    document.getElementById("next-page").addEventListener("click", function () {
+        if (qid <= topNumber - 1) {
+            qid = qid + 1;
+        }
+        else {
+            qid = 1;
+        }
+        pagechanger();
+
+    })
+    document.getElementById("previous-page").addEventListener("click", function () {
+        if (qid >= 2) {
+            qid = qid - 1;
+
+        }
+        else {
+            qid = topNumber;
+
+        }
+        pagechanger();
+    })
+    function check() {
+        answer = document.getElementById(qid).getAttribute("name");
+        clickedBtn = "a" + btnNumber;
+        if (btnNumber == answer) {
+            document.getElementById(clickedBtn).style.backgroundColor = "#34c759";
+            document.getElementById(clickedBtn).style.color = "white";
+        }
+        else {
+            document.getElementById(clickedBtn).style.backgroundColor = "#ff3b30";
+            document.getElementById(clickedBtn).style.color = "white";
+        }
+    }
+
+    function pagechanger() {
+        clearAll();
+        questionText = document.getElementById(qid).innerText;
+        questionName = document.getElementById(qid).getAttribute("name");
+        document.getElementById("question").innerText = questionText;
+        document.getElementById("question").setAttribute("name", questionName);
+    }
+    function clearAll() {
+        document.querySelectorAll(".answer-btn")[0].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[1].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[2].style.backgroundColor = "#f2f2f2";
+        document.querySelectorAll(".answer-btn")[0].style.color = "black";
+        document.querySelectorAll(".answer-btn")[1].style.color = "black";
+        document.querySelectorAll(".answer-btn")[2].style.color = "black";
+    }
+</script>
+
+</html>
