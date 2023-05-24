@@ -42,7 +42,13 @@ body {
     text-align: center;
     text-emphasis: 87%;
 }
+a {
+    text-decoration: none;
+    color: #007aff;
+    font-size: small;
+}
 a.main-link {
+    font-size: medium;
     color: #252525;
     font-weight: bold;
     /* background-color: #c696fd; */
