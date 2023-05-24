@@ -12,32 +12,35 @@
     <div class="main-body">
         <div class="container def-container">
             <!-- set word inner text to the first (p) name-->
-            <p id="word">gebiet</p>
+            <p id="word">看</p>
             <p id="answer">?</p>
         </div>
         <div class="container btn-container">
             <button class="definition" name="1">Definition</button>
-            <button class="plural" name="2">Plural</button>
+            <button class="pronunciation" name="2">Pronunciation</button>
+            <button class="example" name="3">Example</button>
             <button class="page-changer" id="next-page">Next</button>
             <button class="page-changer" id="previous-page">Previous</button>
         </div>
     </div>
     <div class="quesrions" style="display: none;">
-        <!-- only change name , plural, inner text-->
-        <p id="1" name="gebiet" plural="gebiete">area</p>
-        <p id="2" name="party" plural="partys">party</p>
-        <p id="3" name="sprache" plural="sprachen">language</p>
+        <!-- only change name , pronunciation, inner text-->
+        <p id="1" name="看" pronunciation="Kàn" example="你看。那是什么？">look</p>
+        <p id="2" name="喜欢" pronunciation="Xǐhuān" example="你喜欢什么颜色">to like</p>
+        <p id="3" name="想" pronunciation="Xiǎng" example="我想去中国学汉语">to want (followed by a verb)</p>
     </div>
 </body>
 <script>
 
     let qid = 1;
     let definition = "";
-    let plural = "";
+    let pronunciation = "";
+    let example = "";
     let wordText = "";
     let defCheck = false;
-    let pluralCheck = false;
-    // setting this is important
+    let pronunciationCheck = false;
+    let exampleCheck = false;
+    // setting this is important 40
     let topNumber = 3;
 
     // show definition
@@ -55,24 +58,44 @@
             defCheck = false;
             document.getElementById("answer").innerText = "?";
         }
-        pluralCheck = false;
+        pronunciationCheck = false;
+        exampleCheck = false;
     }
 
-    // show plural 
-    document.getElementsByClassName("plural")[0].addEventListener("click", function () {
-        setplural();
+    // show pronunciation 
+    document.getElementsByClassName("pronunciation")[0].addEventListener("click", function () {
+        setpronunciation();
     })
-    function setplural() {
-        if (pluralCheck === false) {
-            pluralCheck = true;
-            plural = document.getElementById(qid).getAttribute("plural");
-            document.getElementById("answer").innerText = plural;
+    function setpronunciation() {
+        if (pronunciationCheck === false) {
+            pronunciationCheck = true;
+            pronunciation = document.getElementById(qid).getAttribute("pronunciation");
+            document.getElementById("answer").innerText = pronunciation;
         }
         else {
-            pluralCheck = false;
+            pronunciationCheck = false;
             document.getElementById("answer").innerText = "?";
         }
         defCheck = false;
+        exampleCheck = false;
+    }
+
+    // Show example
+    document.getElementsByClassName("example")[0].addEventListener("click", function () {
+        setexample ();
+    })
+    function setexample () {
+        if (exampleCheck === false) {
+            exampleCheck = true;
+            example = document.getElementById(qid).getAttribute("example");
+            document.getElementById("answer").innerText = example;
+        }
+        else {
+            exampleCheck = false;
+            document.getElementById("answer").innerText = "?";
+        }
+        defCheck = false;
+        pronunciationCheck = false;
     }
 
     // next and previous btn
@@ -101,7 +124,8 @@
         wordText = document.getElementById(qid).getAttribute("name");
         document.getElementById("word").innerText = wordText;
         defCheck = false;
-        pluralCheck = false;
+        pronunciationCheck = false;
+        exampleCheck = false;
     } 
 </script>
 

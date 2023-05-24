@@ -13,7 +13,7 @@
         <div class="container def-container">
             <!-- set word inner text to the first (p) name-->
             <p id="word">gebiet</p>
-            <p id="definition">?</p>
+            <p id="answer">?</p>
         </div>
         <div class="container btn-container">
             <button class="definition" name="1">Definition</button>
@@ -49,11 +49,11 @@
         if (defCheck === false) {
             defCheck = true;
             definition = document.getElementById(qid).innerText;
-            document.getElementById("definition").innerText = definition;
+            document.getElementById("answer").innerText = definition;
         }
         else {
             defCheck = false;
-            document.getElementById("definition").innerText = "?";
+            document.getElementById("answer").innerText = "?";
         }
         pluralCheck = false;
     }
@@ -66,11 +66,11 @@
         if (pluralCheck === false) {
             pluralCheck = true;
             plural = document.getElementById(qid).getAttribute("plural");
-            document.getElementById("definition").innerText = plural;
+            document.getElementById("answer").innerText = plural;
         }
         else {
             pluralCheck = false;
-            document.getElementById("definition").innerText = "?";
+            document.getElementById("answer").innerText = "?";
         }
         defCheck = false;
     }
@@ -97,7 +97,7 @@
     })
 
     function pagechanger () {
-        document.getElementById("definition").innerText = "?";
+        document.getElementById("answer").innerText = "?";
         wordText = document.getElementById(qid).getAttribute("name");
         document.getElementById("word").innerText = wordText;
         defCheck = false;
