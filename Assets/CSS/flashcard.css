@@ -52,6 +52,9 @@ body {
 .def-container {
     min-height: 200px;
 }
+#answer {
+    font-size: 16px;
+}
 .btn-container {
     flex-direction: row;
     flex-wrap: wrap;
@@ -70,7 +73,7 @@ button {
     width: 170px;
     height: 45px;
     margin: 10px 5px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 button:hover {
@@ -106,10 +109,18 @@ button:hover {
 }
 @media only screen and (orientation: portrait) and (max-width:500px) {
     .def-container {
-        height: 50vh;
+        height: 40vh;
     }
     .btn-container {
         flex-direction: column;
         min-height: 43vh;
+    }
+}
+@media only screen and (orientation: portrait) and (max-width:370px) {
+    .def-container {
+        height: 35vh;
+    }
+    button {
+        margin: 5px 5px;
     }
 }

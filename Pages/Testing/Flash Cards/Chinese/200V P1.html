@@ -13,148 +13,56 @@
         <div class="container def-container">
             <!-- set word inner text to the first (p) name-->
             <p id="word">看</p>
+            <p id="example-text">你看。那是什么？</p>
             <p id="answer">?</p>
         </div>
         <div class="container btn-container">
             <button class="definition" name="1">Definition</button>
             <button class="pronunciation" name="2">Pronunciation</button>
-            <button class="example" name="3">Example</button>
+            <button class="example" name="3">Example Pinyin</button>
             <button class="page-changer" id="next-page">Next</button>
             <button class="page-changer" id="previous-page">Previous</button>
         </div>
     </div>
     <div class="quesrions" style="display: none;">
         <!-- only change name , pronunciation, example, inner text(definition)-->
-        <p id="1" name="看" pronunciation="Kàn" example="你看。那是什么？">look</p>
-        <p id="2" name="喜欢" pronunciation="Xǐhuān" example="你喜欢什么颜色?">to like</p>
-        <p id="3" name="想" pronunciation="Xiǎng" example="我想去中国学汉语。">to want (followed by a verb)</p>
-        <p id="4" name="想要" pronunciation="Xiǎng yào" example="我不想要孩子。">to want (followed by a noun)</p>
-        <p id="5" name="去" pronunciation="Qù" example="我明天去日本。">to go</p>
-        <p id="6" name="会" pronunciation="Huì" example="你会说汉语吗？">can (know how to do sth)</p>
-        <p id="7" name="做" pronunciation="Zuò" example="你明天想做什么？">to do / make</p>
-        <p id="8" name="有" pronunciation="Yǒu" example="我有一个问题。">to have</p>
-        <p id="9" name="没有" pronunciation="Méiyǒu" example="我没有女朋友">to not have</p>
-        <p id="10" name="在" pronunciation="Zài" example="我在上海， 你呢？">to be (in a location)</p>
-        <p id="11" name="听" pronunciation="Tīng" example="我喜欢听这种音乐。">to listen</p>
-        <p id="12" name="吃" pronunciation="Chī" example="我吃你的饼干。">to eat</p>
-        <p id="13" name="喝" pronunciation="Hē" example="他和朋友去喝酒了。">to drink</p>
-        <p id="14" name="玩" pronunciation="Wán" example="我可以玩你的手机马？">to play</p>
-        <p id="15" name="写" pronunciation="Xiě" example="我还不会写汉字。">to write</p>
-        <p id="16" name="来" pronunciation="Lái" example="你来我的办公室">to come</p>
-        <p id="17" name="打" pronunciation="Dǎ" example="你不能打孩子">to hit / beat</p>
-        <p id="18" name="学" pronunciation="Xué" example="你学汉语多久了？">to learn / study</p>
-        <p id="19" name="教" pronunciation="Jiào" example="你可以教我汉语吗？">to teach</p>
-        <p id="20" name="猜" pronunciation="Cāi" example="你猜我是谁？">to guess</p>
-        <p id="21" name="告诉" pronunciation="Gàosù" example="你告诉他我辞职了。">to tell</p>
-        <p id="22" name="买" pronunciation="Mǎi" example="你想买一台新电脑。">to buy</p>
-        <p id="23" name="卖" pronunciation="Mài" example="不好意思， 卖完了。">to sell</p>
-        <p id="24" name="帮" pronunciation="Bāng" example="谢谢你帮我">to help</p>
-        <p id="25" name="找" pronunciation="Zhǎo" example="你在找什么？">to look for</p>
-        <p id="26" name="变" pronunciation="Biàn" example="你变了。">to change</p>
-        <p id="27" name="开车" pronunciation="Kāichē" example="你不能酒后开车。">to drive</p>
-        <p id="28" name="工作" pronunciation="Gōngzuò" example="他在北京工作。">to work</p>
-        <p id="29" name="等" pronunciation="Děng" example="你在外面等他的女儿。">to wait</p>
-        <p id="30" name="开始" pronunciation="Kāishǐ" example="新的一天开始了。">to start</p>
+        <p id="1" name="看" pronunciation="Kàn" example="你看。那是什么？" ep="Nǐ kàn. Nà shì shénme?">look</p>
+        <p id="2" name="喜欢" pronunciation="Xǐhuān" example="你喜欢什么颜色?" ep="Nǐ xǐhuān shénme yánsè?">to like</p>
+        <p id="3" name="想" pronunciation="Xiǎng" example="我想去中国学汉语。" ep="Wǒ xiǎng qù zhōngguó xué hànyǔ.">to want (followed by a verb)</p>
+        <p id="4" name="想要" pronunciation="Xiǎng yào" example="我不想要孩子。" ep="Wǒ bùxiǎng yào háizi.">to want (followed by a noun)</p>
+        <p id="5" name="去" pronunciation="Qù" example="我明天去日本。" ep="Wǒ míngtiān qù rìběn.">to go</p>
+        <p id="6" name="会" pronunciation="Huì" example="你会说汉语吗？" ep="Nǐ huì shuō hànyǔ ma?">can (know how to do sth)</p>
+        <p id="7" name="做" pronunciation="Zuò" example="你明天想做什么？" ep="Nǐ míngtiān xiǎng zuò shénme?">to do / make</p>
+        <p id="8" name="有" pronunciation="Yǒu" example="我有一个问题。" ep="Wǒ yǒu yīgè wèntí.">to have</p>
+        <p id="9" name="没有" pronunciation="Méiyǒu" example="我没有女朋友。" ep="Wǒ méiyǒu nǚ péngyǒu.">to not have</p>
+        <p id="10" name="在" pronunciation="Zài" example="我在上海， 你呢？" ep="Wǒ zài shànghǎi, nǐ ne?">to be (in a location)</p>
+        <p id="11" name="听" pronunciation="Tīng" example="我喜欢听这种音乐。" ep="Wǒ xǐhuān tīng zhè zhǒng yīnyuè.">to listen</p>
+        <p id="12" name="吃" pronunciation="Chī" example="我吃你的饼干。" ep="Wǒ chī nǐ de bǐnggān.">to eat</p>
+        <p id="13" name="喝" pronunciation="Hē" example="他和朋友去喝酒了。" ep="Tā hé péngyǒu qù hējiǔle.">to drink</p>
+        <p id="14" name="玩" pronunciation="Wán" example="我可以玩你的手机吗？" ep="Wǒ kěyǐ wán nǐ de shǒujī ma?">to play</p>
+        <p id="15" name="写" pronunciation="Xiě" example="我还不会写汉字。" ep="Wǒ hái bù huì xiě hànzì.">to write</p>
+        <p id="16" name="来" pronunciation="Lái" example="你来我的办公室。" ep="Nǐ lái wǒ de bàngōngshì.">to come</p>
+        <p id="17" name="打" pronunciation="Dǎ" example="你不能打孩子。" ep="Nǐ bùnéng dǎ háizi.">to hit / beat</p>
+        <p id="18" name="学" pronunciation="Xué" example="你学汉语多久了？" ep="Nǐ xué hànyǔ duōjiǔle?">to learn / study</p>
+        <p id="19" name="教" pronunciation="Jiào" example="你可以教我汉语吗？" ep="Nǐ kěyǐ jiào wǒ hànyǔ ma?">to teach</p>
+        <p id="20" name="猜" pronunciation="Cāi" example="你猜我是谁？" ep="Nǐ cāi wǒ shì shéi?">to guess</p>
+        <p id="21" name="告诉" pronunciation="Gàosù" example="你告诉他我辞职了。" ep="Nǐ gàosù tā wǒ cízhíle.">to tell</p>
+        <p id="22" name="买" pronunciation="Mǎi" example="你想买一台新电脑。" ep="Nǐ xiǎng mǎi yī táixīn diànnǎo.">to buy</p>
+        <p id="23" name="卖" pronunciation="Mài" example="不好意思， 卖完了。" ep="Bù hǎoyìsi, mài wánliǎo.">to sell</p>
+        <p id="24" name="帮" pronunciation="Bāng" example="谢谢你帮我。" ep="Xièxiè nǐ bāng wǒ.">to help</p>
+        <p id="25" name="找" pronunciation="Zhǎo" example="你在找什么？" ep="Nǐ zài zhǎo shénme?">to look for</p>
+        <p id="26" name="变" pronunciation="Biàn" example="你变了。" ep="Nǐ biànle.">to change</p>
+        <p id="27" name="开车" pronunciation="Kāichē" example="你不能酒后开车。" ep="Nǐ bùnéng jiǔ hòu kāichē.">to drive</p>
+        <p id="28" name="工作" pronunciation="Gōngzuò" example="他在北京工作。" ep="Tā zài běijīng gōngzuò.">to work</p>
+        <p id="29" name="等" pronunciation="Děng" example="你在外面等他的女儿。" ep="Nǐ zài wàimiàn děng tā de nǚ'ér.">to wait</p>
+        <p id="30" name="开始" pronunciation="Kāishǐ" example="新的一天开始了。" ep="Xīn de yītiān kāishǐle.">to start</p>
         
     </div>
 </body>
 <script>
-
-    let qid = 1;
-    let definition = "";
-    let pronunciation = "";
-    let example = "";
-    let wordText = "";
-    let defCheck = false;
-    let pronunciationCheck = false;
-    let exampleCheck = false;
-    // setting this is important 30
     let topNumber = 30;
-
-    // show definition
-
-    document.getElementsByClassName("definition")[0].addEventListener("click", function () {
-        setdefinition();
-    })
-    function setdefinition() {
-        if (defCheck === false) {
-            defCheck = true;
-            definition = document.getElementById(qid).innerText;
-            document.getElementById("answer").innerText = definition;
-        }
-        else {
-            defCheck = false;
-            document.getElementById("answer").innerText = "?";
-        }
-        pronunciationCheck = false;
-        exampleCheck = false;
-    }
-
-    // show pronunciation 
-    document.getElementsByClassName("pronunciation")[0].addEventListener("click", function () {
-        setpronunciation();
-    })
-    function setpronunciation() {
-        if (pronunciationCheck === false) {
-            pronunciationCheck = true;
-            pronunciation = document.getElementById(qid).getAttribute("pronunciation");
-            document.getElementById("answer").innerText = pronunciation;
-        }
-        else {
-            pronunciationCheck = false;
-            document.getElementById("answer").innerText = "?";
-        }
-        defCheck = false;
-        exampleCheck = false;
-    }
-
-    // Show example
-    document.getElementsByClassName("example")[0].addEventListener("click", function () {
-        setexample ();
-    })
-    function setexample () {
-        if (exampleCheck === false) {
-            exampleCheck = true;
-            example = document.getElementById(qid).getAttribute("example");
-            document.getElementById("answer").innerText = example;
-        }
-        else {
-            exampleCheck = false;
-            document.getElementById("answer").innerText = "?";
-        }
-        defCheck = false;
-        pronunciationCheck = false;
-    }
-
-    // next and previous btn
-    document.getElementById("next-page").addEventListener("click", function () {
-        if (qid <= topNumber - 1) {
-            qid = qid + 1;
-        }
-        else {
-            qid = 1;
-        }
-        pagechanger();
-    })
-
-    document.getElementById("previous-page").addEventListener("click", function () {
-        if (qid >= 2) {
-            qid = qid - 1;
-        }
-        else {
-            qid = topNumber;
-        }
-        pagechanger();
-    })
-
-    function pagechanger() {
-        document.getElementById("answer").innerText = "?";
-        wordText = document.getElementById(qid).getAttribute("name");
-        document.getElementById("word").innerText = wordText;
-        defCheck = false;
-        pronunciationCheck = false;
-        exampleCheck = false;
-    } 
+</script>
+<script src="../../../../Assets/JS/chinese-flashcards.js">
 </script>
 
 </html>

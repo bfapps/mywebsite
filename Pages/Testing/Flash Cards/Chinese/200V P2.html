@@ -13,138 +13,45 @@
         <div class="container def-container">
             <!-- set word inner text to the first (p) name-->
             <p id="word">怕</p>
+            <p id="example-text">你怕什么？</p>
             <p id="answer">?</p>
         </div>
         <div class="container btn-container">
             <button class="definition" name="1">Definition</button>
             <button class="pronunciation" name="2">Pronunciation</button>
-            <button class="example" name="3">Example</button>
+            <button class="example" name="3">Example Pinyin</button>
             <button class="page-changer" id="next-page">Next</button>
             <button class="page-changer" id="previous-page">Previous</button>
         </div>
     </div>
     <div class="quesrions" style="display: none;">
         <!-- only change name , pronunciation, example, inner text(definition)-->
-        <p id="1" name="怕" pronunciation="pà" example="你怕什么？">to fear / to be afraid of</p>
-        <p id="2" name="用" pronunciation="yòng" example="你会用筷子吗？">to use</p>
-        <p id="3" name="给" pronunciation="gěi" example="他给了我一个拥抱。">to give</p>
-        <p id="4" name="试" pronunciation="shì" example="让我试一下。">to try</p>
-        <p id="5" name="问" pronunciation="Wèn" example="你问她了妈？">to ask</p>
-        <p id="6" name="需要" pronunciation="Xūyào" example="我需要你的帮助。">to need</p>
-        <p id="7" name="相信" pronunciation="Xiāngxìn" example="我不相信你说的话。">to believe</p>
-        <p id="8" name="坐" pronunciation="Zuò" example="请坐！">to sit</p>
-        <p id="9" name="明白" pronunciation="Míngbái" example="我明白你的意思。">to understand</p>
-        <p id="10" name="花" example="你今天花了很多钱。" pronunciation="Huā">to spend</p>
-        <p id="11" name="记得" example="我不记得了。" pronunciation="Jìdé">to remember</p>
-        <p id="12" name="爱" example="我爱你。" pronunciation="Ài">to love</p>
-        <p id="13" name="死" example="他的小猫昨天死了。" pronunciation="Sǐ">to die</p>
-        <p id="14" name="考虑" example="我才考虑辞职。" pronunciation="Kǎolǜ">to consider</p>
-        <p id="15" name="准备" example="我妈妈在准备晚饭。" pronunciation="Zhǔnbèi">to prepare</p>
-        <p id="16" name="睡觉" example="你晚上工作，白天睡觉" pronunciation="Shuìjiào">to sleep</p>
-        <p id="17" name="洗" example="你应该自己洗衣服。" pronunciation="Xǐ">to wash</p>
-        <p id="18" name="希望" example="我希望你能原谅我。" pronunciation="Xīwàng">to hope</p>
-        <p id="19" name="休息" example="我想休息几天。" pronunciation="Xiūxí">to rest</p>
-        <p id="20" name="笑" example="你笑什么?" pronunciation="Xiào">to laugh / smile</p>
+        <p id="1" name="怕" pronunciation="pà" example="你怕什么？" ep="Nǐ pà shénme?">to fear / to be afraid of</p>
+        <p id="2" name="用" pronunciation="yòng" example="你会用筷子吗？" ep="Nǐ huì yòng kuàizi ma?">to use</p>
+        <p id="3" name="给" pronunciation="gěi" example="他给了我一个拥抱。" ep="Tā gěile wǒ yīgè yǒngbào.">to give</p>
+        <p id="4" name="试" pronunciation="shì" example="让我试一下。" ep="Ràng wǒ shì yīxià.">to try</p>
+        <p id="5" name="问" pronunciation="Wèn" example="你问她了妈？" ep="Nǐ wèn tāle mā?">to ask</p>
+        <p id="6" name="需要" pronunciation="Xūyào" example="我需要你的帮助。" ep="Wǒ xūyào nǐ de bāngzhù.">to need</p>
+        <p id="7" name="相信" pronunciation="Xiāngxìn" example="我不相信你说的话。" ep="Wǒ bù xiāngxìn nǐ shuō dehuà.">to believe</p>
+        <p id="8" name="坐" pronunciation="Zuò" example="请坐！" ep="Qǐng zuò!">to sit</p>
+        <p id="9" name="明白" pronunciation="Míngbái" example="我明白你的意思。" ep="Wǒ míngbái nǐ de yìsi.">to understand</p>
+        <p id="10" name="花" example="你今天花了很多钱。" pronunciation="Huā" ep="Nǐ jīntiān huāle hěnduō qián.">to spend</p>
+        <p id="11" name="记得" example="我不记得了。" pronunciation="Jìdé" ep="Wǒ bù jìdéliǎo.">to remember</p>
+        <p id="12" name="爱" example="我爱你。" pronunciation="Ài" ep="Wǒ ài nǐ.">to love</p>
+        <p id="13" name="死" example="他的小猫昨天死了。" pronunciation="Sǐ" ep="Tā de xiǎo māo zuótiān sǐle.">to die</p>
+        <p id="14" name="考虑" example="我才考虑辞职。" pronunciation="Kǎolǜ" ep="Wǒ cái kǎolǜ cízhí.">to consider</p>
+        <p id="15" name="准备" example="我妈妈在准备晚饭。" pronunciation="Zhǔnbèi" ep="Wǒ māmā zài zhǔnbèi wǎnfàn.">to prepare</p>
+        <p id="16" name="睡觉" example="你晚上工作，白天睡觉。" pronunciation="Shuìjiào" ep="Nǐ wǎnshàng gōngzuò, báitiān shuìjiào.">to sleep</p>
+        <p id="17" name="洗" example="你应该自己洗衣服。" pronunciation="Xǐ" ep="Nǐ yīnggāi zìjǐ xǐ yīfú.">to wash</p>
+        <p id="18" name="希望" example="我希望你能原谅我。" pronunciation="Xīwàng" ep="Wǒ xīwàng nǐ néng yuánliàng wǒ.">to hope</p>
+        <p id="19" name="休息" example="我想休息几天。" pronunciation="Xiūxí" ep="Wǒ xiǎng xiūxí jǐ tiān.">to rest</p>
+        <p id="20" name="笑" example="你笑什么?" pronunciation="Xiào" ep="Nǐ xiào shénme?">to laugh / smile</p>
         
     </div>
 </body>
 <script>
-
-    let qid = 1;
-    let definition = "";
-    let pronunciation = "";
-    let example = "";
-    let wordText = "";
-    let defCheck = false;
-    let pronunciationCheck = false;
-    let exampleCheck = false;
-    // setting this is important 30
     let topNumber = 20;
-
-    // show definition
-
-    document.getElementsByClassName("definition")[0].addEventListener("click", function () {
-        setdefinition();
-    })
-    function setdefinition() {
-        if (defCheck === false) {
-            defCheck = true;
-            definition = document.getElementById(qid).innerText;
-            document.getElementById("answer").innerText = definition;
-        }
-        else {
-            defCheck = false;
-            document.getElementById("answer").innerText = "?";
-        }
-        pronunciationCheck = false;
-        exampleCheck = false;
-    }
-
-    // show pronunciation 
-    document.getElementsByClassName("pronunciation")[0].addEventListener("click", function () {
-        setpronunciation();
-    })
-    function setpronunciation() {
-        if (pronunciationCheck === false) {
-            pronunciationCheck = true;
-            pronunciation = document.getElementById(qid).getAttribute("pronunciation");
-            document.getElementById("answer").innerText = pronunciation;
-        }
-        else {
-            pronunciationCheck = false;
-            document.getElementById("answer").innerText = "?";
-        }
-        defCheck = false;
-        exampleCheck = false;
-    }
-
-    // Show example
-    document.getElementsByClassName("example")[0].addEventListener("click", function () {
-        setexample();
-    })
-    function setexample() {
-        if (exampleCheck === false) {
-            exampleCheck = true;
-            example = document.getElementById(qid).getAttribute("example");
-            document.getElementById("answer").innerText = example;
-        }
-        else {
-            exampleCheck = false;
-            document.getElementById("answer").innerText = "?";
-        }
-        defCheck = false;
-        pronunciationCheck = false;
-    }
-
-    // next and previous btn
-    document.getElementById("next-page").addEventListener("click", function () {
-        if (qid <= topNumber - 1) {
-            qid = qid + 1;
-        }
-        else {
-            qid = 1;
-        }
-        pagechanger();
-    })
-
-    document.getElementById("previous-page").addEventListener("click", function () {
-        if (qid >= 2) {
-            qid = qid - 1;
-        }
-        else {
-            qid = topNumber;
-        }
-        pagechanger();
-    })
-
-    function pagechanger() {
-        document.getElementById("answer").innerText = "?";
-        wordText = document.getElementById(qid).getAttribute("name");
-        document.getElementById("word").innerText = wordText;
-        defCheck = false;
-        pronunciationCheck = false;
-        exampleCheck = false;
-    } 
 </script>
+<script src="../../../../Assets/JS/chinese-flashcards.js"></script>
 
 </html>
