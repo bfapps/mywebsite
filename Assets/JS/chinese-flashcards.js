@@ -91,7 +91,7 @@ function pagechanger() {
     exampleText = document.getElementById(qid).getAttribute("example");
     document.getElementById("example-text").innerText = exampleText;
     wordText = document.getElementById(qid).getAttribute("name");
-    document.getElementById("word").innerText = wordText;
+    document.getElementById("word").innerText = qid + ". " + wordText;
     document.getElementById("answer").innerText="?";
     defCheck = false;
     pronunciationCheck = false;
