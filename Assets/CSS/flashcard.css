@@ -47,7 +47,8 @@ body {
 .container > p {
     font-size: 20px;
     margin: 10px 20px;
-    text-transform: capitalize;
+    text-transform:initial;
+    text-align: center; 
 }
 .def-container {
     min-height: 200px;
@@ -105,6 +106,9 @@ button:hover {
     }
     .container {
         width: 95%;
+    }
+    .container > p {
+        font-size: 17px;
     }
 }
 @media only screen and (orientation: portrait) and (max-width:500px) {

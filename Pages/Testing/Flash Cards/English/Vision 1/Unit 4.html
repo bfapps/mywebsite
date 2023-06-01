@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguFun</title>
+    <link rel="stylesheet" href="../../../../../Assets/CSS/flashcard.css">
+</head>
+
+<body>
+    <div class="main-body">
+        <div class="container def-container">
+            <!-- set word inner text to the first (p) name-->
+            <p id="word">1. plan</p>
+            <p id="example-text">He is planning for his summer vacation.</p>
+            <p id="answer">?</p>
+        </div>
+        <div class="container btn-container">
+            <button class="definition" name="1">Persian Meaning</button>
+            <button class="pronunciation" name="2">Pronunciation</button>
+            <button class="example" name="3">Type</button>
+            <button class="page-changer" id="next-page">Next</button>
+            <button class="page-changer" id="previous-page">Previous</button>
+        </div>
+    </div>
+    <div class="quesrions" style="display: none;">
+        <!-- only change name , pronunciation, example, inner text(definition)-->
+        <p id="1" name="plan" pronunciation="/plæn/" example="He is planning for his summer vacation." ep="noun - verb">برنامه - برنامه‌ریزی کردن</p>
+        <p id="2" name="agent" pronunciation="/ˈeɪ.dʒənt/" example="He is a travel agent in Madrid." ep="noun">مامور (راهنما)</p>
+        <p id="3" name="choice" pronunciation="/tʃɔɪs/" example="You may have 3 choices." ep="noun">گزینه</p>
+        <p id="4" name="probably" pronunciation="/ˈprɑː.bə.bli/" example="Probably Iran is the best choice." ep="adverb">احتمالا</p>
+        <p id="5" name="hospitable" pronunciation="/hɑːˈspɪt̬.ə.bəl/" example="Its people are very kind and hospitable." ep="adjective">مهمان‌نواز</p>
+        <p id="6" name="suggestion" pronunciation="/səˈdʒes.tʃən/" example="I am not sure about my destination. Do you have any suggestion?" ep="noun">پیشنهاد</p>
+
+        <p id="7" name="international" pronunciation="/ˌɪn.t̬ɚˈnæʃ.ən.əl/" example="Mehrabad is one of the first international airports of Iran." ep="adjective">بین‌المللی</p>
+        <p id="8" name="pyramid" pronunciation="/ˈpɪr.ə.mɪd/" example="There are more than 100 pyramids in Egypt." ep="noun">هرم</p>
+        <p id="9" name="ancient" pronunciation="/ˈeɪn.ʃənt/" example="Ancient wind towers of Iran are attractive to tourists." ep="adjective">باستانی</p>
+        <p id="10" name="billion" pronunciation="/ˈbɪl.jən/" example="Around one billion people live in India." ep="number">میلیون</p>
+        <p id="11" name="desert" pronunciation="/ˈdez.ɚt/" example="Camels can travel across hot and dry deserts with little food and water." ep="noun">صحرا - بیابان</p>
+        
+        <p id="12" name="entertainment" pronunciation="/en.t̬ɚˈteɪn.mənt/" example="He plays the piano only for his entertainment." ep="noun">سرگرمی</p>
+        <p id="13" name="domestic" pronunciation="/dəˈmes.tɪk/" example="Domestic flights are cheaper than international flights." ep="adjective">داخلی (کشور) - خانگی</p>
+        <p id="14" name="culture" pronunciation="/ˈkʌl.tʃɚ/" example="Alice is studying Persian language and culture." ep="noun">فرهنگ</p>
+        <p id="15" name="range" pronunciation="/reɪndʒ/" example="This shop sells a wide range of garden fruits." ep="noun">محدوده - مجموعه</p>
+
+    </div>
+</body>
+<script>
+    let topNumber = 15;
+</script>
+<script src="../../../../../Assets/JS/chinese-flashcards.js"></script>
+
+</html>
