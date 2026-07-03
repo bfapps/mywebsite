@@ -1,75 +1,541 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LinguFun</title>
-        <link rel="stylesheet" href="Assets/CSS/index.css">
-    </head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To LinguFun</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            align-items:center;
+        :root {
+            --bg-page: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+
+            /* Theme Colors from the design system */
+            --blue: #1d4ed8;
+            --blue-light: #eff6ff;
+            --green: #10b981;
+            --green-light: #ecfdf5;
+            --orange: #f59e0b;
+            --orange-light: #fffbeb;
+            --purple: #6366f1;
+            --purple-light: #e0e7ff;
+            --pink: #ec4899;
+            --pink-light: #fdf2f8;
+        }
+
+        * {
+            margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
-        #change-theme {
-            top: -50px;
-            left: 43%;
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            padding-bottom: 60px;
         }
-    </style>
-    <body>
-        <div class="main-body">
-            <span class="title">Welcome To LinguFun</span>
-            <span class="sub-title">A website for all Linguistics Enthusiasts and Language Learners.</span>
-            <div style="padding-top: 13px;">
-                <a class="main-link" href="Pages/Linguistics.html">Linguistics</a>
-                <a class="main-link updated" href="Pages/Testing/Testing-index.html">Learning</a>
-                <a class="main-link disabled-link" href="">Teaching</a>
-                <a class="main-link disabled-link" href="">Extras</a>
-              <!--  <a class="main-link disabled-link" href="Pages/Emam-Hadi.html">School</a> -->
-                <a class="main-link" href="Pages/About me/About me.html">About me</a>
-            </div>
-       <!-- <button id="change-theme"><i class="fas fa-sun    "></i></button> -->
-        </div>
-    </body>
-    <script>
-        /*
-        // function to set first mode of night mode or day mode
-        let mode = localStorage.getItem("mode");
-        if (mode === "night") {
-            document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index-night.css');
-            document.getElementById("change-theme").innerHTML='<i class="fas fa-moon    "></i>';
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        else if (mode === "day") {
-            document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index.css');
+
+        /* Navbar Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            margin-bottom: 20px;
         }
-        else {
-            const time = new Date().toLocaleTimeString('en-US', {
-                hour12: false,
-                hour: "numeric",
-                minute: "numeric"
-            });
-            const onlyClock = time.slice(0, 2);
-            if (onlyClock >= 17 || onlyClock <= 07) {
-                localStorage.setItem("mode", "night");
-                document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index-night.css');
-                document.getElementById("change-theme").innerHTML = '<i class="fas fa-moon    "></i>';
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            font-size: 36px;
+            color: var(--blue);
+            transition: all 0.2s ease;
+        }
+
+        .logo-text h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #030712;
+            line-height: 1.1;
+            transition: all 0.2s ease;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .nav-right-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .nav-right-btn:hover {
+            background: #f1f5f9;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0 60px 0;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex: 1.2;
+        }
+
+        .welcome-badge {
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #030712;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        .hero-graphics {
+            flex: 0.8;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .hero-graphics svg {
+            transition: all 0.2s ease;
+        }
+
+        /* Menu Links Container */
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Stylized Link Cards */
+        .menu-link-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 24px rgba(15, 23, 42, 0.02);
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        /* Distinct theme backgrounds */
+        .icon-box.blue-bg {
+            background-color: var(--blue);
+        }
+
+        .icon-box.green-bg {
+            background-color: var(--green);
+        }
+
+        .icon-box.orange-bg {
+            background-color: var(--orange);
+        }
+
+        .icon-box.purple-bg {
+            background-color: var(--purple);
+        }
+
+        .icon-box.pink-bg {
+            background-color: var(--pink);
+        }
+
+        .title-box h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .title-box p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .arrow-action {
+            font-size: 16px;
+            color: #94a3b8;
+            transition: all 0.25s ease;
+        }
+
+        /* Hover Interactions */
+        .menu-link-card:hover {
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .menu-link-card:hover .title-box h3 {
+            color: var(--blue);
+        }
+
+        .menu-link-card.green-theme:hover .title-box h3 {
+            color: var(--green);
+        }
+
+        .menu-link-card.orange-theme:hover .title-box h3 {
+            color: var(--orange);
+        }
+
+        .menu-link-card.purple-theme:hover .title-box h3 {
+            color: var(--purple);
+        }
+
+        .menu-link-card.pink-theme:hover .title-box h3 {
+            color: var(--pink);
+        }
+
+        .menu-link-card:hover .arrow-action {
+            transform: translateX(5px);
+            color: var(--text-dark);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .social-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            font-size: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.15);
+        }
+
+        .social-link.fb {
+            color: #1877f2;
+        }
+
+        .social-link.tw {
+            color: #1da1f2;
+        }
+
+        .social-link.ig {
+            color: #e1306c;
+        }
+
+        .social-link.yt {
+            color: #ff0000;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE MEDIA QUERIES (MOBILE OPTIMIZATIONS)
+           ========================================================================== */
+        @media (max-width: 820px) {
+            header {
+                padding: 16px 0;
+            }
+
+            /* Responsive Scaling for Header Logo & Icons */
+            .logo-icon {
+                font-size: 28px;
+            }
+
+            .logo-text h1 {
+                font-size: 18px;
+            }
+
+            .logo-text p {
+                font-size: 11px;
+            }
+
+            .nav-right-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            /* Responsive Hero Section */
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px 0 35px 0;
+                gap: 24px;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+                /* Reduced from 48px for better mobile viewing */
+                margin-bottom: 12px;
+            }
+
+            .hero p {
+                margin: 0 auto;
+                font-size: 15px;
+            }
+
+            .hero-graphics {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .hero-graphics svg {
+                max-width: 260px;
+                /* Scale down top illustration to not look bulky */
+            }
+
+            /* Card Elements Fine-Tuning for Mobile */
+            .menu-link-card {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .card-left {
+                gap: 14px;
+            }
+
+            .icon-box {
+                width: 44px;
+                /* Reduced box size */
+                height: 44px;
+                border-radius: 10px;
+                font-size: 18px;
+                /* Slightly smaller icon font */
+            }
+
+            .title-box h3 {
+                font-size: 16px;
+                /* Optimized font size */
+            }
+
+            .title-box p {
+                font-size: 12px;
+            }
+
+            .arrow-action {
+                font-size: 14px;
             }
         }
-        
-        // function to change mode by clicks
-        document.getElementById("change-theme").addEventListener("click", function () {
-                mode = localStorage.getItem("mode");
-                if (mode === "night") {
-                    localStorage.setItem("mode", "day");
-                    document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index.css');
-                    document.getElementById("change-theme").innerHTML = '<i class="fas fa-sun    "></i>';
-                }
-                else if (mode === "day") {
-                    localStorage.setItem("mode", "night");
-                    document.getElementById("theme-selector").setAttribute('href', 'Assets/CSS/index-night.css');
-                    document.getElementById("change-theme").innerHTML = '<i class="fas fa-moon    "></i>';
-                }
-        })
-        */
-    </script>
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <div class="logo-text">
+                    <h1>LinguFun</h1>
+                    <p>Explore the World of Languages</p>
+                </div>
+            </div>
+            <button class="nav-right-btn">
+                <i class="fa-solid fa-globe"></i> Join Us
+            </button>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="welcome-badge">Welcome To LinguFun</span>
+                <h2>Discover & Master<br>Linguistics</h2>
+                <p>A website designed specially for all Linguistics Enthusiasts and passionate Language Learners.</p>
+            </div>
+            <div class="hero-graphics">
+                <svg width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    style="max-width: 100%; height: auto;">
+                    <ellipse cx="180" cy="220" rx="130" ry="7" fill="#E2E8F0" />
+
+                    <circle cx="180" cy="115" r="75" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"
+                        stroke-dasharray="4 4" />
+                    <path d="M120 115H240M180 55V175" stroke="#93C5FD" stroke-width="1.5" />
+                    <path d="M132 85C150 95 150 135 132 145M228 85C210 95 210 135 228 145" stroke="#93C5FD"
+                        stroke-width="1.5" />
+
+                    <g transform="translate(60, 50)">
+                        <path
+                            d="M0 15C0 6.71573 6.71573 0 15 0H65C73.2843 0 80 6.71573 80 15V40C80 48.2843 73.2843 55 65 55H30L10 65V55H15C6.71573 55 0 48.2843 0 40V15Z"
+                            fill="#1D4ED8" />
+                        <text x="40" y="32" fill="white" font-size="14" font-weight="700"
+                            text-anchor="middle">Hello</text>
+                    </g>
+
+                    <g transform="translate(220, 120)">
+                        <path
+                            d="M0 15C0 6.71573 6.71573 0 15 0H65C73.2843 0 80 6.71573 80 15V40C80 48.2843 73.2843 55 65 55H50L30 65V55H15C6.71573 55 0 48.2843 0 40V15Z"
+                            fill="#10B981" />
+                        <text x="40" y="32" fill="white" font-size="14" font-weight="700"
+                            text-anchor="middle">Salut</text>
+                    </g>
+
+                    <circle cx="270" cy="45" r="5" fill="#F59E0B" />
+                    <circle cx="90" cy="185" r="4" fill="#6366F1" />
+                    <path d="M175 25L180 30L185 25" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+        </section>
+
+        <div class="menu-list">
+
+            <a href="#linguistics" class="menu-link-card">
+                <div class="card-left">
+                    <div class="icon-box blue-bg">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div class="title-box">
+                        <h3>Linguistics</h3>
+                        <p>Dive deep into language structures, phonetics, and grammar rules.</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow-action"></i>
+            </a>
+
+            <a href="learning.html" class="menu-link-card green-theme">
+                <div class="card-left">
+                    <div class="icon-box green-bg">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <div class="title-box">
+                        <h3>Learning</h3>
+                        <p>Interactive resources and tailored lessons to boost vocabulary.</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow-action"></i>
+            </a>
+
+            <a href="#teaching" class="menu-link-card orange-theme">
+                <div class="card-left">
+                    <div class="icon-box orange-bg">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div class="title-box">
+                        <h3>Teaching</h3>
+                        <p>Guides, methodologies, and pro-tips for educators and tutors.</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow-action"></i>
+            </a>
+
+            <a href="#extras" class="menu-link-card purple-theme">
+                <div class="card-left">
+                    <div class="icon-box purple-bg">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="title-box">
+                        <h3>Extras</h3>
+                        <p>Fun language quizzes, cultural insights, and downloadable tools.</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow-action"></i>
+            </a>
+
+            <a href="#about-me" class="menu-link-card pink-theme">
+                <div class="card-left">
+                    <div class="icon-box pink-bg">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="title-box">
+                        <h3>About me</h3>
+                        <p>Get to know the creator, the vision, and contact details behind LinguFun.</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow-action"></i>
+            </a>
+
+        </div>
+
+        <footer>
+            <p>© 2026 LinguFun. All rights reserved.</p>
+            <div class="social-row">
+                <a href="#" class="social-link fb"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="social-link tw"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="social-link ig"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link yt"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
 </html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Flashcards Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+
+            /* Core Theme Palette */
+            --blue: #1d4ed8;
+            --blue-hover: #1e40af;
+            --blue-light: #eff6ff;
+            --gray-btn: #f1f5f9;
+            --gray-btn-hover: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Layout */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            color: var(--blue);
+        }
+
+        .logo-text h1 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #030712;
+            line-height: 1.1;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .go-home-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .go-home-btn:hover {
+            background: #f1f5f9;
+            transform: translateY(-1px);
+        }
+
+        /* Main Flashcard Outer Wrapper */
+        .flashcard-wrapper {
+            background: #ffffff;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        /* Inside Display Card */
+        .display-box {
+            background-color: var(--bg-page);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .word-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .sentence-example {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            max-width: 440px;
+            font-style: italic;
+        }
+
+        /* Hint/Reveal Area */
+        .dynamic-hint-area {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--blue);
+            background: var(--blue-light);
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-top: 6px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            direction: rtl;
+            /* Supports Persian text layout neatly */
+        }
+
+        /* Grid for Feature Buttons */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .feature-btn {
+            background-color: var(--gray-btn);
+            border: 1px solid transparent;
+            color: var(--text-dark);
+            padding: 12px 8px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .feature-btn i {
+            font-size: 14px;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .feature-btn:hover {
+            background-color: var(--gray-btn-hover);
+        }
+
+        .feature-btn.active {
+            background-color: var(--blue-light);
+            border-color: rgba(29, 78, 216, 0.2);
+            color: var(--blue);
+        }
+
+        .feature-btn.active i {
+            color: var(--blue);
+        }
+
+        /* Navigation Controls Group */
+        .navigation-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .nav-btn.next {
+            background-color: var(--blue);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.15);
+        }
+
+        .nav-btn.next:hover {
+            background-color: var(--blue-hover);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.prev {
+            background-color: #ffffff;
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-btn.prev:hover {
+            background-color: var(--bg-page);
+        }
+
+        /* Footer Info */
+        footer {
+            margin-top: auto;
+            padding: 24px 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           MOBILE CENTERING OPTIMIZATIONS
+           ========================================================================== */
+        @media (max-width: 480px) {
+            header {
+                padding: 16px 0 8px 0;
+            }
+
+            .logo-text h1 {
+                font-size: 16px;
+            }
+
+            .logo-icon {
+                font-size: 24px;
+            }
+
+            /* Centering fix */
+            .flashcard-wrapper {
+                margin: auto 0;
+                padding: 16px;
+                border-radius: 20px;
+                gap: 14px;
+            }
+
+            .display-box {
+                padding: 24px 16px;
+                min-height: 160px;
+                gap: 10px;
+            }
+
+            .word-title {
+                font-size: 20px;
+            }
+
+            .sentence-example {
+                font-size: 13px;
+            }
+
+            .dynamic-hint-area {
+                font-size: 13px;
+                padding: 5px 12px;
+            }
+
+            .features-grid {
+                gap: 8px;
+            }
+
+            .feature-btn {
+                padding: 10px 4px;
+                font-size: 11px;
+                border-radius: 10px;
+                gap: 4px;
+            }
+
+            .feature-btn i {
+                font-size: 12px;
+            }
+
+            .nav-btn {
+                padding: 12px;
+                font-size: 13px;
+                border-radius: 12px;
+            }
+
+            footer {
+                padding: 8px 0 16px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <div class="logo-text">
+                    <h1>LinguFun</h1>
+                    <p>Flashcards Studio</p>
+                </div>
+            </div>
+            <a href="index.html" class="go-home-btn">
+                <i class="fa-solid fa-house"></i> Go Home
+            </a>
+        </header>
+
+        <main class="flashcard-wrapper">
+
+            <div class="display-box">
+                <div class="word-title" id="wordTitle">1. endangered</div>
+                <div class="sentence-example" id="wordExample">"Iranian cheetah is an endangered animal."</div>
+                <div class="dynamic-hint-area" id="hintBox">
+                    <i class="fa-solid fa-circle-question"
+                        style="margin-right: 6px; opacity: 0.7; font-size: 12px;"></i> Tap clues below
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <button class="feature-btn" onclick="toggleHint('meaning', this)">
+                    <i class="fa-solid fa-language"></i>
+                    Persian Meaning
+                </button>
+                <button class="feature-btn" onclick="toggleHint('pronunciation', this)">
+                    <i class="fa-solid fa-volume-high"></i>
+                    Pronunciation
+                </button>
+                <button class="feature-btn" onclick="toggleHint('type', this)">
+                    <i class="fa-solid fa-tags"></i>
+                    Word Type
+                </button>
+            </div>
+
+            <div class="navigation-row">
+                <button class="nav-btn prev" onclick="navigateCard(-1)">
+                    <i class="fa-solid fa-arrow-left"></i> Previous
+                </button>
+                <button class="nav-btn next" onclick="navigateCard(1)">
+                    Next <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>© 2026 LinguFun. Progress is step by step.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Structured array database mapped directly from your list
+        const flashcardsDataset = [
+            { id: 1, name: "endangered", pronunciation: "/ɪnˈdeɪn.dʒəd/", example: "Iranian cheetah is an endangered animal.", type: "adj", meaning: "در خطر انقراض" },
+            { id: 2, name: "alive", pronunciation: "/əˈlaɪv/", example: "Around 70 of them are alive.", type: "adjective", meaning: "زنده" },
+            { id: 3, name: "increase", pronunciation: "/ɪnˈkriːs/", example: "The number will increase.", type: "verb", meaning: "افزایش یافتن / دادن" },
+            { id: 4, name: "hear", pronunciation: "/hɪr/", example: "I heard around 70 of them are alive.", type: "verb", meaning: "شنیدن" },
+            { id: 5, name: "protect (from)", pronunciation: "/prəˈtekt/", example: "We are going to protect their homes", type: "verb", meaning: "محافظت کردن" },
+            { id: 6, name: "for example", pronunciation: "/fɔːr ɪɡˈzæm.pəl/", example: "For example, we are going to protect their homes", type: "phrase", meaning: "برای مثال" },
+            { id: 7, name: "Earth", pronunciation: "/ɝːθ/", example: "We live on Earth.", type: "noun", meaning: "زمین" },
+            { id: 8, name: "tiger", pronunciation: "/ˈtaɪ.ɡɚ/", example: "A tiger is a wild animal.", type: "noun", meaning: "ببر" },
+            { id: 9, name: "forest", pronunciation: "/ˈfɔːr.ɪst/", example: "I went to Golestan Forest last year.", type: "noun", meaning: "جنگل" },
+            { id: 10, name: "destroy", pronunciation: "/dɪˈstrɔɪ/", example: "They are destroying the jungle.", type: "verb", meaning: "نابود کردن - تخریب کردن" },
+            { id: 11, name: "die out", pronunciation: "/daɪ aʊt/", example: "The Persian lion died out about 75 years ago.", type: "verb", meaning: "منقرض شدن" },
+            { id: 12, name: "Pay attention!", pronunciation: "/peɪ əˈten.ʃən/", example: "Pay attention! Don’t swim here.", type: "sentence", meaning: "توجه کن / کنید" },
+            { id: 13, name: "natural", pronunciation: "/ˈnætʃ.ɚ.əl/", example: "Tooran is the natural home of the Persian zebra.", type: "adjective", meaning: "طبیعی" },
+            { id: 14, name: "plain", pronunciation: "/pleɪn/", example: "Moghan Plain is a nice place in the north-west of Iran.", type: "noun", meaning: "دشت" },
+            { id: 15, name: "hope", pronunciation: "/hoʊp/", example: "They hope to save the injured animal.", type: "verb", meaning: "امیدوار بودن" },
+            { id: 16, name: "a few", pronunciation: "/fjuː/", example: "There are a few Iranian cheetahs.", type: "determiner", meaning: "تعداد کمی" },
+            { id: 17, name: "human", pronunciation: "/ˈhjuː.mən/", example: "All humans must take care of nature.", type: "noun", meaning: "انسان" },
+            { id: 18, name: "instead", pronunciation: "/ɪnˈsted/", example: "There’s no coffee. Would you like a cup of tea instead?", type: "adverb", meaning: "به جای" },
+            { id: 19, name: "future", pronunciation: "/ˈfjuː.tʃɚ/", example: "Everyone needs to plan for the future.", type: "noun", meaning: "آینده" }
+        ];
+
+        let currentIndex = 0;
+
+        // Function to render card based on currentIndex
+        function renderCard() {
+            const currentWord = flashcardsDataset[currentIndex];
+
+            // Update Core Interface Elements
+            document.getElementById('wordTitle').innerText = `${currentWord.id}. ${currentWord.name}`;
+            document.getElementById('wordExample').innerText = `"${currentWord.example}"`;
+
+            // Reset clue button styling states
+            document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Reset Hint UI Area back to action prompt
+            const hintBox = document.getElementById('hintBox');
+            hintBox.style.direction = "ltr";
+            hintBox.innerHTML = '<i class="fa-solid fa-circle-question" style="margin-right: 6px; opacity: 0.7; font-size: 12px;"></i> Tap clues below';
+        }
+
+        // Navigation Engine (Next / Previous handlers)
+        function navigateCard(direction) {
+            currentIndex += direction;
+
+            // Infinite looping system loopbacks
+            if (currentIndex >= flashcardsDataset.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = flashcardsDataset.length - 1;
+            }
+
+            renderCard();
+        }
+
+        // Feature Clues Toggle Handler
+        function toggleHint(type, element) {
+            const hintBox = document.getElementById('hintBox');
+            const currentWord = flashcardsDataset[currentIndex];
+            const isAlreadyActive = element.classList.contains('active');
+
+            // Turn off active look from other options
+            document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
+
+            if (isAlreadyActive) {
+                hintBox.style.direction = "ltr";
+                hintBox.innerHTML = '<i class="fa-solid fa-circle-question" style="margin-right: 6px; opacity: 0.7; font-size: 12px;"></i> Tap clues below';
+            } else {
+                element.classList.add('active');
+
+                // Adjust layout directions beautifully based on language type
+                if (type === 'meaning') {
+                    hintBox.style.direction = "rtl";
+                } else {
+                    hintBox.style.direction = "ltr";
+                }
+
+                // Smooth state change text insertion
+                hintBox.style.opacity = '0';
+                setTimeout(() => {
+                    hintBox.innerHTML = currentWord[type];
+                    hintBox.style.opacity = '1';
+                }, 80);
+            }
+        }
+    </script>
+</body>
+
+</html>

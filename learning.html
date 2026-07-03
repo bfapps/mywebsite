@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn English Step by Step</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+
+            /* Vision Branding Colors */
+            --blue: #1d4ed8;
+            --blue-light: #eff6ff;
+            --green: #10b981;
+            --green-light: #ecfdf5;
+            --orange: #f59e0b;
+            --orange-light: #fffbeb;
+            --purple: #6366f1;
+            --purple-light: #e0e7ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Top Navbar Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            color: var(--blue);
+        }
+
+        .logo-text h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #030712;
+            line-height: 1.1;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .nav-right-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-right-btn:hover {
+            background: #f1f5f9;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Layout */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0 60px 0;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex: 1.2;
+        }
+
+        .welcome-badge {
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .hero h2 {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #030712;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        .hero-graphics {
+            flex: 0.8;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .hero-graphics svg {
+            transition: all 0.2s ease;
+        }
+
+        /* Accordion Master Styles */
+        .accordion-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .accordion-item {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.01);
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        /* Accordion Header (Trigger) */
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            cursor: pointer;
+            user-select: none;
+            background: #ffffff;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #ffffff;
+        }
+
+        /* Themes */
+        .header-icon-box.blue-theme {
+            background-color: var(--blue);
+        }
+
+        .header-icon-box.green-theme {
+            background-color: var(--green);
+        }
+
+        .header-icon-box.orange-theme {
+            background-color: var(--orange);
+        }
+
+        .header-icon-box.purple-theme {
+            background-color: var(--purple);
+        }
+
+        .header-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .header-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .chevron-icon {
+            font-size: 16px;
+            color: #94a3b8;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Accordion Content Wrapper (Closed by Default) */
+        .accordion-content {
+            max-height: 0;
+            /* Ensures it starts closed */
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #ffffff;
+        }
+
+        /* Inner Unit List */
+        .unit-list {
+            padding: 0 24px 20px 24px;
+            border-top: 1px dashed #f1f5f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .unit-row-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid #f1f5f9;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .unit-row-item:last-child {
+            border-bottom: none;
+            padding-bottom: 4px;
+        }
+
+        .unit-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .unit-number-badge {
+            width: 36px;
+            height: 36px;
+            background-color: var(--blue-light);
+            color: var(--blue);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .green-theme-text .unit-number-badge {
+            background-color: var(--green-light);
+            color: var(--green);
+        }
+
+        .orange-theme-text .unit-number-badge {
+            background-color: var(--orange-light);
+            color: var(--orange);
+        }
+
+        .purple-theme-text .unit-number-badge {
+            background-color: var(--purple-light);
+            color: var(--purple);
+        }
+
+        .unit-icon {
+            font-size: 16px;
+            color: #64748b;
+            width: 20px;
+            text-align: center;
+        }
+
+        .unit-details h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .unit-details p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .unit-arrow {
+            font-size: 14px;
+            color: #cbd5e1;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        /* Hover States */
+        .unit-row-item:hover .unit-arrow {
+            transform: translateX(4px);
+            color: var(--text-dark);
+        }
+
+        .unit-row-item:hover .unit-details h4 {
+            color: var(--blue);
+        }
+
+        /* Active State Classes via JS */
+        .accordion-item.is-open {
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.03);
+        }
+
+        .accordion-item.is-open .chevron-icon {
+            transform: rotate(180deg);
+            color: var(--text-dark);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .social-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            color: #94a3b8;
+            font-size: 20px;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: var(--blue);
+        }
+
+        /* ==========================================================================
+           RESPONSIVE MOBILE ADJUSTMENTS
+           ========================================================================== */
+        @media (max-width: 820px) {
+            header {
+                padding: 16px 0;
+            }
+
+            .logo-icon {
+                font-size: 26px;
+            }
+
+            .logo-text h1 {
+                font-size: 18px;
+            }
+
+            .logo-text p {
+                font-size: 11px;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px 0 40px 0;
+                gap: 28px;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+            }
+
+            .hero p {
+                margin: 0 auto;
+                font-size: 15px;
+            }
+
+            .hero-graphics {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .hero-graphics svg {
+                max-width: 250px;
+            }
+
+            /* Compact vocab illustration on mobile */
+
+            .accordion-header {
+                padding: 16px;
+            }
+
+            .header-icon-box {
+                width: 44px;
+                height: 44px;
+                border-radius: 10px;
+                font-size: 18px;
+            }
+
+            .header-info h3 {
+                font-size: 15px;
+            }
+
+            .header-info p {
+                font-size: 12px;
+            }
+
+            .unit-list {
+                padding: 0 16px 16px 16px;
+            }
+
+            .unit-row-item {
+                padding: 14px 0;
+            }
+
+            .unit-number-badge {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+
+            .unit-details h4 {
+                font-size: 13.5px;
+            }
+
+            .unit-details p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <i class="fa-solid fa-book-bookmark logo-icon"></i>
+                <div class="logo-text">
+                    <h1>LinguFun</h1>
+                    <p>Let's Learn English</p>
+                </div>
+            </div>
+            <a href="index.html" class="nav-right-btn">
+                <i class="fa-solid fa-house"></i> Go Home
+            </a>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="welcome-badge">Welcome</span>
+                <h2>Learn English<br>Step by Step</h2>
+                <p>Explore our lessons and improve your vocabulary skills at your own pace.</p>
+            </div>
+            <div class="hero-graphics">
+                <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="170" cy="215" rx="120" ry="6" fill="#E2E8F0" />
+
+                    <path d="M80 140C80 120 100 115 135 115H250V200H135C100 200 80 190 80 170V140Z" fill="#1D4ED8" />
+                    <path d="M70 145C70 125 90 120 125 120H240V205H125C90 205 70 195 70 175V145Z" fill="#3B82F6" />
+                    <path d="M125 120C105 120 85 125 75 135V190C85 185 105 180 125 180H240V120H125Z" fill="#FFFFFF" />
+
+                    <path d="M180 120V165L192 157L204 165V120H180Z" fill="#EF4444" />
+
+                    <g transform="translate(200, 40) rotate(10)">
+                        <rect width="85" height="55" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1.5" />
+                        <rect x="12" y="12" width="40" height="6" rx="3" fill="#64748B" />
+                        <rect x="12" y="24" width="60" height="4" rx="2" fill="#94A3B8" />
+                        <rect x="12" y="34" width="50" height="4" rx="2" fill="#94A3B8" />
+                        <circle cx="70" cy="15" r="4" fill="#10B981" />
+                    </g>
+
+                    <g transform="translate(50, 45) rotate(-12)">
+                        <rect width="80" height="50" rx="10" fill="#10B981" />
+                        <text x="40" y="30" fill="white" font-size="12" font-weight="700" text-anchor="middle">A B
+                            C</text>
+                        <path d="M35 43L40 49L45 43H35Z" fill="#10B981" />
+                    </g>
+
+                    <g transform="translate(145, 25)">
+                        <rect width="52" height="24" rx="12" fill="#EFF6FF" stroke="#93C5FD" />
+                        <text x="26" y="16" fill="#1D4ED8" font-size="10" font-weight="700"
+                            text-anchor="middle">Word</text>
+                    </g>
+
+                    <circle cx="280" cy="120" r="4" fill="#F59E0B" />
+                    <circle cx="50" cy="140" r="5" fill="#6366F1" />
+                </svg>
+            </div>
+        </section>
+
+        <div class="accordion-wrapper">
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-left">
+                        <div class="header-icon-box blue-theme">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div class="header-info">
+                            <h3>Vision 1 – Beginner English</h3>
+                            <p>4 Units available</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="unit-list">
+                        <a href="flashcardn.html" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">1</div>
+                                <i class="fa-solid fa-headphones unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 1 – First Conversation</h4>
+                                    <p>Learn basic greetings and introductions.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">2</div>
+                                <i class="fa-solid fa-comment-dots unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 2 – Daily Life</h4>
+                                    <p>Talk about daily activities and routines.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">3</div>
+                                <i class="fa-solid fa-briefcase unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 3 – Travel & Directions</h4>
+                                    <p>Learn useful phrases for traveling.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">4</div>
+                                <i class="fa-solid fa-users unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 4 – Making Friends</h4>
+                                    <p>Build conversations and make friends.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-left">
+                        <div class="header-icon-box green-theme">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <div class="header-info">
+                            <h3>Vision 2 – Elementary English</h3>
+                            <p>3 Units available</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="unit-list green-theme-text">
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">1</div>
+                                <i class="fa-solid fa-film unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 1 – Media & Entertainment</h4>
+                                    <p>Discuss movies, TV shows, and digital media terms.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">2</div>
+                                <i class="fa-solid fa-utensils unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 2 – Food & Dining</h4>
+                                    <p>Master restaurant conversations and ordering food.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">3</div>
+                                <i class="fa-solid fa-heart-pulse unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 3 – Health & Fitness</h4>
+                                    <p>Talk about symptoms, healthy routines, and sports.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-left">
+                        <div class="header-icon-box orange-theme">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="header-info">
+                            <h3>Vision 3 – Advanced English</h3>
+                            <p>3 Units available</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="unit-list orange-theme-text">
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">1</div>
+                                <i class="fa-solid fa-chart-line unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 1 – Business Relations</h4>
+                                    <p>Professional vocabulary for interviews and business meetings.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">2</div>
+                                <i class="fa-solid fa-earth-americas unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>Unit 2 – Global Issues</h4>
+                                    <p>Advanced debates on environment, tech, and society.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-left">
+                        <div class="header-icon-box purple-theme">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <div class="header-info">
+                            <h3>BBC Learning English</h3>
+                            <p>Improve your English with external verified resources</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="unit-list purple-theme-text">
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">1</div>
+                                <i class="fa-solid fa-stopwatch unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>5 Minutes English</h4>
+                                    <p>Short micro-lessons to improve your English every single day.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                        <a href="#" class="unit-row-item">
+                            <div class="unit-left">
+                                <div class="unit-number-badge">2</div>
+                                <i class="fa-solid fa-newspaper unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>News Review</h4>
+                                    <p>Learn standard English with the latest trending news stories.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2026 English Learning. All rights reserved.</p>
+            <div class="social-row">
+                <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAccordion(headerElement) {
+            const item = headerElement.parentElement;
+            const content = item.querySelector('.accordion-content');
+            const isOpen = item.classList.contains('is-open');
+
+            // Optional: Close all other open accordions if you want a strict single-open accordion behavior
+            /*
+            document.querySelectorAll('.accordion-item').forEach(el => {
+                if(el !== item) {
+                    el.classList.remove('is-open');
+                    el.querySelector('.accordion-content').style.maxHeight = null;
+                }
+            });
+            */
+
+            if (isOpen) {
+                item.classList.remove('is-open');
+                content.style.maxHeight = null;
+            } else {
+                item.classList.add('is-open');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+    </script>
+</body>
+
+</html>
