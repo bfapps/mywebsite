@@ -4,86 +4,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me - LinguFun</title>
+    <title>Welcome To LinguFun</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* تعریف رنگ‌های تم روشن و تاریک */
         :root {
             --bg-page: #f8fafc;
-            --bg-card: #ffffff;
-            --text-main: #0f172a;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+
+            /* Theme Colors from the design system */
             --blue: #1d4ed8;
-            --border: #e2e8f0;
+            --blue-light: #eff6ff;
         }
 
-        body.dark-mode {
-            --bg-page: #1e293b;
-            --bg-card: #334155;
-            --text-main: #f1f5f9;
-            --border: #475569;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
             background-color: var(--bg-page);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            padding: 40px 20px;
-            transition: 0.3s;
+            color: var(--text-dark);
+            padding-bottom: 60px;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
+            padding: 0 24px;
         }
 
+        /* Navbar Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 25px;
-            border-radius: 20px;
+            padding: 24px 0;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
-        .profile-section {
+        .logo-container {
             display: flex;
             align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            font-size: 36px;
+            color: var(--blue);
+            transition: all 0.2s ease;
+        }
+
+        .logo-text h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #030712;
+            line-height: 1.1;
+            transition: all 0.2s ease;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .nav-right-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .nav-right-btn:hover {
+            background: #f1f5f9;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0 60px 0;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex: 1.2;
+        }
+
+        .welcome-badge {
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #030712;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        .hero-graphics {
+            flex: 0.8;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .content-section h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .content-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .social-row {
+            display: flex;
+            justify-content: center;
             gap: 20px;
         }
 
-        .avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 3px solid var(--blue);
+        .social-link {
+            font-size: 20px;
+            transition: transform 0.2s ease;
         }
 
-        h2 {
-            color: var(--blue);
-            margin-bottom: 10px;
+        .social-link:hover {
+            transform: scale(1.15);
         }
 
-        p {
-            line-height: 1.7;
-            opacity: 0.9;
+        .social-link.fb {
+            color: #1877f2;
         }
 
-        #theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 12px 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
+        .social-link.tw {
+            color: #1da1f2;
+        }
+
+        .social-link.ig {
+            color: #e1306c;
+        }
+
+        .social-link.yt {
+            color: #ff0000;
+        }
+
+        @media (max-width: 820px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+            }
+        }
+       @media (max-width: 820px) {
+            header {
+                padding: 16px 0;
+            }
+
+            /* Responsive Scaling for Header Logo & Icons */
+            .logo-icon {
+                font-size: 28px;
+            }
+
+            .logo-text h1 {
+                font-size: 18px;
+            }
+
+            .logo-text p {
+                font-size: 11px;
+            }
+
+            .nav-right-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            /* Responsive Hero Section */
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px 0 35px 0;
+                gap: 24px;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+                /* Reduced from 48px for better mobile viewing */
+                margin-bottom: 12px;
+            }
+
+            .hero p {
+                margin: 0 auto;
+                font-size: 15px;
+            }
+
+            .hero-graphics {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .hero-graphics svg {
+                max-width: 260px;
+                /* Scale down top illustration to not look bulky */
+            }
+
+            /* Card Elements Fine-Tuning for Mobile */
+            .menu-link-card {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .card-left {
+                gap: 14px;
+            }
+
+            .icon-box {
+                width: 44px;
+                /* Reduced box size */
+                height: 44px;
+                border-radius: 10px;
+                font-size: 18px;
+                /* Slightly smaller icon font */
+            }
+
+            .title-box h3 {
+                font-size: 16px;
+                /* Optimized font size */
+            }
+
+            .title-box p {
+                font-size: 12px;
+            }
+
+            .arrow-action {
+                font-size: 14px;
+            }
+            /* کاهش اندازه هدینگ اصلی در موبایل */
+    .hero h2 {
+        font-size: 28px !important;
+        margin-bottom: 16px;
+    }
+
+    /* کاهش اندازه عنوان‌های داخل مقاله */
+    .content-section h3 {
+        font-size: 14px !important;
+    }
+    /* کاهش اندازه عنوان‌های داخل مقاله */
+    .content-section h2 {
+        font-size: 16px !important;
+    }
+
+    /* کاهش اندازه متن پاراگراف‌ها برای خوانایی بهتر */
+    .content-section p {
+        font-size: 14px !important;
+        line-height: 1.6;
+    }
+
+    /* تنظیم مجدد گرافیک در موبایل */
+    .hero-graphics {
+        transform: scale(0.85); /* کوچک‌سازی کل بخش گرافیک */
+    }
+    /* بزرگ‌نمایی ۱.۵ برابری بخش گرافیک */
+    .hero-graphics {
+        transform: scale(1.5); 
+        transform-origin: center; /* اطمینان از اینکه بزرگ‌نمایی از مرکز انجام شود */
+        margin: 20px 0;           /* اضافه کردن فاصله برای جلوگیری از تداخل با متن */
+    }
         }
     </style>
 </head>
@@ -92,61 +340,89 @@
 
     <div class="container">
         <header>
-            <h1>About Me</h1>
-            <button id="theme-toggle"><i class="fas fa-sun"></i></button>
+            <div class="logo-container">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <div class="logo-text">
+                    <h1>ESL Island</h1>
+                    <p>Explore the World of Languages</p>
+                </div>
+            </div>
+            <a href="index.html" class="nav-right-btn" style="text-decoration: none;">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
         </header>
 
-        <div class="card profile-section">
-            <img src="../../Assets/img/profiles/profile1.jpg" alt="Profile" class="avatar">
-            <div>
-                <h2>Hi! I'm Amir.</h2>
-                <p>English teacher & linguistics enthusiast.</p>
+        <section class="hero">
+            <div class="hero-content">
+                <span class="welcome-badge">Welcome To ESL Island</span>
+                <h2>The Story Behind </br>ESL Island</h2>
+                <p>An English teacher passionate about linguistics, dedicated to making language learning an insightful and enjoyable
+                journey for everyone.</p>
             </div>
-        </div>
+            <div class="hero-graphics">
+                <svg width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="180" cy="220" rx="130" ry="7" fill="#E2E8F0" />
+            
+                    <!-- دایره خط‌چین اصلی -->
+                    <circle cx="180" cy="115" r="75" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4 4" />
+            
+                    <!-- عکس با قطر ۱۴۵ و بدون حاشیه -->
+                    <foreignObject x="107.5" y="42.5" width="145" height="145">
+                        <img src="../../Assets/img/profiles/profile1.jpg" alt="Profile"
+                            style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    </foreignObject>
+                </svg>
+            </div>
+        </section>
 
-        <div class="card">
-            <h2>My Background</h2>
-            <p>I have been teaching English since 2017. Currently, I am pursuing my MA in Language Teaching.</p>
-        </div>
+        <section class="content-section">
+            <h2>Hi! I'm Amir.</h2>
+            <p>I have been teaching English as a Foreign or Second Language (EFL & ESL) at schools and language institutes since 2017.
+            Currently, I am pursuing my MA in Language Teaching, driven by the goal of becoming a truly professional educator. I
+            live in Jovein, Iran, but I like to say I call many places "home." I am deeply passionate about cross-cultural
+            communication and love learning about different cultural backgrounds. This curiosity is what fuels my free time, which I
+            almost always spend studying linguistics. My favorite academic companion is The Study of Language by George Yule. If
+            you’d like to chat, feel free to reach out—I am comfortable communicating in English, German, Turkish, and Persian. I
+            would be thrilled to get to know you!</p>
 
-        <div class="card">
-            <h2>LinguFun</h2>
-            <p>LinguFun is a space for sharing language notes, exploring linguistics, and having fun while learning.</p>
-        </div>
+            <h2>A Few Words About My Hobbies</h2>
+            <p>Beyond my academic interests, I love watching films and series or hanging out with close friends when I have some
+            downtime. Comedies, dramas, and mysteries are at the top of my list; however, horror films are definitely my least
+            favorite! What can I do? I’m an INFJ—a complex mix of a calm exterior and a kind, caring, extraverted feeler on the
+            inside. Let me know what your favorite films are; I might give them a shot if I haven't seen them yet.</p>
+            
+            <h2>What is ESL Island?</h2>
+            <p>As you might have guessed, <strong> ESL Island </strong> is a destination for language lovers. It is a space where we can study linguistics
+            and have fun together. We share ideas, knowledge, and everything that helps us gain deeper insight into the amazing
+            world of languages and cultures across the globe. Here, I will be sharing my notes from various books—especially my
+            favorite, The Study of Language—as well as extra content regarding language teaching and learning. Your participation is
+            what makes this island vibrant, so feel free to contribue!</p>
 
-        <div class="card">
-            <h2>My Interests</h2>
-            <p>I enjoy cross-cultural communication, reading books by George Yule, and analyzing different languages.
-            </p>
-        </div>
+            <h2>Let's Get in Touch!</h2>
+            <p>You can reach out to me in various ways. Currently, my E-mail address and social media are the best ways to connect.
+            While the comment section isn't available yet due to limited resources, I promise it will be coming soon! For now,
+            please message me through these channels:</p>
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 25px;">
+                <a href="mailto:amirsardar9930@gmail.com" style="color: var(--text-dark); font-size: 24px;"><i
+                        class="fas fa-envelope"></i></a>
+                <a href="#" style="color: #1DA1F2; font-size: 24px;"><i class="fab fa-twitter"></i></a>
+                <a href="#" style="color: #E1306C; font-size: 24px;"><i class="fab fa-instagram"></i></a>
+                <a href="#" style="color: #FF0000; font-size: 24px;"><i class="fab fa-youtube"></i></a>
+                <a href="#" style="color: #0088cc; font-size: 24px;"><i class="fab fa-telegram"></i></a>
+            </div>
 
-        <div class="card">
-            <h2>Contact</h2>
-            <p><i class="fas fa-envelope"></i> amirsardar9930@gmail.com</p>
-            <p><i class="fab fa-telegram"></i> @AmirSardar9930</p>
-        </div>
+        </section>
+
+        <footer>
+            <p>© 2026 LinguFun. All rights reserved.</p>
+            <div class="social-row">
+                <a href="#" class="social-link fb"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="social-link tw"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="social-link ig"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link yt"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </footer>
     </div>
-
-    <script>
-        const toggleBtn = document.getElementById('theme-toggle');
-        const icon = toggleBtn.querySelector('i');
-
-        // چک کردن تم دستگاه
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-mode');
-            icon.className = 'fas fa-moon';
-        }
-
-        // تغییر تم با کلیک
-        toggleBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            if (document.body.classList.contains('dark-mode')) {
-                icon.className = 'fas fa-moon';
-            } else {
-                icon.className = 'fas fa-sun';
-            }
-        });
-    </script>
 
 </body>
 
