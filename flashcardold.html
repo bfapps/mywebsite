@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Flashcards Studio</title>
+    <title>Dynamic Flashcards Studio with Real Audio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -114,7 +114,42 @@
             margin: 40px 0;
         }
 
-        /* Inside Display Card */
+        /* Modern Progress Bar Styling */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 0 4px;
+            margin-bottom: 4px;
+        }
+
+        .progress-bar-bg {
+            flex: 1;
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, var(--blue));
+            border-radius: 99px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 48px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Inside Display Box */
         .display-box {
             background-color: var(--bg-page);
             border: 1px solid var(--border-color);
@@ -160,7 +195,6 @@
             justify-content: center;
             transition: all 0.2s ease;
             direction: rtl;
-            /* Supports Persian text layout neatly */
         }
 
         /* Grid for Feature Buttons */
@@ -260,23 +294,11 @@
             color: var(--text-muted);
         }
 
-        /* ==========================================================================
-           MOBILE CENTERING OPTIMIZATIONS
-           ========================================================================== */
         @media (max-width: 480px) {
             header {
                 padding: 16px 0 8px 0;
             }
 
-            .logo-text h1 {
-                font-size: 16px;
-            }
-
-            .logo-icon {
-                font-size: 24px;
-            }
-
-            /* Centering fix */
             .flashcard-wrapper {
                 margin: auto 0;
                 padding: 16px;
@@ -294,38 +316,14 @@
                 font-size: 20px;
             }
 
-            .sentence-example {
-                font-size: 13px;
-            }
-
-            .dynamic-hint-area {
-                font-size: 13px;
-                padding: 5px 12px;
-            }
-
-            .features-grid {
-                gap: 8px;
-            }
-
             .feature-btn {
                 padding: 10px 4px;
                 font-size: 11px;
-                border-radius: 10px;
-                gap: 4px;
-            }
-
-            .feature-btn i {
-                font-size: 12px;
             }
 
             .nav-btn {
                 padding: 12px;
                 font-size: 13px;
-                border-radius: 12px;
-            }
-
-            footer {
-                padding: 8px 0 16px 0;
             }
         }
     </style>
@@ -342,16 +340,23 @@
                     <p>Flashcards Studio</p>
                 </div>
             </div>
-            <a href="index.html" class="go-home-btn">
-                <i class="fa-solid fa-house"></i> Go Home
+            <a href="#" class="go-home-btn">
+                <i class="fa-solid fa-house"></i> Home
             </a>
         </header>
 
         <main class="flashcard-wrapper">
 
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 / 0</div>
+            </div>
+
             <div class="display-box">
-                <div class="word-title" id="wordTitle">1. endangered</div>
-                <div class="sentence-example" id="wordExample">"Iranian cheetah is an endangered animal."</div>
+                <div class="word-title" id="wordTitle">Loading...</div>
+                <div class="sentence-example" id="wordExample">...</div>
                 <div class="dynamic-hint-area" id="hintBox">
                     <i class="fa-solid fa-circle-question"
                         style="margin-right: 6px; opacity: 0.7; font-size: 12px;"></i> Tap clues below
@@ -389,54 +394,46 @@
         </footer>
     </div>
 
+    <script src="wordsdata.js"></script>
+
     <script>
-        // Structured array database mapped directly from your list
-        const flashcardsDataset = [
-            { id: 1, name: "endangered", pronunciation: "/ɪnˈdeɪn.dʒəd/", example: "Iranian cheetah is an endangered animal.", type: "adj", meaning: "در خطر انقراض" },
-            { id: 2, name: "alive", pronunciation: "/əˈlaɪv/", example: "Around 70 of them are alive.", type: "adjective", meaning: "زنده" },
-            { id: 3, name: "increase", pronunciation: "/ɪnˈkriːs/", example: "The number will increase.", type: "verb", meaning: "افزایش یافتن / دادن" },
-            { id: 4, name: "hear", pronunciation: "/hɪr/", example: "I heard around 70 of them are alive.", type: "verb", meaning: "شنیدن" },
-            { id: 5, name: "protect (from)", pronunciation: "/prəˈtekt/", example: "We are going to protect their homes", type: "verb", meaning: "محافظت کردن" },
-            { id: 6, name: "for example", pronunciation: "/fɔːr ɪɡˈzæm.pəl/", example: "For example, we are going to protect their homes", type: "phrase", meaning: "برای مثال" },
-            { id: 7, name: "Earth", pronunciation: "/ɝːθ/", example: "We live on Earth.", type: "noun", meaning: "زمین" },
-            { id: 8, name: "tiger", pronunciation: "/ˈtaɪ.ɡɚ/", example: "A tiger is a wild animal.", type: "noun", meaning: "ببر" },
-            { id: 9, name: "forest", pronunciation: "/ˈfɔːr.ɪst/", example: "I went to Golestan Forest last year.", type: "noun", meaning: "جنگل" },
-            { id: 10, name: "destroy", pronunciation: "/dɪˈstrɔɪ/", example: "They are destroying the jungle.", type: "verb", meaning: "نابود کردن - تخریب کردن" },
-            { id: 11, name: "die out", pronunciation: "/daɪ aʊt/", example: "The Persian lion died out about 75 years ago.", type: "verb", meaning: "منقرض شدن" },
-            { id: 12, name: "Pay attention!", pronunciation: "/peɪ əˈten.ʃən/", example: "Pay attention! Don’t swim here.", type: "sentence", meaning: "توجه کن / کنید" },
-            { id: 13, name: "natural", pronunciation: "/ˈnætʃ.ɚ.əl/", example: "Tooran is the natural home of the Persian zebra.", type: "adjective", meaning: "طبیعی" },
-            { id: 14, name: "plain", pronunciation: "/pleɪn/", example: "Moghan Plain is a nice place in the north-west of Iran.", type: "noun", meaning: "دشت" },
-            { id: 15, name: "hope", pronunciation: "/hoʊp/", example: "They hope to save the injured animal.", type: "verb", meaning: "امیدوار بودن" },
-            { id: 16, name: "a few", pronunciation: "/fjuː/", example: "There are a few Iranian cheetahs.", type: "determiner", meaning: "تعداد کمی" },
-            { id: 17, name: "human", pronunciation: "/ˈhjuː.mən/", example: "All humans must take care of nature.", type: "noun", meaning: "انسان" },
-            { id: 18, name: "instead", pronunciation: "/ɪnˈsted/", example: "There’s no coffee. Would you like a cup of tea instead?", type: "adverb", meaning: "به جای" },
-            { id: 19, name: "future", pronunciation: "/ˈfjuː.tʃɚ/", example: "Everyone needs to plan for the future.", type: "noun", meaning: "آینده" }
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedUnitKey = urlParams.get('unit') || 'v1u1';
+
+        let flashcardsDataset = allUnitsDatabase[selectedUnitKey] || [
+            { id: 1, name: "No words available", pronunciation: "-", example: "Please add words to this unit.", type: "-", meaning: "کلمه‌ای یافت نشد", audio: "" }
         ];
 
         let currentIndex = 0;
+        let currentAudioObject = null; // برای مدیریت فایل صوتی در حال پخش
 
-        // Function to render card based on currentIndex
         function renderCard() {
             const currentWord = flashcardsDataset[currentIndex];
+            const totalWords = flashcardsDataset.length;
+            const currentPosition = currentIndex + 1;
 
-            // Update Core Interface Elements
-            document.getElementById('wordTitle').innerText = `${currentWord.id}. ${currentWord.name}`;
+            document.getElementById('wordTitle').innerText = `${currentPosition}. ${currentWord.name}`;
             document.getElementById('wordExample').innerText = `"${currentWord.example}"`;
 
-            // Reset clue button styling states
-            document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
+            const progressPercent = (currentPosition / totalWords) * 100;
+            document.getElementById('progressBarFill').style.width = `${progressPercent}%`;
+            document.getElementById('progressText').innerText = `${currentPosition} / ${totalWords}`;
 
-            // Reset Hint UI Area back to action prompt
+            // اگر در حین پخش صدا کاربر کارت را عوض کرد، صدای قبلی قطع شود
+            if (currentAudioObject) {
+                currentAudioObject.pause();
+                currentAudioObject = null;
+            }
+
+            document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
             const hintBox = document.getElementById('hintBox');
             hintBox.style.direction = "ltr";
             hintBox.innerHTML = '<i class="fa-solid fa-circle-question" style="margin-right: 6px; opacity: 0.7; font-size: 12px;"></i> Tap clues below';
         }
 
-        // Navigation Engine (Next / Previous handlers)
         function navigateCard(direction) {
             currentIndex += direction;
 
-            // Infinite looping system loopbacks
             if (currentIndex >= flashcardsDataset.length) {
                 currentIndex = 0;
             } else if (currentIndex < 0) {
@@ -446,29 +443,54 @@
             renderCard();
         }
 
-        // Feature Clues Toggle Handler
+        // تابع هوشمند پخش فایل صوتی واقعی اختصاصی
+        function playRealAudio(audioPath) {
+            if (!audioPath) {
+                console.warn("No audio file path provided for this word.");
+                return;
+            }
+
+            // ریست کردن موزیک قبلی اگر هنوز تمام نشده باشد
+            if (currentAudioObject) {
+                currentAudioObject.pause();
+                currentAudioObject.currentTime = 0;
+            }
+
+            // ساخت آبجکت صوتی جدید و پخش آن با جاوا اسکریپت
+            currentAudioObject = new Audio(audioPath);
+            currentAudioObject.play().catch(error => {
+                console.error("Audio file could not be played. Please check the file path:", error);
+            });
+        }
+
         function toggleHint(type, element) {
             const hintBox = document.getElementById('hintBox');
             const currentWord = flashcardsDataset[currentIndex];
             const isAlreadyActive = element.classList.contains('active');
 
-            // Turn off active look from other options
             document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
 
             if (isAlreadyActive) {
                 hintBox.style.direction = "ltr";
                 hintBox.innerHTML = '<i class="fa-solid fa-circle-question" style="margin-right: 6px; opacity: 0.7; font-size: 12px;"></i> Tap clues below';
+
+                if (type === 'pronunciation' && currentAudioObject) {
+                    currentAudioObject.pause();
+                }
             } else {
                 element.classList.add('active');
 
-                // Adjust layout directions beautifully based on language type
+                // پخش فایل صوتی حقیقی کلمه هنگام فشردن دکمه Pronunciation
+                if (type === 'pronunciation') {
+                    playRealAudio(currentWord.audio);
+                }
+
                 if (type === 'meaning') {
                     hintBox.style.direction = "rtl";
                 } else {
                     hintBox.style.direction = "ltr";
                 }
 
-                // Smooth state change text insertion
                 hintBox.style.opacity = '0';
                 setTimeout(() => {
                     hintBox.innerHTML = currentWord[type];
@@ -476,6 +498,10 @@
                 }, 80);
             }
         }
+
+        window.onload = function () {
+            renderCard();
+        };
     </script>
 </body>
 
