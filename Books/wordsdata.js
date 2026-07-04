@@ -2,7 +2,7 @@
 const allUnitsDatabase = {
     // کلمات مربوط به ویژن 1 - یونیت 1 (لیست ۱۹ کلمه‌ای شما)
     "v1u1": [
-        { id: 1, name: "endangered", pronunciation: "/ɪnˈdeɪn.dʒəd/", example: "Iranian cheetah is an endangered animal.", type: "adj", meaning: "در خطر انقراض", audio: "audio/endangered.mp3" },
+        { id: 1, name: "endangered", pronunciation: "/ɪnˈdeɪn.dʒəd/", example: "Iranian cheetah is an endangered animal.", type: "adj", meaning: "در خطر انقراض", audio: "audio/endangered.mp3", image: "images/endangered.webp" },
         { id: 2, name: "alive", pronunciation: "/əˈlaɪv/", example: "Around 70 of them are alive.", type: "adjective", meaning: "زنده", audio: "audio/alive.mp3" },
         { id: 3, name: "increase", pronunciation: "/ɪnˈkriːs/", example: "The number will increase.", type: "verb", meaning: "افزایش یافتن / دادن", audio: "audio/increase.mp3" },
         { id: 4, name: "hear", pronunciation: "/hɪr/", example: "I heard around 70 of them are alive.", type: "verb", meaning: "شنیدن", audio: "audio/hear.mp3" },

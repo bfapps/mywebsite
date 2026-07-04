@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - LinguFun</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* تعریف رنگ‌های تم روشن و تاریک */
+        :root {
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --blue: #1d4ed8;
+            --border: #e2e8f0;
+        }
+
+        body.dark-mode {
+            --bg-page: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f1f5f9;
+            --border: #475569;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            padding: 40px 20px;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--blue);
+        }
+
+        h2 {
+            color: var(--blue);
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        #theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 12px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>About Me</h1>
+            <button id="theme-toggle"><i class="fas fa-sun"></i></button>
+        </header>
+
+        <div class="card profile-section">
+            <img src="../../Assets/img/profiles/profile1.jpg" alt="Profile" class="avatar">
+            <div>
+                <h2>Hi! I'm Amir.</h2>
+                <p>English teacher & linguistics enthusiast.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>My Background</h2>
+            <p>I have been teaching English since 2017. Currently, I am pursuing my MA in Language Teaching.</p>
+        </div>
+
+        <div class="card">
+            <h2>LinguFun</h2>
+            <p>LinguFun is a space for sharing language notes, exploring linguistics, and having fun while learning.</p>
+        </div>
+
+        <div class="card">
+            <h2>My Interests</h2>
+            <p>I enjoy cross-cultural communication, reading books by George Yule, and analyzing different languages.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Contact</h2>
+            <p><i class="fas fa-envelope"></i> amirsardar9930@gmail.com</p>
+            <p><i class="fab fa-telegram"></i> @AmirSardar9930</p>
+        </div>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const icon = toggleBtn.querySelector('i');
+
+        // چک کردن تم دستگاه
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-mode');
+            icon.className = 'fas fa-moon';
+        }
+
+        // تغییر تم با کلیک
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-moon';
+            } else {
+                icon.className = 'fas fa-sun';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
