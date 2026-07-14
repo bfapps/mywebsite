@@ -20,6 +20,10 @@ function applyLanguage(lang) {
             element.innerText = translations[lang][key];
         }
     });
+    // ۲. بررسی اینکه آیا در صفحه فلش‌کارت هستیم یا خیر
+    if (typeof renderCard === 'function') {
+        renderCard(); // فراخوانی مجدد برای رندر مجدد کارت‌ها
+    }
 }
 
 // تشخیص زبان سیستم هنگام ورود
