@@ -6,15 +6,24 @@
 
             /* Vision Branding Colors */
             --blue: #1d4ed8;
+            --blue-hover: #1e40af;
             --blue-light: #eff6ff;
+            --gray-btn: #f1f5f9;
+            --gray-btn-hover: #e2e8f0;
             --green: #10b981;
             --green-light: #ecfdf5;
+            --green-light-flashcard: #d1fae5;
+            --red: #ef4444;
+            --red-light: #fee2e2;
             --orange: #f59e0b;
             --orange-light: #fffbeb;
+            --star-color: #eab308;
             --purple: #6366f1;
             --purple-light: #e0e7ff;
             --pink: #ec4899;
             --pink-light: #fdf2f8;
+            --yellow-light: #fef9c3;
+            --yellow-dark: #854d0e;
         }
 
         * {

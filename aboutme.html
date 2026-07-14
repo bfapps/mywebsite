@@ -138,74 +138,21 @@
 
         // تابع جدید برای سوئیچ کردن (Toggle)
         const translations = {
-            en: {
-                home: "Home",
-                about: "About Me",
-                langTitle: "Language",
-                persian: "Persian",
-                english: "English"
-            },
-            fa: {
-                home: "خانه",
-                about: "درباره من",
-                langTitle: "زبان",
-                persian: "فارسی",
-                english: "انگلیسی"
-            }
-        };
-
-        // تایع مربوط به باز شدن منو زبان و منو لیست کتابها
-        function toggleAccordion(element) {
-            // پیدا کردن والدِ اصلیِ آکاردئون (چه در درس‌ها باشد چه در منوی زبان)
-            const item = element.closest('.accordion-item');
-            const content = item.querySelector('.accordion-content');
-            const isOpen = item.classList.contains('is-open');
-
-            if (isOpen) {
-                item.classList.remove('is-open');
-                content.style.maxHeight = null;
-            } else {
-                // بستن بقیه آکاردئون‌های باز (اختیاری برای زیبایی بیشتر)
-                document.querySelectorAll('.accordion-item').forEach(el => {
-                    el.classList.remove('is-open');
-                    el.querySelector('.accordion-content').style.maxHeight = null;
-                });
-
-                item.classList.add('is-open');
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        }
-
-
-        // تابع های منو همبرگری
-        function toggleMenu() {
-            const menu = document.getElementById('sideMenu');
-            const icon = document.getElementById('menuIcon');
-            const btn = document.getElementById('menuBtn');
-
-            menu.classList.toggle('active');
-            btn.classList.toggle('menu-open-rotate');
-
-            // تغییر آیکون
-            setTimeout(() => {
-                if (menu.classList.contains('active')) {
-                    icon.classList.replace('fa-bars', 'fa-xmark');
-                } else {
-                    icon.classList.replace('fa-xmark', 'fa-bars');
+                en: {
+                    home: "Home",
+                    about: "About Me",
+                    langTitle: "Language",
+                    persian: "Persian",
+                    english: "English"
+                },
+                fa: {
+                    home: "خانه",
+                    about: "درباره من",
+                    langTitle: "زبان",
+                    persian: "فارسی",
+                    english: "انگلیسی"
                 }
-            }, 150);
-
-            // مدیریت Overlay تیره
-            let overlay = document.getElementById('menu-overlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'menu-overlay';
-                overlay.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:999;";
-                overlay.onclick = toggleMenu;
-                document.body.appendChild(overlay);
-            }
-            overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
-        }
+        };
 
         
     </script>
