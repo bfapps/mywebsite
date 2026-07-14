@@ -1,0 +1,806 @@
+        :root {
+            --bg-page: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+
+            /* Vision Branding Colors */
+            --blue: #1d4ed8;
+            --blue-light: #eff6ff;
+            --green: #10b981;
+            --green-light: #ecfdf5;
+            --orange: #f59e0b;
+            --orange-light: #fffbeb;
+            --purple: #6366f1;
+            --purple-light: #e0e7ff;
+            --pink: #ec4899;
+            --pink-light: #fdf2f8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Top Navbar Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            margin-bottom: 20px;
+            direction: ltr !important;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            font-size: 36px;
+            color: var(--blue);
+            transition: all 0.2s ease;
+        }
+
+        .logo-text h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #030712;
+            line-height: 1.1;
+            transition: all 0.2s ease;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Hero Layout */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0 60px 0;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex: 1.2;
+        }
+
+        .welcome-badge {
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #030712;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        .hero-graphics {
+            flex: 0.8;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .hero-graphics svg {
+            transition: all 0.2s ease;
+        }
+
+
+        /* ==========================================================================
+            Writtern conents
+            ========================================================================== */
+
+        .content-section {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .content-section h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .content-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* ==========================================================================
+            Linked menu in Index page
+            ========================================================================== */
+
+        /* Menu Links Container */
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            direction: ltr !important;
+        }
+
+        /* Stylized Link Cards */
+        .menu-link-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 24px rgba(15, 23, 42, 0.02);
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        /* Distinct theme backgrounds */
+        .icon-box.blue-bg {
+            background-color: var(--blue);
+        }
+
+        .icon-box.green-bg {
+            background-color: var(--green);
+        }
+
+        .icon-box.orange-bg {
+            background-color: var(--orange);
+        }
+
+        .icon-box.purple-bg {
+            background-color: var(--purple);
+        }
+
+        .icon-box.pink-bg {
+            background-color: var(--pink);
+        }
+
+        .title-box h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .title-box p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .arrow-action {
+            font-size: 16px;
+            color: #94a3b8;
+            transition: all 0.25s ease;
+        }
+
+        /* Hover Interactions */
+        .menu-link-card:hover {
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .menu-link-card:hover .title-box h3 {
+            color: var(--blue);
+        }
+
+        .menu-link-card.green-theme:hover .title-box h3 {
+            color: var(--green);
+        }
+
+        .menu-link-card.orange-theme:hover .title-box h3 {
+            color: var(--orange);
+        }
+
+        .menu-link-card.purple-theme:hover .title-box h3 {
+            color: var(--purple);
+        }
+
+        .menu-link-card.pink-theme:hover .title-box h3 {
+            color: var(--pink);
+        }
+
+        .menu-link-card:hover .arrow-action {
+            transform: translateX(5px);
+            color: var(--text-dark);
+        }
+
+        /* ==========================================================================
+            FOOTER
+            ========================================================================== */
+
+        footer {
+            margin-top: 80px;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .social-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-link {
+            color: #94a3b8;
+            font-size: 20px;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: var(--blue);
+        }
+
+        /* ==========================================================================
+            RESPONSIVE MEDIA QUERIES FOR Above Secrions (MOBILE OPTIMIZATIONS)
+            ========================================================================== */
+        @media (max-width: 820px) {
+            header {
+                padding: 16px 0;
+            }
+
+            .logo-icon {
+                font-size: 28px;
+            }
+
+            .logo-text h1 {
+                font-size: 18px;
+            }
+
+            .logo-text p {
+                font-size: 11px;
+            }
+
+
+            /* Responsive Hero Section */
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px 0 35px 0;
+                gap: 24px;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+                /* Reduced from 48px for better mobile viewing */
+                margin-bottom: 12px;
+            }
+
+            .hero p {
+                margin: 0 auto;
+                font-size: 15px;
+            }
+
+            .hero-graphics {
+                justify-content: center;
+                width: 100%;
+                margin: 0;
+            }
+
+            .hero-graphics svg {
+                max-width: 260px;
+                /* Scale down top illustration to not look bulky */
+            }
+
+            /* Card Elements Fine-Tuning for Mobile */
+            .menu-link-card {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .card-left {
+                gap: 14px;
+            }
+
+            .icon-box {
+                width: 44px;
+                /* Reduced box size */
+                height: 44px;
+                border-radius: 10px;
+                font-size: 18px;
+                /* Slightly smaller icon font */
+            }
+
+            .title-box h3 {
+                font-size: 16px;
+                /* Optimized font size */
+            }
+
+            .title-box p {
+                font-size: 12px;
+            }
+
+            .arrow-action {
+                font-size: 14px;
+            }
+
+            /* کاهش اندازه عنوان‌های داخل مقاله */
+            .content-section h3 {
+                font-size: 14px !important;
+            }
+
+            /* کاهش اندازه عنوان‌های داخل مقاله */
+            .content-section h2 {
+                font-size: 16px !important;
+            }
+
+            /* کاهش اندازه متن پاراگراف‌ها برای خوانایی بهتر */
+            .content-section p {
+                font-size: 14px !important;
+                line-height: 1.6;
+            }
+        }
+
+
+        /* ==========================================================================
+            Hamburger Menu
+            ========================================================================== */
+
+            /* استایل منوی همبرگری */
+            .hamburger {
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--text-dark);
+                z-index: 1002;
+                padding: 15px;
+                transition: transform 0.4s ease;
+                position: relative;
+                top: 0px;
+                right: 0px;
+            }
+    
+            .menu-open-rotate {
+                transform: rotate(90deg);
+            }
+    
+            .side-menu {
+                position: fixed;
+                top: 0;
+                height: 100%;
+                width: 300px;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                display: flex;
+                flex-direction: column;
+                padding: 80px 30px;
+                transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                visibility: hidden;
+                opacity: 0;
+                right: -300px;
+            }
+    
+            .side-menu.active {
+                visibility: visible;
+                opacity: 1;
+                right: 0;
+            }
+    
+            @media (max-width: 768px) {
+                .side-menu {
+                    width: 80%;
+                }
+            }
+    
+            .menu-items {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+    
+            .menu-items a {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding: 15px;
+                background: #f1f5f9;
+                border-radius: 12px;
+                text-decoration: none;
+                color: var(--text-dark);
+                font-weight: 600;
+                transition: background 0.3s;
+            }
+    
+            .menu-items a:hover {
+                background: var(--blue);
+                color: white;
+            }
+    
+            /* کانتینر اصلی شما باید relative باشد تا منو نسبت به آن باز شود */
+            .container {
+                position: relative;
+                max-width: 1000px;
+                /* یا هر عرضی که دارید */
+                margin: 0 auto;
+                overflow-x: hidden;
+                /* جلوگیری از اسکرول افقی هنگام انیمیشن */
+            }
+    
+            .hamburger {
+                position: relative;
+                /* حالا در جریان عادی صفحه قرار دارد */
+                z-index: 1002;
+            }
+    
+            .side-menu {
+                position: absolute;
+                /* نسبت به .container حرکت می‌کند */
+                top: 0;
+                right: -300px;
+                /* شروع از سمت راستِ کانتینر */
+                height: 100vh;
+                /* تمام ارتفاع صفحه */
+                width: 300px;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
+                transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                padding-top: 80px;
+            }
+    
+            .side-menu.active {
+                right: 0;
+                /* باز شدن به سمت چپ */
+            }
+    
+            .lang-accordion-item {
+                border: none;
+                box-shadow: none;
+                background: transparent;
+                padding: 0px;
+            }
+    
+            /* استایل دکمه‌های داخل آکاردئون زبان */
+            .lang-options {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                /* فاصله بین دو دکمه */
+                padding: 10px 0;
+            }
+    
+            .lang-btn {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                background: #ffffff;
+                /* رنگ زمینه روشن */
+                border: none;
+                border-radius: 10px;
+                color: #334155;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-align: right;
+                width: 100%;
+            }
+    
+            /* افکت جذاب هنگام هاور (وقتی ماوس می‌رود) */
+            .lang-btn:hover {
+                background: #eff6ff;
+                /* آبی بسیار کمرنگ */
+                border-color: #3b82f6;
+                /* رنگ آبی برند */
+                color: #1d4ed8;
+    
+            }
+    
+            /* آیکون‌های کوچک کنار زبان‌ها (اختیاری) */
+            .lang-btn i {
+                font-size: 14px;
+                opacity: 0.6;
+            }
+
+            /* ==========================================================================
+                Accordions
+                ========================================================================== */
+    
+
+            /* Accordion Master Styles */
+            .accordion-wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                direction: ltr !important;
+            }
+    
+            .accordion-item {
+                background: #ffffff;
+                border-radius: 20px;
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 4px 20px rgba(15, 23, 42, 0.01);
+                overflow: hidden;
+                transition: border-color 0.2s ease;
+            }
+    
+            /* Accordion Header (Trigger) */
+            .accordion-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 24px;
+                cursor: pointer;
+                user-select: none;
+                background: #ffffff;
+            }
+    
+            .header-left {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+            }
+    
+            .header-icon-box {
+                width: 52px;
+                height: 52px;
+                border-radius: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                color: #ffffff;
+            }
+    
+            /* Themes */
+            .header-icon-box.blue-theme {
+                background-color: var(--blue);
+            }
+    
+            .header-icon-box.green-theme {
+                background-color: var(--green);
+            }
+    
+            .header-icon-box.orange-theme {
+                background-color: var(--orange);
+            }
+    
+            .header-icon-box.purple-theme {
+                background-color: var(--purple);
+            }
+    
+            .header-info h3 {
+                font-size: 18px;
+                font-weight: 700;
+                color: var(--text-dark);
+                margin-bottom: 2px;
+            }
+    
+            .header-info p {
+                font-size: 13px;
+                color: var(--text-muted);
+            }
+    
+            .chevron-icon {
+                font-size: 16px;
+                color: #94a3b8;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+    
+            /* Accordion Content Wrapper (Closed by Default) */
+            .accordion-content {
+                max-height: 0;
+                /* Ensures it starts closed */
+                overflow: hidden;
+                transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                background-color: #ffffff;
+            }
+    
+            /* Inner Unit List */
+            .unit-list {
+                padding: 0 24px 20px 24px;
+                border-top: 1px dashed #f1f5f9;
+                display: flex;
+                flex-direction: column;
+            }
+    
+            .unit-row-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 18px 0;
+                border-bottom: 1px solid #f1f5f9;
+                text-decoration: none;
+                transition: all 0.2s ease;
+            }
+    
+            .unit-row-item:last-child {
+                border-bottom: none;
+                padding-bottom: 4px;
+            }
+    
+            .unit-left {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+    
+            .unit-number-badge {
+                width: 36px;
+                height: 36px;
+                background-color: var(--blue-light);
+                color: var(--blue);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: 700;
+            }
+    
+            .green-theme-text .unit-number-badge {
+                background-color: var(--green-light);
+                color: var(--green);
+            }
+    
+            .orange-theme-text .unit-number-badge {
+                background-color: var(--orange-light);
+                color: var(--orange);
+            }
+    
+            .purple-theme-text .unit-number-badge {
+                background-color: var(--purple-light);
+                color: var(--purple);
+            }
+    
+            .unit-icon {
+                font-size: 16px;
+                color: #64748b;
+                width: 20px;
+                text-align: center;
+            }
+    
+            .unit-details h4 {
+                font-size: 15px;
+                font-weight: 600;
+                color: var(--text-dark);
+                margin-bottom: 2px;
+            }
+    
+            .unit-details p {
+                font-size: 13px;
+                color: var(--text-muted);
+            }
+    
+            .unit-arrow {
+                font-size: 14px;
+                color: #cbd5e1;
+                transition: transform 0.2s ease, color 0.2s ease;
+            }
+    
+            /* Hover States */
+            .unit-row-item:hover .unit-arrow {
+                transform: translateX(4px);
+                color: var(--text-dark);
+            }
+    
+            .unit-row-item:hover .unit-details h4 {
+                color: var(--blue);
+            }
+    
+            /* Active State Classes via JS */
+            .accordion-item.is-open {
+                border-color: #cbd5e1;
+                box-shadow: 0 10px 25px rgba(15, 23, 42, 0.03);
+            }
+    
+            .accordion-item.is-open .chevron-icon {
+                transform: rotate(180deg);
+                color: var(--text-dark);
+            }
+
+            @media (max-width: 820px) {
+
+                /* Accordion Fine-Tuning for Mobile */
+                .accordion-header {
+                    padding: 16px;
+                }
+
+                .header-icon-box {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 10px;
+                    font-size: 18px;
+                }
+
+                .header-info h3 {
+                    font-size: 15px;
+                }
+
+                .header-info p {
+                    font-size: 12px;
+                }
+
+                .unit-list {
+                    padding: 0 16px 16px 16px;
+                }
+
+                .unit-row-item {
+                    padding: 14px 0;
+                }
+
+                .unit-number-badge {
+                    width: 32px;
+                    height: 32px;
+                    font-size: 12px;
+                }
+
+                .unit-details h4 {
+                    font-size: 13.5px;
+                }
+
+                .unit-details p {
+                    font-size: 12px;
+                }
+
+            }
+

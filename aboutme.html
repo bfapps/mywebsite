@@ -7,331 +7,15 @@
     <title>Welcome To LinguFun</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="global.css">
     <style>
-        :root {
-            --bg-page: #f8fafc;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-
-            /* Theme Colors from the design system */
-            --blue: #1d4ed8;
-            --blue-light: #eff6ff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body {
-            background-color: var(--bg-page);
-            color: var(--text-dark);
-            padding-bottom: 60px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Navbar Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 0;
-            margin-bottom: 20px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .logo-icon {
-            font-size: 36px;
-            color: var(--blue);
-            transition: all 0.2s ease;
-        }
-
-        .logo-text h1 {
-            font-size: 22px;
-            font-weight: 800;
-            color: #030712;
-            line-height: 1.1;
-            transition: all 0.2s ease;
-        }
-
-        .logo-text p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .nav-right-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            padding: 10px 20px;
-            border-radius: 24px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-dark);
-            cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-            transition: all 0.2s ease;
-        }
-
-        .nav-right-btn:hover {
-            background: #f1f5f9;
-            transform: translateY(-1px);
-        }
-
-        /* Hero Section */
-        .hero {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px 0 60px 0;
-            gap: 40px;
-        }
-
-        .hero-content {
-            flex: 1.2;
-        }
-
-        .welcome-badge {
-            color: var(--blue);
-            font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 16px;
-            display: inline-block;
-        }
-
-        .hero h2 {
-            font-size: 48px;
-            font-weight: 800;
-            line-height: 1.15;
-            color: #030712;
-            margin-bottom: 20px;
-            transition: all 0.2s ease;
-        }
-
-        .hero p {
-            font-size: 17px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 520px;
-        }
-
-        .hero-graphics {
-            flex: 0.8;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-        /* Content Section */
-        .content-section {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .content-section h3 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: var(--text-dark);
-        }
-
-        .content-section p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 80px;
-            padding-top: 32px;
-            border-top: 1px solid #e2e8f0;
-            text-align: center;
-        }
-
-        footer p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
-        .social-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .social-link {
-            font-size: 20px;
-            transition: transform 0.2s ease;
-        }
-
-        .social-link:hover {
-            transform: scale(1.15);
-        }
-
-        .social-link.fb {
-            color: #1877f2;
-        }
-
-        .social-link.tw {
-            color: #1da1f2;
-        }
-
-        .social-link.ig {
-            color: #e1306c;
-        }
-
-        .social-link.yt {
-            color: #ff0000;
-        }
-
         @media (max-width: 820px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero h2 {
-                font-size: 30px;
-            }
-        }
-       @media (max-width: 820px) {
-            header {
-                padding: 16px 0;
-            }
-
-            /* Responsive Scaling for Header Logo & Icons */
-            .logo-icon {
-                font-size: 28px;
-            }
-
-            .logo-text h1 {
-                font-size: 18px;
-            }
-
-            .logo-text p {
-                font-size: 11px;
-            }
-
-            .nav-right-btn {
-                padding: 8px 16px;
-                font-size: 13px;
-            }
-
-            /* Responsive Hero Section */
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                padding: 10px 0 35px 0;
-                gap: 24px;
-            }
-
-            .hero h2 {
-                font-size: 30px;
-                /* Reduced from 48px for better mobile viewing */
-                margin-bottom: 12px;
-            }
-
-            .hero p {
-                margin: 0 auto;
-                font-size: 15px;
-            }
-
-            .hero-graphics {
-                justify-content: center;
-                width: 100%;
-            }
-
             .hero-graphics svg {
-                max-width: 260px;
+                max-width: 300px;
+                width: 100%;
+                height: auto;
                 /* Scale down top illustration to not look bulky */
             }
-
-            /* Card Elements Fine-Tuning for Mobile */
-            .menu-link-card {
-                padding: 16px;
-                border-radius: 16px;
-            }
-
-            .card-left {
-                gap: 14px;
-            }
-
-            .icon-box {
-                width: 44px;
-                /* Reduced box size */
-                height: 44px;
-                border-radius: 10px;
-                font-size: 18px;
-                /* Slightly smaller icon font */
-            }
-
-            .title-box h3 {
-                font-size: 16px;
-                /* Optimized font size */
-            }
-
-            .title-box p {
-                font-size: 12px;
-            }
-
-            .arrow-action {
-                font-size: 14px;
-            }
-            /* کاهش اندازه هدینگ اصلی در موبایل */
-    .hero h2 {
-        font-size: 28px !important;
-        margin-bottom: 16px;
-    }
-
-    /* کاهش اندازه عنوان‌های داخل مقاله */
-    .content-section h3 {
-        font-size: 14px !important;
-    }
-    /* کاهش اندازه عنوان‌های داخل مقاله */
-    .content-section h2 {
-        font-size: 16px !important;
-    }
-
-    /* کاهش اندازه متن پاراگراف‌ها برای خوانایی بهتر */
-    .content-section p {
-        font-size: 14px !important;
-        line-height: 1.6;
-    }
-
-    /* تنظیم مجدد گرافیک در موبایل */
-    .hero-graphics {
-        transform: scale(0.85); /* کوچک‌سازی کل بخش گرافیک */
-    }
-    /* بزرگ‌نمایی ۱.۵ برابری بخش گرافیک */
-    .hero-graphics {
-        transform: scale(1.5); 
-        transform-origin: center; /* اطمینان از اینکه بزرگ‌نمایی از مرکز انجام شود */
-        margin: 20px 0;           /* اضافه کردن فاصله برای جلوگیری از تداخل با متن */
-    }
         }
     </style>
 </head>
@@ -344,12 +28,37 @@
                 <i class="fa-solid fa-graduation-cap logo-icon"></i>
                 <div class="logo-text">
                     <h1>ESL Island</h1>
-                    <p>Explore the World of Languages</p>
+                    <p>Let's Learn English</p>
                 </div>
             </div>
-            <a href="index.html" class="nav-right-btn" style="text-decoration: none;">
-                <i class="fa-solid fa-house"></i> Home
-            </a>
+            <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+            <div id="sideMenu" class="side-menu">
+                <div class="menu-items">
+                    <a href="index.html" data-i18n="home"><i class="fa-solid fa-house"></i> Home</a>
+        
+                    <div class="accordion-item lang-accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="header-left">
+                                <span data-i18n="langTitle"><i class="fa-solid fa-globe"></i> Language</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                        </div>
+        
+                        <div class="accordion-content">
+                            <div class="lang-options">
+                                <button class="lang-btn" onclick="applyLanguage('fa')">
+                                    <i class="fa-solid fa-check"></i> فارسی (Persian)
+                                </button>
+                                <button class="lang-btn" onclick="applyLanguage('en')">
+                                    <i class="fa-solid fa-check"></i> English
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <section class="hero">
@@ -414,7 +123,7 @@
         </section>
 
         <footer>
-            <p>© 2026 LinguFun. All rights reserved.</p>
+            <p>© 2026 ESL Island. All rights reserved.</p>
             <div class="social-row">
                 <a href="#" class="social-link fb"><i class="fa-brands fa-facebook"></i></a>
                 <a href="#" class="social-link tw"><i class="fa-brands fa-twitter"></i></a>
@@ -423,6 +132,83 @@
             </div>
         </footer>
     </div>
+    <script src="language.js"></script>
+    <script>
+
+
+        // تابع جدید برای سوئیچ کردن (Toggle)
+        const translations = {
+            en: {
+                home: "Home",
+                about: "About Me",
+                langTitle: "Language",
+                persian: "Persian",
+                english: "English"
+            },
+            fa: {
+                home: "خانه",
+                about: "درباره من",
+                langTitle: "زبان",
+                persian: "فارسی",
+                english: "انگلیسی"
+            }
+        };
+
+        // تایع مربوط به باز شدن منو زبان و منو لیست کتابها
+        function toggleAccordion(element) {
+            // پیدا کردن والدِ اصلیِ آکاردئون (چه در درس‌ها باشد چه در منوی زبان)
+            const item = element.closest('.accordion-item');
+            const content = item.querySelector('.accordion-content');
+            const isOpen = item.classList.contains('is-open');
+
+            if (isOpen) {
+                item.classList.remove('is-open');
+                content.style.maxHeight = null;
+            } else {
+                // بستن بقیه آکاردئون‌های باز (اختیاری برای زیبایی بیشتر)
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    el.classList.remove('is-open');
+                    el.querySelector('.accordion-content').style.maxHeight = null;
+                });
+
+                item.classList.add('is-open');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+
+        // تابع های منو همبرگری
+        function toggleMenu() {
+            const menu = document.getElementById('sideMenu');
+            const icon = document.getElementById('menuIcon');
+            const btn = document.getElementById('menuBtn');
+
+            menu.classList.toggle('active');
+            btn.classList.toggle('menu-open-rotate');
+
+            // تغییر آیکون
+            setTimeout(() => {
+                if (menu.classList.contains('active')) {
+                    icon.classList.replace('fa-bars', 'fa-xmark');
+                } else {
+                    icon.classList.replace('fa-xmark', 'fa-bars');
+                }
+            }, 150);
+
+            // مدیریت Overlay تیره
+            let overlay = document.getElementById('menu-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'menu-overlay';
+                overlay.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:999;";
+                overlay.onclick = toggleMenu;
+                document.body.appendChild(overlay);
+            }
+            overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
+        }
+
+        
+    </script>
 
 </body>
 
