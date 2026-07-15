@@ -11,7 +11,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="global.css">
+        <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
+            type="text/css" />
+        <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+            type="text/css" />
+    <link rel="stylesheet" href="../../global.css">
 
     <style>
 
@@ -21,16 +25,7 @@
             flex-direction: column;
         }
 
-        /* --- VISUAL BALANCE FOR PERSIAN LANGUAGE (FIXED ICON BUG) --- */
-        html[lang="fa"] body,
-        html[lang="fa"] button,
-        html[lang="fa"] span,
-        html[lang="fa"] p,
-        html[lang="fa"] div,
-        html[lang="fa"] h1,
-        html[lang="fa"] a {
-            font-family: 'Vazirmatn', sans-serif;
-        }
+        
 
         /* Force fontawesome to keep its own font family in Persian mode */
         html[lang="fa"] .fa-solid,
@@ -684,28 +679,33 @@
             </button>
             <div id="sideMenu" class="side-menu">
                 <div class="menu-items">
-                    <a href="index.html" data-i18n="home"><i class="fa-solid fa-house"></i> Home </a>
-        
+                    <a href="../../index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
+            
                     <div class="accordion-item lang-accordion-item">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
                             <div class="header-left">
-                                <span data-i18n="langTitle"><i class="fa-solid fa-globe"></i> Language</span>
+                                <span><i class="fa-solid fa-globe"></i> <span data-i18n="langTitle">Language</span></span>
                             </div>
                             <i class="fa-solid fa-chevron-down chevron-icon"></i>
                         </div>
-        
+            
                         <div class="accordion-content">
                             <div class="lang-options">
                                 <button class="lang-btn" onclick="applyLanguage('fa')">
-                                    <i class="fa-solid fa-check"></i> فارسی (Persian)
+                                    فارسی (Persian)
                                 </button>
                                 <button class="lang-btn" onclick="applyLanguage('en')">
-                                    <i class="fa-solid fa-check"></i> English
+                                    English
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <a href="learning.html"><i class="fa-solid fa-house"></i> Learning </a>
+                    <a href="../vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
+                            Vocabulary </span></a>
+                    <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar </span></a>
+                    <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
+                    <a href="#extras"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
+                    <a href="../aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
                 </div>
             </div>
         </header>
@@ -830,13 +830,13 @@
             <!-- Leitner Evaluation Bar -->
             <div class="evaluation-row" id="evaluationRow">
                 <button class="eval-btn hard" id="btnHard" onclick="gradeWord('hard')">
-                    <span data-i18n="badgeForgot"> Forgot ❌</span>
+                    <span data-i18n="badgeForgot"> Forgot</span>
                 </button>
                 <button class="eval-btn medium" id="btnMedium" onclick="gradeWord('medium')">
-                    <span data-i18n="badgeNotSure"> Not Sure 😐</span>
+                    <span data-i18n="badgeNotSure"> Not Sure</span>
                 </button>
                 <button class="eval-btn easy" id="btnEasy" onclick="gradeWord('easy')">
-                    <span data-i18n="badgeKnew"> Knew It 😊 </span>
+                    <span data-i18n="badgeKnew"> Knew It </span>
                 </button>
             </div>
 
@@ -856,8 +856,9 @@
             <p>© 2026 ESL Island. All rights reserved.</p>
         </footer>
     </div>
+    <audio id="globalAudioPlayer" style="display: none;"></audio>
 
-        <script src="language.js"></script>
+        <script src="../../global.js"></script>
 
 <script>
 
@@ -867,6 +868,11 @@
     const translations = {
         en: {
             home: "Home",
+            titleVocabulary: "Vocabulary",
+            titleGrammar: "Grammar",
+            titleTests: "Tests",
+            titleExtras: "Extra",
+            titleabout: "About me",
             about: "About Me",
             langTitle: "Language",
             persian: "Persian",
@@ -911,14 +917,19 @@
             featSounds: "Sounds",
             featType: "Type",
             featImage: "Image",
-            badgeForgot: "Forgot ❌",
-            badgeNotSure: "Not Sure 😐",
-            badgeKnew: "Knew It 😊",
+            badgeForgot: "Forgot",
+            badgeNotSure: "Not Sure",
+            badgeKnew: "Knew It",
             personalNotes: "My Personal Notes",
             notesPlaceholder: "Type your personal helper notes here..."
         },
         fa: {
             home: "خانه",
+            titleVocabulary: "واژگان",
+            titleGrammar: "دستور زبان",
+            titleTests: "آزمون‌ها",
+            titleExtras: "سایر",
+            titleabout: "درباره من",
             about: "درباره من",
             langTitle: "زبان",
             persian: "فارسی",
@@ -963,9 +974,9 @@
             featSounds: "تلفظ",
             featType: "نوع کلمه",
             featImage: "تصویر",
-            badgeForgot: "فراموش شده ❌",
-            badgeNotSure: "نامطمئن 😐",
-            badgeKnew: "بلد بودم 😊",
+            badgeForgot: "فراموش شده",
+            badgeNotSure: "نامطمئن",
+            badgeKnew: "بلد بودم",
             personalNotes: "یادداشت‌های من",
             notesPlaceholder: "نکات کمکی یا جملات نمونه خود را اینجا بنویسید..."
         }
@@ -1011,7 +1022,7 @@
     /* --- ۳. تابع بارگذاری دینامیک فایل جاوااسکریپت از پوشه Books --- */
     function loadDynamicDataset(bookName, callback) {
         const script = document.createElement('script');
-        script.src = `Books/${bookName}_data.js`;
+        script.src = `../../Assets/books/${bookName}_data.js`;
         script.type = 'text/javascript';
 
         script.onload = () => {
@@ -1407,12 +1418,51 @@
         renderCard();
     }
 
-    function playRealAudio(audioPath) {
+   /* function playRealAudio(audioPath) {
         if (!audioPath) return;
         if (currentAudioObject) { currentAudioObject.pause(); currentAudioObject.currentTime = 0; }
         currentAudioObject = new Audio(audioPath);
         currentAudioObject.play().catch(e => console.log("Audio play error"));
+    
     }
+
+    */
+
+
+    function playRealAudio(audioPath) {
+            if (!audioPath) return;
+
+            // ۱. اگر صدایی از قبل در حال پخش است، آن را کاملا لغو و ریست کن
+            if (currentAudioObject) {
+                currentAudioObject.pause();
+                currentAudioObject.removeAttribute('src');
+                currentAudioObject.load();
+            }
+
+            // ۲. بررسی اینکه آیا لینک مربوط به گوگل ترنسلیت است یا خیر
+            let finalUrl = audioPath;
+            if (audioPath.includes('translate.google.com')) {
+                // عبور دادن لینک گوگل از یک پروکسی CORS رایگان و معتبر
+                finalUrl = 'https://cors-anywhere.herokuapp.com/' + audioPath;
+
+                // نکته: اگر پروکسی بالا شلوغ بود یا کار نکرد، می‌توانید از پروکسی جایگزین زیر استفاده کنید:
+                // finalUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(audioPath);
+            }
+
+            // ۳. ایجاد آبجکت صوتی جدید
+            currentAudioObject = new Audio(finalUrl);
+
+            // ۴. پخش صوتی ایمن
+            const playPromise = currentAudioObject.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // پخش با موفقیت شروع شد
+                }).catch(error => {
+                    console.log("پخش صدا متوقف یا بلاک شد:", error.message);
+                });
+            }
+        }
+
 
     /* ==========================================================================
                      انیمیشن چرخش کارت و دیگر انیمیشن ها 

@@ -24,13 +24,24 @@
             --pink-light: #fdf2f8;
             --yellow-light: #fef9c3;
             --yellow-dark: #854d0e;
+
+            --main-font: 'Inter', sans-serif;
+            --main-size: 16px;
+        }
+        /* وقتی زبان فارسی است، کلاس .rtl روی تگ html قرار می‌گیرد */
+        html[lang="fa"] {
+            --main-font: 'Shabnam', sans-serif;
+            --main-size: 15px;
+            /* فونت‌های فارسی معمولاً در سایز کمی کوچکتر زیباترند */
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--main-font);
+            font-size: var(--main-size);
+            transition: font-family 0.3s ease, font-size 0.3s ease;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -39,7 +50,11 @@
             color: var(--text-dark);
             padding-bottom: 60px;
         }
-
+        h1,
+        h2,
+        h3 {
+            font-weight: 700;
+        }
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -166,7 +181,8 @@
             display: flex;
             flex-direction: column;
             gap: 18px;
-            direction: ltr !important;
+            /* در خود هر صفحه انتخابی انجام بده
+            direction: ltr !important; */
         }
 
         /* Stylized Link Cards */

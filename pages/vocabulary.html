@@ -7,7 +7,11 @@
     <title>Learn English Step by Step</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="global.css">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" href="../global.css">
 
 </head>
 
@@ -27,27 +31,33 @@
             </button>
             <div id="sideMenu" class="side-menu">
                 <div class="menu-items">
-                    <a href="index.html" data-i18n="home"><i class="fa-solid fa-house"></i> Home</a>
-                    
-                <div class="accordion-item lang-accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <div class="header-left">
-                            <span data-i18n="langTitle"><i class="fa-solid fa-globe"></i> Language</span>
+                    <a href="../index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
+            
+                    <div class="accordion-item lang-accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="header-left">
+                                <span><i class="fa-solid fa-globe"></i> <span data-i18n="langTitle">Language</span></span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron-icon"></i>
                         </div>
-                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                    </div>
-                
-                    <div class="accordion-content">
-                        <div class="lang-options">
-                            <button class="lang-btn" onclick="applyLanguage('fa')">
-                                <i class="fa-solid fa-check"></i> فارسی (Persian)
-                            </button>
-                            <button class="lang-btn" onclick="applyLanguage('en')">
-                                <i class="fa-solid fa-check"></i> English
-                            </button>
+            
+                        <div class="accordion-content">
+                            <div class="lang-options">
+                                <button class="lang-btn" onclick="applyLanguage('fa')">
+                                    فارسی (Persian)
+                                </button>
+                                <button class="lang-btn" onclick="applyLanguage('en')">
+                                    English
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <a href=""><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
+                            Vocabulary </span></a>
+                    <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar </span></a>
+                    <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
+                    <a href="#extras"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
+                    <a href="aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
                 </div>
             </div>
         </header>
@@ -107,7 +117,7 @@
                 </div>
                 <div class="accordion-content">
                     <div class="unit-list">
-                        <a href="flashcards.html?book=vision1&unit=1" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision1&unit=1" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">1</div>
                                 <i class="fa-solid fa-leaf unit-icon"></i>
@@ -118,7 +128,7 @@
                             </div>
                             <i class="fa-solid fa-chevron-right unit-arrow"></i>
                         </a>
-                        <a href="flashcards.html?book=vision1&unit=2" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision1&unit=2" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">2</div>
                                 <i class="fa-solid fa-earth-asia unit-icon"></i>
@@ -129,7 +139,7 @@
                             </div>
                             <i class="fa-solid fa-chevron-right unit-arrow"></i>
                         </a>
-                        <a href="flashcards.html?book=vision1&unit=3" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision1&unit=3" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">3</div>
                                 <i class="fa-solid fa-lightbulb unit-icon"></i>
@@ -140,7 +150,7 @@
                             </div>
                             <i class="fa-solid fa-chevron-right unit-arrow"></i>
                         </a>
-                        <a href="flashcards.html?book=vision1&unit=4" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision1&unit=4" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">4</div>
                                 <i class="fa-solid fa-plane unit-icon"></i>
@@ -171,7 +181,7 @@
                 </div>
                 <div class="accordion-content">
                     <div class="unit-list green-theme-text">
-                        <a href="flashcards.html?book=vision2&unit=1" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision2&unit=1" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">1</div>
                                 <i class="fa-solid fa-language unit-icon"></i>
@@ -182,7 +192,7 @@
                             </div>
                             <i class="fa-solid fa-chevron-right unit-arrow"></i>
                         </a>
-                        <a href="flashcards.html?book=vision2&unit=2" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision2&unit=2" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">2</div>
                                 <i class="fa-solid fa-heart-pulse unit-icon"></i>
@@ -193,7 +203,7 @@
                             </div>
                             <i class="fa-solid fa-chevron-right unit-arrow"></i>
                         </a>
-                        <a href="flashcards.html?book=vision2&unit=3" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision2&unit=3" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">3</div>
                                 <i class="fa-solid fa-palette unit-icon"></i>
@@ -224,7 +234,7 @@
                 </div>
                 <div class="accordion-content">
                     <div class="unit-list orange-theme-text">
-                        <a href="flashcards.html?book=vision3&unit=1" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision3&unit=1" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">1</div>
                                 <i class="fa-solid fa-handshake unit-icon"></i>
@@ -235,7 +245,7 @@
                             </div>
                             <i class="fa-solid fa-chevron-right unit-arrow"></i>
                         </a>
-                        <a href="flashcards.html?book=vision3&unit=2" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision3&unit=2" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">2</div>
                                 <i class="fa-solid fa-magnifying-glass unit-icon"></i>
@@ -246,7 +256,7 @@
                             </div>
                             <i class="fa-solid fa-chevron-right unit-arrow"></i>
                         </a>
-                        <a href="flashcards.html?book=vision3&unit=3" class="unit-row-item unit-link">
+                        <a href="vocabulary/enflashcards.html?book=vision3&unit=3" class="unit-row-item unit-link">
                             <div class="unit-left">
                                 <div class="unit-number-badge">3</div>
                                 <i class="fa-solid fa-bolt unit-icon"></i>
@@ -315,7 +325,7 @@
             </div>
         </footer>
     </div>
-    <script src="language.js"></script>
+    <script src="../global.js"></script>
     <script>
         
         // تابع جدید برای سوئیچ کردن (Toggle)
@@ -325,14 +335,34 @@
                     about: "About Me",
                     langTitle: "Language",
                     persian: "Persian",
-                    english: "English"
+                    english: "English",
+                    titleVocabulary: "Vocabulary",
+                    titleGrammar: "Grammar",
+                    titleTests: "Tests",
+                    titleExtras: "Extra",
+                    titleabout: "About me",
+
+                    //title section
+                    WelcomeBadge: "",
+                    heroTitle: "",
+                    heroSubtitle: ""
                 },
                 fa: {
                     home: "خانه",
                     about: "درباره من",
                     langTitle: "زبان",
                     persian: "فارسی",
-                    english: "انگلیسی"
+                    english: "انگلیسی",
+                    titleVocabulary: "واژگان",
+                    titleGrammar: "دستور زبان",
+                    titleTests: "آزمون‌ها",
+                    titleExtras: "سایر",
+                    titleabout: "درباره من",
+                    
+                    //title section
+                    WelcomeBadge: "",
+                    heroTitle: "",
+                    heroSubtitle: ""
                 }
         };
 

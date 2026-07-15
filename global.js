@@ -17,7 +17,7 @@ function applyLanguage(lang) {
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[lang][key]) {
-            element.innerText = translations[lang][key];
+            element.innerHTML = translations[lang][key];
         }
     });
     // ۲. بررسی اینکه آیا در صفحه فلش‌کارت هستیم یا خیر
@@ -96,3 +96,5 @@ function toggleAccordion(element) {
         content.style.maxHeight = content.scrollHeight + "px";
     }
 }
+
+

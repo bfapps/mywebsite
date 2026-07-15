@@ -9,8 +9,8 @@ const currentBookDatabase = {
             example: "Iranian cheetah is an endangered animal.",
             type: "adjective",
             meaning: "در خطر انقراض",
-            audio: "audio/endangered.mp3",
-            image: "images/endangered.webp"
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/endangered.mp3",
+            image: "../../Assets/img/vocabulary/Vision1/unit1/endangered.webp"
         },
         {
             id: 2,
@@ -19,7 +19,7 @@ const currentBookDatabase = {
             example: "Around 70 of them are alive.",
             type: "adjective",
             meaning: "زنده",
-            audio: "audio/alive.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/alive.mp3",
             image: ""
         },
         {
@@ -29,7 +29,7 @@ const currentBookDatabase = {
             example: "The number will increase.",
             type: "verb",
             meaning: "افزایش یافتن / دادن",
-            audio: "audio/increase.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/increase.mp3",
             image: ""
         },
         {
@@ -39,7 +39,7 @@ const currentBookDatabase = {
             example: "I heard around 70 of them are alive.",
             type: "verb",
             meaning: "شنیدن",
-            audio: "audio/hear.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/hear.mp3",
             image: ""
         },
         {
@@ -49,7 +49,7 @@ const currentBookDatabase = {
             example: "We are going to protect their homes",
             type: "verb",
             meaning: "محافظت کردن",
-            audio: "audio/protect from.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/protect from.mp3",
             image: ""
         },
         {
@@ -59,7 +59,7 @@ const currentBookDatabase = {
             example: "For example, we are going to protect their homes",
             type: "phrase",
             meaning: "برای مثال",
-            audio: "audio/for example.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/for example.mp3",
             image: ""
         },
         {
@@ -69,7 +69,7 @@ const currentBookDatabase = {
             example: "We live on Earth.",
             type: "noun",
             meaning: "زمین",
-            audio: "audio/Earth.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/Earth.mp3",
             image: ""
         },
         {
@@ -79,7 +79,7 @@ const currentBookDatabase = {
             example: "A tiger is a wild animal.",
             type: "noun",
             meaning: "ببر",
-            audio: "audio/tiger.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/tiger.mp3",
             image: ""
         },
         {
@@ -89,7 +89,7 @@ const currentBookDatabase = {
             example: "I went to Golestan Forest last year.",
             type: "noun",
             meaning: "جنگل",
-            audio: "audio/forest.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/forest.mp3",
             image: ""
         },
         {
@@ -99,7 +99,7 @@ const currentBookDatabase = {
             example: "They are destroying the jungle.",
             type: "verb",
             meaning: "نابود کردن - تخریب کردن",
-            audio: "audio/destroy.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/destroy.mp3",
             image: ""
         },
         {
@@ -109,7 +109,7 @@ const currentBookDatabase = {
             example: "The Persian lion died out about 75 years ago.",
             type: "verb",
             meaning: "منقراض شدن",
-            audio: "audio/die out.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/die out.mp3",
             image: ""
         },
         {
@@ -119,7 +119,7 @@ const currentBookDatabase = {
             example: "Pay attention! Don’t swim here.",
             type: "phrase",
             meaning: "توجه کن / کنید",
-            audio: "audio/pay attention.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/pay attention.mp3",
             image: ""
         },
         {
@@ -129,7 +129,7 @@ const currentBookDatabase = {
             example: "Tooran is the natural home of the Persian zebra.",
             type: "adjective",
             meaning: "طبیعی",
-            audio: "audio/natural.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/natural.mp3",
             image: ""
         },
         {
@@ -139,7 +139,7 @@ const currentBookDatabase = {
             example: "Moghan Plain is a nice place in the north-west of Iran.",
             type: "noun",
             meaning: "دشت",
-            audio: "audio/plain.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/plain.mp3",
             image: ""
         },
         {
@@ -149,7 +149,7 @@ const currentBookDatabase = {
             example: "They hope to save the injured animal.",
             type: "verb",
             meaning: "امیدوار بودن",
-            audio: "audio/hope.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/hope.mp3",
             image: ""
         },
         {
@@ -159,7 +159,7 @@ const currentBookDatabase = {
             example: "There are a few Iranian cheetahs.",
             type: "determiner",
             meaning: "تعداد کمی",
-            audio: "audio/a few.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/a few.mp3",
             image: ""
         },
         {
@@ -169,7 +169,7 @@ const currentBookDatabase = {
             example: "All humans must take care of nature.",
             type: "noun",
             meaning: "انسان",
-            audio: "audio/human.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/human.mp3",
             image: ""
         },
         {
@@ -179,7 +179,7 @@ const currentBookDatabase = {
             example: "There’s no coffee. Would you like a cup of tea instead?",
             type: "adverb",
             meaning: "به جای",
-            audio: "audio/instead.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/instead.mp3",
             image: ""
         },
         {
@@ -189,7 +189,7 @@ const currentBookDatabase = {
             example: "Everyone needs to plan for the future.",
             type: "noun",
             meaning: "آینده",
-            audio: "audio/future.mp3",
+            audio: "../../Assets/audio/vocabulary/Vision1/unit1/future.mp3",
             image: ""
         }
     ],
