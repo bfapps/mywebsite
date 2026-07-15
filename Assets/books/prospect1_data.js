@@ -101,6 +101,46 @@ const currentBookDatabase = {
             meaning: "دفتر یادداشت",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=notebook",
             image: "https://api.arasaac.org/api/pictograms/2359"
+        },
+        {
+            id: 11,
+            name: "ruler",
+            pronunciation: "/ˈruː.lɚ/",
+            example: "",
+            type: "noun",
+            meaning: "خط‌کش",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=ruler",
+            image: "https://api.arasaac.org/api/pictograms/2815"
+        },
+        {
+            id: 12,
+            name: "dictionary",
+            pronunciation: "/ˈdɪk.ʃən.er.i/",
+            example: "",
+            type: "noun",
+            meaning: "کتاب لغت / دیکشنری",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=dictionary",
+            image: "https://api.arasaac.org/api/pictograms/7024"
+        },
+        {
+            id: 13,
+            name: "eraser",
+            pronunciation: "/ɪˈreɪ.zɚ/",
+            example: "",
+            type: "noun",
+            meaning: "پاک‌کن",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=eraser",
+            image: ""
+        },
+        {
+            id: 14,
+            name: "bag",
+            pronunciation: "/bæɡ/",
+            example: "",
+            type: "noun",
+            meaning: "کیف",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=bag",
+            image: ""
         }
     
         
