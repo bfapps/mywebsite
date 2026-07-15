@@ -9,7 +9,7 @@ const currentBookDatabase = {
             example: "Iranian cheetah is an endangered animal.",
             type: "adjective",
             meaning: "در خطر انقراض",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/endangered.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=endangered",
             image: "../../Assets/img/vocabulary/Vision1/unit1/endangered.webp"
         },
         {
@@ -19,8 +19,8 @@ const currentBookDatabase = {
             example: "Around 70 of them are alive.",
             type: "adjective",
             meaning: "زنده",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/alive.mp3",
-            image: ""
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=alive",
+            image: "https://api.arasaac.org/api/pictograms/26071"
         },
         {
             id: 3,
@@ -29,7 +29,7 @@ const currentBookDatabase = {
             example: "The number will increase.",
             type: "verb",
             meaning: "افزایش یافتن / دادن",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/increase.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=increase",
             image: ""
         },
         {
@@ -39,7 +39,7 @@ const currentBookDatabase = {
             example: "I heard around 70 of them are alive.",
             type: "verb",
             meaning: "شنیدن",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/hear.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=hear",
             image: ""
         },
         {
@@ -49,7 +49,7 @@ const currentBookDatabase = {
             example: "We are going to protect their homes",
             type: "verb",
             meaning: "محافظت کردن",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/protect from.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=protect",
             image: ""
         },
         {
@@ -59,7 +59,7 @@ const currentBookDatabase = {
             example: "For example, we are going to protect their homes",
             type: "phrase",
             meaning: "برای مثال",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/for example.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=for+example",
             image: ""
         },
         {
@@ -69,7 +69,7 @@ const currentBookDatabase = {
             example: "We live on Earth.",
             type: "noun",
             meaning: "زمین",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/Earth.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=Earth",
             image: ""
         },
         {
@@ -79,7 +79,7 @@ const currentBookDatabase = {
             example: "A tiger is a wild animal.",
             type: "noun",
             meaning: "ببر",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/tiger.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=tiger",
             image: ""
         },
         {
@@ -89,7 +89,7 @@ const currentBookDatabase = {
             example: "I went to Golestan Forest last year.",
             type: "noun",
             meaning: "جنگل",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/forest.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=forest",
             image: ""
         },
         {
@@ -99,7 +99,7 @@ const currentBookDatabase = {
             example: "They are destroying the jungle.",
             type: "verb",
             meaning: "نابود کردن - تخریب کردن",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/destroy.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=destroy",
             image: ""
         },
         {
@@ -109,7 +109,7 @@ const currentBookDatabase = {
             example: "The Persian lion died out about 75 years ago.",
             type: "verb",
             meaning: "منقراض شدن",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/die out.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=die+out",
             image: ""
         },
         {
@@ -119,7 +119,7 @@ const currentBookDatabase = {
             example: "Pay attention! Don’t swim here.",
             type: "phrase",
             meaning: "توجه کن / کنید",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/pay attention.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=pay+attention",
             image: ""
         },
         {
@@ -129,7 +129,7 @@ const currentBookDatabase = {
             example: "Tooran is the natural home of the Persian zebra.",
             type: "adjective",
             meaning: "طبیعی",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/natural.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=natural",
             image: ""
         },
         {
@@ -139,7 +139,7 @@ const currentBookDatabase = {
             example: "Moghan Plain is a nice place in the north-west of Iran.",
             type: "noun",
             meaning: "دشت",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/plain.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=plain",
             image: ""
         },
         {
@@ -149,7 +149,7 @@ const currentBookDatabase = {
             example: "They hope to save the injured animal.",
             type: "verb",
             meaning: "امیدوار بودن",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/hope.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=hope",
             image: ""
         },
         {
@@ -159,7 +159,7 @@ const currentBookDatabase = {
             example: "There are a few Iranian cheetahs.",
             type: "determiner",
             meaning: "تعداد کمی",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/a few.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=a+few",
             image: ""
         },
         {
@@ -169,7 +169,7 @@ const currentBookDatabase = {
             example: "All humans must take care of nature.",
             type: "noun",
             meaning: "انسان",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/human.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=human",
             image: ""
         },
         {
@@ -179,7 +179,7 @@ const currentBookDatabase = {
             example: "There’s no coffee. Would you like a cup of tea instead?",
             type: "adverb",
             meaning: "به جای",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/instead.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=instead",
             image: ""
         },
         {
@@ -189,7 +189,7 @@ const currentBookDatabase = {
             example: "Everyone needs to plan for the future.",
             type: "noun",
             meaning: "آینده",
-            audio: "../../Assets/audio/vocabulary/Vision1/unit1/future.mp3",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=future",
             image: ""
         }
     ],
@@ -203,7 +203,7 @@ const currentBookDatabase = {
             example: "We can see the planets nearer to us without a telescope.",
             type: "adjective, adverb",
             meaning: "نزدیک",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=near",
             image: ""
         },
         {
@@ -213,7 +213,7 @@ const currentBookDatabase = {
             example: "Some planets are rocky like Mars.",
             type: "adjective",
             meaning: "سنگی - از جنس سنگ",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=rocky",
             image: ""
         },
         {
@@ -223,7 +223,7 @@ const currentBookDatabase = {
             example: "Planets go around the Sun in different orbits.",
             type: "noun",
             meaning: "مدار",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=orbit",
             image: ""
         },
         {
@@ -233,7 +233,7 @@ const currentBookDatabase = {
             example: "We can see Neptune only with powerful telescopes.",
             type: "adjective",
             meaning: "قدرتمند",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=powerful",
             image: ""
         },
         {
@@ -243,7 +243,7 @@ const currentBookDatabase = {
             example: "There is a big telescope in this observatory.",
             type: "noun",
             meaning: "رصد خانه",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=observatory",
             image: ""
         },
         {
@@ -253,7 +253,7 @@ const currentBookDatabase = {
             example: "Water is a type of liquid.",
             type: "noun",
             meaning: "مایع",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=liquid",
             image: ""
         },
         {
@@ -263,7 +263,7 @@ const currentBookDatabase = {
             example: "There are some drops of paint on his shirt.",
             type: "noun",
             meaning: "قطره",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=drop",
             image: ""
         },
         {
@@ -273,7 +273,7 @@ const currentBookDatabase = {
             example: "Blood cells are red and white.",
             type: "noun",
             meaning: "سلول",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=cell",
             image: ""
         },
         {
@@ -283,7 +283,7 @@ const currentBookDatabase = {
             example: "About one thousand people live in this village.",
             type: "number",
             meaning: "هزار",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=thousand",
             image: ""
         },
         {
@@ -293,7 +293,7 @@ const currentBookDatabase = {
             example: "There are many different types of microbes.",
             type: "noun",
             meaning: "میکروب",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=microbe",
             image: ""
         },
         {
@@ -303,7 +303,7 @@ const currentBookDatabase = {
             example: "Doing daily exercise is useful for everyone.",
             type: "verb phrase",
             meaning: "ورزش کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=do+exercise",
             image: ""
         },
         {
@@ -313,7 +313,7 @@ const currentBookDatabase = {
             example: "Gahar Lake is famous for its clear water.",
             type: "adjective",
             meaning: "تمیز - شفاف",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=clear",
             image: ""
         },
         {
@@ -323,7 +323,7 @@ const currentBookDatabase = {
             example: "The heart pumps blood round the body.",
             type: "verb",
             meaning: "پمپاژ کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=pump",
             image: ""
         },
         {
@@ -333,7 +333,7 @@ const currentBookDatabase = {
             example: "He is a healthy boy.",
             type: "adjective",
             meaning: "سالم - سلامت",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=healthy",
             image: ""
         },
         {
@@ -343,7 +343,7 @@ const currentBookDatabase = {
             example: "The brave soldiers defended our country.",
             type: "verb",
             meaning: "دفاع کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=defend",
             image: ""
         },
         {
@@ -353,7 +353,7 @@ const currentBookDatabase = {
             example: "Monkeys carry their babies all day long.",
             type: "verb",
             meaning: "حمل کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=carry",
             image: ""
         },
         {
@@ -363,7 +363,7 @@ const currentBookDatabase = {
             example: "The school bus collects the children each morning.",
             type: "verb",
             meaning: "جمع‌آوری کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=collect",
             image: ""
         },
         {
@@ -373,7 +373,7 @@ const currentBookDatabase = {
             example: "It’s a fact that Earth goes around the Sun.",
             type: "noun",
             meaning: "حقیقت",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=fact",
             image: ""
         }
     ],
@@ -387,7 +387,7 @@ const currentBookDatabase = {
             example: "Razi taught medicine to many young people.",
             type: "noun",
             meaning: "دارو - داروسازی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=medicine",
             image: ""
         },
         {
@@ -397,7 +397,7 @@ const currentBookDatabase = {
             example: "I was reading a book about famous Iranian scientists.",
             type: "adjective",
             meaning: "مشهور",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=famous",
             image: ""
         },
         {
@@ -407,7 +407,7 @@ const currentBookDatabase = {
             example: "Nasireddin Toosi built Maragheh Observatory.",
             type: "verb",
             meaning: "ساختن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=build",
             image: ""
         },
         {
@@ -417,7 +417,7 @@ const currentBookDatabase = {
             example: "At first I had the same idea, believe me!",
             type: "phrase",
             meaning: "باورم کن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=believe+me",
             image: ""
         },
         {
@@ -427,7 +427,7 @@ const currentBookDatabase = {
             example: "A: I can speak three languages. B: Cool!",
             type: "phrase",
             meaning: "چه جالب! / عالیه!",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=cool",
             image: ""
         },
         {
@@ -437,7 +437,7 @@ const currentBookDatabase = {
             example: "Melika tries hard to learn English.",
             type: "verb",
             meaning: "تلاش کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=try",
             image: ""
         },
         {
@@ -447,7 +447,7 @@ const currentBookDatabase = {
             example: "Babak is an energetic boy.",
             type: "adjective",
             meaning: "پر انرژی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=energetic",
             image: ""
         },
         {
@@ -457,7 +457,7 @@ const currentBookDatabase = {
             example: "The students do experiments in the school laboratory.",
             type: "phrase",
             meaning: "آزمایش کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=do+an+experiment",
             image: ""
         },
         {
@@ -467,7 +467,7 @@ const currentBookDatabase = {
             example: "Children grow up rapidly.",
             type: "verb",
             meaning: "بزرگ شدن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=grow+up",
             image: ""
         },
         {
@@ -477,7 +477,7 @@ const currentBookDatabase = {
             example: "She is doing research on blood cells.",
             type: "phrase",
             meaning: "تحقیق کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=do+research",
             image: ""
         },
         {
@@ -487,7 +487,7 @@ const currentBookDatabase = {
             example: "He has the flu and feels weak.",
             type: "phrase",
             meaning: "احساس ضعف کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=feel+weak",
             image: ""
         },
         {
@@ -497,7 +497,7 @@ const currentBookDatabase = {
             example: "No success is possible without hard work.",
             type: "noun",
             meaning: "موفقیت",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=success",
             image: ""
         },
         {
@@ -507,7 +507,7 @@ const currentBookDatabase = {
             example: "Edison invented the first light bulb.",
             type: "verb",
             meaning: "اختراع کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=invent",
             image: ""
         },
         {
@@ -517,7 +517,7 @@ const currentBookDatabase = {
             example: "We can help you solve your problems.",
             type: "verb",
             meaning: "حل کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=solve",
             image: ""
         },
         {
@@ -527,7 +527,7 @@ const currentBookDatabase = {
             example: "This book can develop your speaking skill.",
             type: "verb",
             meaning: "گسترش دادن - توسعه دادن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=develop",
             image: ""
         },
         {
@@ -537,7 +537,7 @@ const currentBookDatabase = {
             example: "Her belief in Allah gave her hope during difficult times.",
             type: "noun",
             meaning: "اعتقاد",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=belief",
             image: ""
         },
         {
@@ -547,7 +547,7 @@ const currentBookDatabase = {
             example: "1- Fortunately, his father is going to quit smoking. 2- He gave up his work without saying anything to us.",
             type: "verb",
             meaning: "ترک کردن - دست کشیدن از",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=quit+or+give+up",
             image: ""
         },
         {
@@ -557,7 +557,7 @@ const currentBookDatabase = {
             example: "There are thousands of things I want to do.",
             type: "phrase",
             meaning: "هزاران",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=thousands+of",
             image: ""
         }
     ],
@@ -571,7 +571,7 @@ const currentBookDatabase = {
             example: "He is planning for his summer vacation.",
             type: "noun, verb",
             meaning: "برنامه - برنامه‌ریزی کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=plan",
             image: ""
         },
         {
@@ -581,7 +581,7 @@ const currentBookDatabase = {
             example: "He is a travel agent in Madrid.",
             type: "noun",
             meaning: "نماینده - مامور (آژانس)",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=agent",
             image: ""
         },
         {
@@ -591,7 +591,7 @@ const currentBookDatabase = {
             example: "You may have 3 choices.",
             type: "noun",
             meaning: "گزینه - انتخاب",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=choice",
             image: ""
         },
         {
@@ -601,7 +601,7 @@ const currentBookDatabase = {
             example: "Probably Iran is the best choice.",
             type: "adverb",
             meaning: "احتمالا",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=probably",
             image: ""
         },
         {
@@ -611,7 +611,7 @@ const currentBookDatabase = {
             example: "Its people are very kind and hospitable.",
             type: "adjective",
             meaning: "مهمان‌نواز",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=hospitable",
             image: ""
         },
         {
@@ -621,7 +621,7 @@ const currentBookDatabase = {
             example: "I am not sure about my destination. Do you have any suggestion?",
             type: "noun",
             meaning: "پیشنهاد",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=suggestion",
             image: ""
         },
         {
@@ -631,7 +631,7 @@ const currentBookDatabase = {
             example: "Mehrabad is one of the first international airports of Iran.",
             type: "adjective",
             meaning: "بین‌المللی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=international",
             image: ""
         },
         {
@@ -641,7 +641,7 @@ const currentBookDatabase = {
             example: "There are more than 100 pyramids in Egypt.",
             type: "noun",
             meaning: "هرم",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=pyramid",
             image: ""
         },
         {
@@ -651,7 +651,7 @@ const currentBookDatabase = {
             example: "Ancient wind towers of Iran are attractive to tourists.",
             type: "adjective",
             meaning: "باستانی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=ancient",
             image: ""
         },
         {
@@ -661,7 +661,7 @@ const currentBookDatabase = {
             example: "Around one billion people live in India.",
             type: "number",
             meaning: "میلیارد",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=billion",
             image: ""
         },
         {
@@ -671,7 +671,7 @@ const currentBookDatabase = {
             example: "Camels can travel across hot and dry deserts with little food and water.",
             type: "noun",
             meaning: "صحرا - بیابان",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=desert",
             image: ""
         },
         {
@@ -681,7 +681,7 @@ const currentBookDatabase = {
             example: "He plays the piano only for his entertainment.",
             type: "noun",
             meaning: "سرگرمی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=entertainment",
             image: ""
         },
         {
@@ -691,7 +691,7 @@ const currentBookDatabase = {
             example: "Domestic flights are cheaper than international flights.",
             type: "adjective",
             meaning: "داخلی (کشور)",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=domestic",
             image: ""
         },
         {
@@ -701,7 +701,7 @@ const currentBookDatabase = {
             example: "Alice is studying Persian language and culture.",
             type: "noun",
             meaning: "فرهنگ",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=culture",
             image: ""
         },
         {
@@ -711,7 +711,7 @@ const currentBookDatabase = {
             example: "This shop sells a wide range of garden fruits.",
             type: "noun",
             meaning: "محدوده - تنوع - مجموعه",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=range",
             image: ""
         }
     ]

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinguFun Pro Flashcards & Quizzes</title>
+    <meta name="referrer" content="no-referrer">
     <!-- Font Awesome for sleek professional icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Inter (English) & Vazirmatn (Persian) -->
@@ -1373,7 +1374,7 @@
         }
     }
 
-    function toggleStar(wordId) {
+  /*  function toggleStar(wordId) {
         let starredList = getStarredList();
         if (starredList.includes(wordId)) {
             starredList = starredList.filter(id => id !== wordId);
@@ -1382,7 +1383,36 @@
         }
         localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(starredList));
         applyFilters();
-    }
+    } */
+
+    function toggleStar(wordId) {
+            let starredList = getStarredList();
+            const isStarredCurrently = starredList.includes(wordId);
+
+            if (isStarredCurrently) {
+                starredList = starredList.filter(id => id !== wordId);
+            } else {
+                starredList.push(wordId);
+            }
+            localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(starredList));
+
+            // اگر فیلتر "فقط ستاره‌دارها" فعال نیست، نیازی نیست کل فیلترها را از اول اجرا کنیم
+            if (!isStarredFilterActive) {
+                const starIcon = document.querySelector('.star-icon');
+                if (starIcon) {
+                    if (!isStarredCurrently) {
+                        starIcon.classList.remove('fa-regular');
+                        starIcon.classList.add('fa-solid', 'starred');
+                    } else {
+                        starIcon.classList.remove('fa-solid', 'starred');
+                        starIcon.classList.add('fa-regular');
+                    }
+                }
+            } else {
+                // اگر فیلتر فعال است، فیلترها را با حفظ کارت فعلی اعمال می‌کنیم
+                applyFilters();
+            }
+        }
 
     function toggleShuffle() {
         isShuffleActive = !isShuffleActive;
@@ -1402,7 +1432,7 @@
         applyFilters();
     }
 
-    function applyFilters() {
+  /*  function applyFilters() {
         let base = [...masterDataset];
         if (isStarredFilterActive) {
             const starredList = getStarredList();
@@ -1416,7 +1446,42 @@
         workingDataset = base;
         currentIndex = 0;
         renderCard();
-    }
+    } */
+
+    function applyFilters() {
+            // ذخیره شناسه کلمه‌ای که در حال حاضر کاربر دارد آن را می‌بیند
+            const currentWordId = workingDataset[currentIndex]?.id;
+
+            let base = [...masterDataset];
+            if (isStarredFilterActive) {
+                const starredList = getStarredList();
+                base = base.filter(w => starredList.includes(w.id));
+            }
+            if (isWeakFilterActive) {
+                const statusList = getWordsStatus();
+                base = base.filter(w => statusList[w.id] === 'hard' || statusList[w.id] === 'medium');
+            }
+            if (isShuffleActive) base.sort(() => Math.random() - 0.5);
+            workingDataset = base;
+
+            // پیدا کردن جایگاه جدید همان کلمه در لیست فیلتر شده جدید
+            if (currentWordId) {
+                const newIndex = workingDataset.findIndex(w => w.id === currentWordId);
+                if (newIndex !== -1) {
+                    currentIndex = newIndex; // ماندن روی همان کلمه قبلی
+                } else {
+                    // اگر کلمه دیگر در لیست فیلتر شده وجود نداشت (مثلا ستاره‌اش را برداشتید)
+                    // ایندکس را کنترل می‌کنیم تا از طول آرایه جدید فراتر نرود
+                    if (currentIndex >= workingDataset.length) {
+                        currentIndex = Math.max(0, workingDataset.length - 1);
+                    }
+                }
+            } else {
+                currentIndex = 0;
+            }
+
+            renderCard();
+        }
 
    /* function playRealAudio(audioPath) {
         if (!audioPath) return;
@@ -1429,7 +1494,7 @@
     */
 
 
-    function playRealAudio(audioPath) {
+    function playRealAudio(audioPath, wordText) {
             if (!audioPath) return;
 
             // ۱. متوقف کردن صدای قبلی برای جلوگیری از تداخل
@@ -1439,17 +1504,51 @@
                 currentAudioObject.load();
             }
 
-            // ۲. ساخت مستقیم آبجکت صوتی از روی آدرس گوگل ترنسلیت استاندارد
-            currentAudioObject = new Audio(audioPath);
+            // ۲. تعریف تابع پشتیبان (Fallback) برای استفاده از سخنگوی مرورگر
+            const playFallbackTTS = () => {
+                try {
+                    // اگر پارامتر دوم فرستاده شده بود از آن استفاده کند، در غیر این صورت آن را از لینک گوگل استخراج کند
+                    let textToSpeak = wordText;
 
-            // ۳. پخش صدا
+                    if (!textToSpeak && typeof audioPath === 'string') {
+                        if (audioPath.includes('translate.google.com')) {
+                            const urlObj = new URL(audioPath);
+                            textToSpeak = urlObj.searchParams.get('q');
+                        } else {
+                            // اگر لینک محلی بود (مثلاً audio/respect.mp3)، نام فایل را به عنوان کلمه در نظر بگیرد
+                            const fileName = audioPath.split('/').pop().split('.')[0];
+                            textToSpeak = fileName.replace(/[-_]/g, ' '); // جایگزینی خط فاصله با اسپیس
+                        }
+                    }
+
+                    if (textToSpeak) {
+                        window.speechSynthesis.cancel(); // لغو سخنگوی قبلی
+                        const utterance = new SpeechSynthesisUtterance(decodeURIComponent(textToSpeak));
+                        utterance.lang = 'en-US';
+                        utterance.rate = 0.9;
+                        window.speechSynthesis.speak(utterance);
+                        console.log("صدا از طریق سخنگوی مرورگر (TTS) پخش شد.");
+                    }
+                } catch (e) {
+                    console.log("حتی سخنگوی مرورگر هم پشتیبانی نمی‌شود یا با خطا مواجه شد:", e.message);
+                }
+            };
+
+            // ۳. ساخت المان صوتی جدید و تنظیم عدم ارسال هویت سایت (برای دور زدن فیلتر گوگل)
+            currentAudioObject = document.createElement('audio');
+            currentAudioObject.referrerPolicy = "no-referrer";
+            currentAudioObject.src = audioPath;
+
+            // ۴. تلاش برای پخش فایل صوتی (چه گوگل، چه فایل داخل پوشه‌ها)
             const playPromise = currentAudioObject.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    // پخش با موفقیت انجام شد
+                    // پخش فایل صوتی با موفقیت انجام شد
                 }).catch(error => {
-                    if (error.name === 'AbortError') return; // نادیده گرفتن توقف‌های تعمدی
-                    console.log("خطا در پخش صدا:", error.message);
+                    if (error.name === 'AbortError') return; // نادیده گرفتن توقف تعمدی کاربر
+
+                    console.log("لود فایل صوتی ناموفق بود؛ سوئیچ روی سخنگوی مرورگر...");
+                    playFallbackTTS();
                 });
             }
         }

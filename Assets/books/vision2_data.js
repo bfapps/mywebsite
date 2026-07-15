@@ -1,6 +1,6 @@
 // vision2_data.js
 const currentBookDatabase = {
-    // کلمات مربوط به ویژن 2 - یونیت 1)
+    // کلمات مربوط به ویژن 2 - یونیت 1
     "u1": [
         {
             id: 1,
@@ -9,7 +9,7 @@ const currentBookDatabase = {
             example: "Besides my mother tongue, Persian, I know English well.",
             type: "adverb, preposition",
             meaning: "علاوه بر",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=besides",
             image: ""
         },
         {
@@ -19,7 +19,7 @@ const currentBookDatabase = {
             example: "Besides my mother tongue, Persian, I know English well.",
             type: "noun",
             meaning: "زبان مادری",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=mother+tongue",
             image: ""
         },
         {
@@ -29,7 +29,7 @@ const currentBookDatabase = {
             example: "My experience says interest and hard work are really more important than age.",
             type: "noun",
             meaning: "تجربه",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=experience",
             image: ""
         },
         {
@@ -39,7 +39,7 @@ const currentBookDatabase = {
             example: "My favorite language is absolutely my mother tongue!",
             type: "adverb",
             meaning: "قطعا",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=absolutely",
             image: ""
         },
         {
@@ -49,7 +49,7 @@ const currentBookDatabase = {
             example: "Can you speak English fluently?",
             type: "adverb",
             meaning: "روان - به روانی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=fluently",
             image: ""
         },
         {
@@ -59,7 +59,7 @@ const currentBookDatabase = {
             example: "To be honest, I enjoy using them all.",
             type: "phrase",
             meaning: "اگر بخوام صادق باشم",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=to+be+honest",
             image: ""
         },
         {
@@ -69,7 +69,7 @@ const currentBookDatabase = {
             example: "That’s an important point.",
             type: "noun",
             meaning: "نکته",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=point",
             image: ""
         },
         {
@@ -79,7 +79,7 @@ const currentBookDatabase = {
             example: "Mazandaran is one of the best farming regions of Iran.",
             type: "noun",
             meaning: "منطقه",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=region",
             image: ""
         },
         {
@@ -89,7 +89,7 @@ const currentBookDatabase = {
             example: "Asia is the largest continent of the world.",
             type: "noun",
             meaning: "قاره",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=continent",
             image: ""
         },
         {
@@ -99,7 +99,7 @@ const currentBookDatabase = {
             example: "Does water really exist on Mars?",
             type: "verb",
             meaning: "وجود داشتن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=exist",
             image: ""
         },
         {
@@ -109,7 +109,7 @@ const currentBookDatabase = {
             example: "Spanish is Diego’s native language.",
             type: "adjective",
             meaning: "بومی - مادری",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=native",
             image: ""
         },
         {
@@ -119,7 +119,7 @@ const currentBookDatabase = {
             example: "Dictionary prices range from $5 to $15.",
             type: "verb",
             meaning: "در محدوده (از ... تا ...) قرار داشتن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=range+from+to",
             image: ""
         },
         {
@@ -129,7 +129,7 @@ const currentBookDatabase = {
             example: "Rice is the most popular food in Iran.",
             type: "adjective",
             meaning: "محبوب - پرطرفدار",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=popular",
             image: ""
         },
         {
@@ -139,7 +139,7 @@ const currentBookDatabase = {
             example: "Today, less than 40 percent of people live in villages.",
             type: "noun",
             meaning: "درصد",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=percent",
             image: ""
         },
         {
@@ -149,7 +149,7 @@ const currentBookDatabase = {
             example: "Imagine you are traveling in space.",
             type: "verb",
             meaning: "تصور کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=imagine",
             image: ""
         },
         {
@@ -159,7 +159,7 @@ const currentBookDatabase = {
             example: "Scientists say that by 2050, wind power can meet the needs of the world.",
             type: "verb phrase",
             meaning: "برآورده کردن نیازهایِ",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=meet+the+needs+of",
             image: ""
         },
         {
@@ -169,7 +169,7 @@ const currentBookDatabase = {
             example: "We are living in the twenty-first century.",
             type: "noun",
             meaning: "قرن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=century",
             image: ""
         },
         {
@@ -179,7 +179,7 @@ const currentBookDatabase = {
             example: "Our teacher tried to explain the new word by means of sign language.",
             type: "phrase",
             meaning: "به وسیله‌ی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=by+means+of",
             image: ""
         },
         {
@@ -189,7 +189,7 @@ const currentBookDatabase = {
             example: "We live in an Islamic society.",
             type: "noun",
             meaning: "جامعه",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=society",
             image: ""
         },
         {
@@ -199,7 +199,7 @@ const currentBookDatabase = {
             example: "Human’s ability to talk makes him different from animals.",
             type: "noun",
             meaning: "توانایی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=ability",
             image: ""
         },
         {
@@ -209,7 +209,7 @@ const currentBookDatabase = {
             example: "In some cities, prices vary from shop to shop.",
             type: "verb",
             meaning: "تفاوت داشتن - متغیر بودن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=vary",
             image: ""
         },
         {
@@ -219,7 +219,7 @@ const currentBookDatabase = {
             example: "China makes up 18% of the world's population.",
             type: "verb",
             meaning: "تشکیل دادن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=make+up",
             image: ""
         },
         {
@@ -229,12 +229,12 @@ const currentBookDatabase = {
             example: "I enjoy the weekend, despite the bad weather.",
             type: "preposition",
             meaning: "علی‌رغم - با وجودِ",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=despite",
             image: ""
         }
     ],
 
-    // نمونه کلمات برای ویژن 2 - یونیت 2
+    // کلمات برای ویژن 2 - یونیت 2
     "u2": [
         {
             id: 1,
@@ -243,7 +243,7 @@ const currentBookDatabase = {
             example: "I rarely go out and hang out with my friends.",
             type: "adverb",
             meaning: "به ندرت",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=rarely",
             image: ""
         },
         {
@@ -253,7 +253,7 @@ const currentBookDatabase = {
             example: "Stop being a couch potato!",
             type: "noun",
             meaning: "تنبل (فردی که مدام پای تلویزیون می‌نشیند و تحرک ندارد)",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=couch+potato",
             image: ""
         },
         {
@@ -263,7 +263,7 @@ const currentBookDatabase = {
             example: "I’ve gained five kilos in three months.",
             type: "verb phrase",
             meaning: "وزن اضافه کردن - چاق شدن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=gain+weight",
             image: ""
         },
         {
@@ -273,7 +273,7 @@ const currentBookDatabase = {
             example: "Working with computers for a long time makes people sick and depressed.",
             type: "adjective",
             meaning: "افسردہ",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=depressed",
             image: ""
         },
         {
@@ -283,7 +283,7 @@ const currentBookDatabase = {
             example: "All right. You won!",
             type: "phrase",
             meaning: "تو بردی!",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=you+won",
             image: ""
         },
         {
@@ -293,7 +293,7 @@ const currentBookDatabase = {
             example: "Eating vegetables is an important part of a healthy diet.",
             type: "noun",
             meaning: "رژیم غذایی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=diet",
             image: ""
         },
         {
@@ -303,7 +303,7 @@ const currentBookDatabase = {
             example: "The doctor is listening to my grandfather’s heartbeat.",
             type: "noun",
             meaning: "ضربان قلب",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=heartbeat",
             image: ""
         },
         {
@@ -313,7 +313,7 @@ const currentBookDatabase = {
             example: "My uncle has high blood pressure.",
             type: "noun",
             meaning: "فشار خون",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=blood+pressure",
             image: ""
         },
         {
@@ -323,7 +323,7 @@ const currentBookDatabase = {
             example: "My sister measures herself every month.",
             type: "verb",
             meaning: "اندازه‌گیری کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=measure",
             image: ""
         },
         {
@@ -333,7 +333,7 @@ const currentBookDatabase = {
             example: "Our neighbor had a heart attack yesterday.",
             type: "noun",
             meaning: "حمله قلبی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=heart+attack",
             image: ""
         },
         {
@@ -343,7 +343,7 @@ const currentBookDatabase = {
             example: "One serving of rice is not enough for them.",
             type: "noun",
             meaning: "پرس - وعده (غذا)",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=serving",
             image: ""
         },
         {
@@ -353,7 +353,7 @@ const currentBookDatabase = {
             example: "Smoking is harmful to everyone.",
             type: "adjective",
             meaning: "مضر - زیان‌آور",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=harmful",
             image: ""
         },
         {
@@ -363,7 +363,7 @@ const currentBookDatabase = {
             example: "Arash has a bad eating habit.",
             type: "noun",
             meaning: "عادت",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=habit",
             image: ""
         },
         {
@@ -373,7 +373,7 @@ const currentBookDatabase = {
             example: "Today, addiction to technology is a big problem.",
             type: "noun",
             meaning: "اعتیاد",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=addiction",
             image: ""
         },
         {
@@ -383,7 +383,7 @@ const currentBookDatabase = {
             example: "Swimming is a physical sport.",
             type: "adjective",
             meaning: "جسمانی - فیزیکی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=physical",
             image: ""
         },
         {
@@ -393,7 +393,7 @@ const currentBookDatabase = {
             example: "My teacher has a very calm manner.",
             type: "adjective",
             meaning: "آرام",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=calm",
             image: ""
         },
         {
@@ -403,7 +403,7 @@ const currentBookDatabase = {
             example: "A balanced diet contains lots of fruits and green vegetables.",
             type: "adjective",
             meaning: "متعادل - متوازن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=balanced",
             image: ""
         },
         {
@@ -413,7 +413,7 @@ const currentBookDatabase = {
             example: "The price of bananas has increased in recent weeks.",
             type: "adjective",
             meaning: "اخیر",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=recent",
             image: ""
         },
         {
@@ -423,7 +423,7 @@ const currentBookDatabase = {
             example: "Her doctor said the problem was more emotional than physical.",
             type: "adjective",
             meaning: "روحی - عاطفی - احساسی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=emotional",
             image: ""
         },
         {
@@ -433,7 +433,7 @@ const currentBookDatabase = {
             example: "Daily exercise can prevent diseases.",
             type: "verb",
             meaning: "پیشگیری کردن - جلوگیری کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=prevent",
             image: ""
         },
         {
@@ -443,12 +443,12 @@ const currentBookDatabase = {
             example: "She has a very good relationship with her aunt.",
             type: "noun",
             meaning: "رابطه",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=relationship",
             image: ""
         }
     ],
 
-    // نمونه کلمات برای ویژن 2 - یونیت 3
+    // کلمات برای ویژن 2 - یونیت 3
     "u3": [
         {
             id: 1,
@@ -457,7 +457,7 @@ const currentBookDatabase = {
             example: "The price depends on its size.",
             type: "verb phrase",
             meaning: "بستگی داشتن به",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=depend+on",
             image: ""
         },
         {
@@ -467,7 +467,7 @@ const currentBookDatabase = {
             example: "How touching this Gabbeh is!",
             type: "phrase",
             meaning: "چقدر تأثیرگذار! / چقدر احساس‌برانگیز!",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=how+touching",
             image: ""
         },
         {
@@ -477,7 +477,7 @@ const currentBookDatabase = {
             example: "If you buy more than 100 dollars, you’ll get a 20 percent discount.",
             type: "noun",
             meaning: "تخفیف",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=discount",
             image: ""
         },
         {
@@ -487,7 +487,7 @@ const currentBookDatabase = {
             example: "If you are interested in knowing more about our products, you can check this booklet.",
             type: "noun",
             meaning: "محصول",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=product",
             image: ""
         },
         {
@@ -497,7 +497,7 @@ const currentBookDatabase = {
             example: "Please pack them for me.",
             type: "noun - verb",
             meaning: "بسته - بسته‌بندی کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=pack",
             image: ""
         },
         {
@@ -507,7 +507,7 @@ const currentBookDatabase = {
             example: "My aunt bought a decorative wall clock.",
             type: "adjective",
             meaning: "تزیینی - دکوری",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=decorative",
             image: ""
         },
         {
@@ -517,7 +517,7 @@ const currentBookDatabase = {
             example: "Iran is a vast country in Southwest Asia.",
             type: "adjective",
             meaning: "وسیع - پهناور",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=vast",
             image: ""
         },
         {
@@ -527,7 +527,7 @@ const currentBookDatabase = {
             example: "Iranian craftsmen and craftswomen are hard-working people.",
             type: "noun",
             meaning: "صنعتگر - هنرمند صنایع دستی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=craftsman+or+craftswoman",
             image: ""
         },
         {
@@ -537,7 +537,7 @@ const currentBookDatabase = {
             example: "He is weaving a rug.",
             type: "verb",
             meaning: "بافتن (قالی، پارچه و...)",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=weave",
             image: ""
         },
         {
@@ -547,7 +547,7 @@ const currentBookDatabase = {
             example: "Gold and silver are valuable metals.",
             type: "noun",
             meaning: "فلز",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=metal",
             image: ""
         },
         {
@@ -557,7 +557,7 @@ const currentBookDatabase = {
             example: "Each person’s fingerprint is unique.",
             type: "adjective",
             meaning: "منحصر به فرد - بی‌همتا",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=unique",
             image: ""
         },
         {
@@ -567,7 +567,7 @@ const currentBookDatabase = {
             example: "The animal diversity of Lorestan is amazing.",
             type: "noun",
             meaning: "تنوع - گوناگونی",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=diversity",
             image: ""
         },
         {
@@ -577,7 +577,7 @@ const currentBookDatabase = {
             example: "My uncle is interested in old local customs.",
             type: "noun",
             meaning: "رسم - سنت",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=custom",
             image: ""
         },
         {
@@ -587,7 +587,7 @@ const currentBookDatabase = {
             example: "The policeman is searching for the identity of that man.",
             type: "noun",
             meaning: "هویت",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=identity",
             image: ""
         },
         {
@@ -597,7 +597,7 @@ const currentBookDatabase = {
             example: "This poem reflects the poet’s love of nature.",
             type: "verb",
             meaning: "منعکس کردن - بازتاب دادن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=reflect",
             image: ""
         },
         {
@@ -607,7 +607,7 @@ const currentBookDatabase = {
             example: "The World Wars have been really bad for humankind.",
             type: "noun",
             meaning: "بشریت - نوع بشر",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=humankind",
             image: ""
         },
         {
@@ -617,7 +617,7 @@ const currentBookDatabase = {
             example: "Each society appreciates its art and culture.",
             type: "verb",
             meaning: "قدر دانستن - ارزش قائل شدن - قدردانی کردن",
-            audio: "",
+            audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=appreciate",
             image: ""
         }
     ]
