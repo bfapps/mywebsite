@@ -90,7 +90,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "کتاب",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=book",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/2450"
         },
         {
             id: 10,
@@ -100,7 +100,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "دفتر یادداشت",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=notebook",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/2359"
         }
     
         
