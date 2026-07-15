@@ -1432,37 +1432,27 @@
     function playRealAudio(audioPath) {
             if (!audioPath) return;
 
-            // ۱. اگر صدایی از قبل در حال پخش است، آن را کاملا لغو و ریست کن
+            // ۱. متوقف کردن صدای قبلی برای جلوگیری از تداخل
             if (currentAudioObject) {
                 currentAudioObject.pause();
                 currentAudioObject.removeAttribute('src');
                 currentAudioObject.load();
             }
 
-            // ۲. بررسی اینکه آیا لینک مربوط به گوگل ترنسلیت است یا خیر
-            let finalUrl = audioPath;
-            if (audioPath.includes('translate.google.com')) {
-                // عبور دادن لینک گوگل از یک پروکسی CORS رایگان و معتبر
-                finalUrl = 'https://cors-anywhere.herokuapp.com/' + audioPath;
+            // ۲. ساخت مستقیم آبجکت صوتی از روی آدرس گوگل ترنسلیت استاندارد
+            currentAudioObject = new Audio(audioPath);
 
-                // نکته: اگر پروکسی بالا شلوغ بود یا کار نکرد، می‌توانید از پروکسی جایگزین زیر استفاده کنید:
-                // finalUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(audioPath);
-            }
-
-            // ۳. ایجاد آبجکت صوتی جدید
-            currentAudioObject = new Audio(finalUrl);
-
-            // ۴. پخش صوتی ایمن
+            // ۳. پخش صدا
             const playPromise = currentAudioObject.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    // پخش با موفقیت شروع شد
+                    // پخش با موفقیت انجام شد
                 }).catch(error => {
-                    console.log("پخش صدا متوقف یا بلاک شد:", error.message);
+                    if (error.name === 'AbortError') return; // نادیده گرفتن توقف‌های تعمدی
+                    console.log("خطا در پخش صدا:", error.message);
                 });
             }
         }
-
 
     /* ==========================================================================
                      انیمیشن چرخش کارت و دیگر انیمیشن ها 
