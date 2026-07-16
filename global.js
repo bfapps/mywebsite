@@ -24,6 +24,16 @@ function applyLanguage(lang) {
     if (typeof renderCard === 'function') {
         renderCard(); // فراخوانی مجدد برای رندر مجدد کارت‌ها
     }
+
+    //  در صفحه منو یونیت های هر درس. فراخوانی مجدد تابع رندر برای بازسازی درس‌ها با زبان جدید
+    if (typeof prospectData !== 'undefined' && typeof visionData !== 'undefined') {
+        renderBookUnits("prospect1", "prospect1-list", prospectData);
+        renderBookUnits("prospect2", "prospect2-list", prospectData);
+        renderBookUnits("prospect3", "prospect3-list", prospectData);
+        renderBookUnits("vision1", "vision1-list", visionData);
+        renderBookUnits("vision2", "vision2-list", visionData);
+        renderBookUnits("vision3", "vision3-list", visionData);
+    }
 }
 
 // تشخیص زبان سیستم هنگام ورود

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinguFun Pro Flashcards & Quizzes</title>
+    <title>ESl Island Pro Flashcards & Quizzes</title>
     <meta name="referrer" content="no-referrer">
     <!-- Font Awesome for sleek professional icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,7 +16,7 @@
             type="text/css" />
         <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
             type="text/css" />
-    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="../../../global.css">
 
     <style>
 
@@ -680,7 +680,7 @@
             </button>
             <div id="sideMenu" class="side-menu">
                 <div class="menu-items">
-                    <a href="../../index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
+                    <a href="../../../index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
             
                     <div class="accordion-item lang-accordion-item">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -701,12 +701,12 @@
                             </div>
                         </div>
                     </div>
-                    <a href="../vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
+                    <a href="vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
                             Vocabulary </span></a>
                     <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar </span></a>
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
                     <a href="#extras"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
-                    <a href="../aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
+                    <a href="../../aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
                 </div>
             </div>
         </header>
@@ -859,7 +859,7 @@
     </div>
     <audio id="globalAudioPlayer" style="display: none;"></audio>
 
-        <script src="../../global.js"></script>
+        <script src="../../../global.js"></script>
 
 <script>
 
@@ -897,7 +897,7 @@
             knewItText: "Knew It 😊",
             prev: "Previous",
             next: "Next",
-            footer: "© 2026 LinguFun. Smart Learning Studio.",
+            footer: "© 2026 ESl Island. Smart Learning Studio.",
             noMatches: "No Matches Found",
             noMatchesSub: "Try changing your active filters above.",
             tapClues: "Tap clues below to flip",
@@ -1023,7 +1023,7 @@
     /* --- ۳. تابع بارگذاری دینامیک فایل جاوااسکریپت از پوشه Books --- */
     function loadDynamicDataset(bookName, callback) {
         const script = document.createElement('script');
-        script.src = `../../Assets/books/${bookName}_data.js`;
+        script.src = `${bookName}_data.js`;
         script.type = 'text/javascript';
 
         script.onload = () => {

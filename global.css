@@ -596,7 +596,8 @@
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
-                direction: ltr !important;
+                /* این گزینه رو در هر فایل خودش تغییر میدهیم */
+                /* direction: ltr !important; */
             }
     
             .accordion-item {
