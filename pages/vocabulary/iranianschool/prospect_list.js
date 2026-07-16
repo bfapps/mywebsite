@@ -127,19 +127,51 @@ const prospectData = {
     prospect3: [
         {
             unit: 1,
-            icon: "",
-            titleEn: "Lesson 1 – My Nationality",
-            titleFa: "درس ۱ – ملیت من",
-            descEn: "Talking about Nationalities",
-            descFa: "صحبت درباره ملیت‌ها"
+            icon: "fa-solid fa-masks-theater", // نماد ماسک‌های تئاتر و شخصیت‌های مختلف انسانی
+            titleEn: "Lesson 1 – Personality",
+            titleFa: "درس ۱ – شخصیت",
+            descEn: "Talking about Personality",
+            descFa: "صحبت درباره ویژگی‌های شخصیتی"
         },
         {
             unit: 2,
-            icon: "",
-            titleEn: "Lesson 2 – My Week",
-            titleFa: "درس ۲ – هفته من",
-            descEn: "Talking about Daily Activities",
-            descFa: "صحبت درباره فعالیت‌های روزانه"
+            icon: "fa-solid fa-passport", // نماد پاسپورت و مدارک سفر برای مسافرت
+            titleEn: "Lesson 2 – Travel",
+            titleFa: "درس ۲ – سفر",
+            descEn: "Talking about Travel",
+            descFa: "صحبت درباره سفر و مسافرت"
+        },
+        {
+            unit: 3,
+            icon: "fa-solid fa-gifts", // نماد کادوها و جشن‌ها برای فستیوال‌ها و مراسم‌ها
+            titleEn: "Lesson 3 – Festivals & Ceremonies",
+            titleFa: "درس ۳ – جشنواره‌ها و مراسم‌ها",
+            descEn: "Talking about Festivals and Ceremonies",
+            descFa: "صحبت درباره جشنواره‌ها و آیین‌ها"
+        },
+        {
+            unit: 4,
+            icon: "fa-solid fa-bell-concierge", // نماد زنگ خدمات یا سرویس‌دهی
+            titleEn: "Lesson 4 – Services",
+            titleFa: "درس ۴ – خدمات",
+            descEn: "Talking about Service",
+            descFa: "صحبت درباره خدمات عمومی و رفاهی"
+        },
+        {
+            unit: 5,
+            icon: "fa-solid fa-tv", // نماد تلویزیون و رسانه‌های جمعی
+            titleEn: "Lesson 5 – Media",
+            titleFa: "درس ۵ – رسانه‌ها",
+            descEn: "Talking about Media",
+            descFa: "صحبت درباره رسانه‌ها و اخبار"
+        },
+        {
+            unit: 6,
+            icon: "fa-solid fa-user-injured", // نماد فرد آسیب‌دیده برای مبحث سلامت و جراحت‌ها
+            titleEn: "Lesson 6 – Health & Injuries",
+            titleFa: "درس ۶ – سلامت و جراحت‌ها",
+            descEn: "Talking about Health & Injuries",
+            descFa: "صحبت درباره وضعیت سلامتی و آسیب‌دیدگی‌ها"
         }
     ]
 };
