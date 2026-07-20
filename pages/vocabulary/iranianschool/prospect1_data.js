@@ -130,7 +130,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "پاک‌کن",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=eraser",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/2409"
         },
         {
             id: 14,
@@ -216,7 +216,7 @@ const currentBookDatabase = {
             type: "verb",
             meaning: "نشستن",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=sit%20down",
-            image: "https://plus.unsplash.com/premium_vector-1721378115229-00dd2d5ea69f?fm=jpg&q=60&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            image: ""
         },
         {
             id: 2,
