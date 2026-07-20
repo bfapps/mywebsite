@@ -216,7 +216,7 @@ const currentBookDatabase = {
             type: "verb",
             meaning: "نشستن",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=sit%20down",
-            image: ""
+            image: "https://plus.unsplash.com/premium_vector-1721378115229-00dd2d5ea69f?fm=jpg&q=60&w=600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         },
         {
             id: 2,
