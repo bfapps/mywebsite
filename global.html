@@ -1,0 +1,156 @@
+<!-- کانتینر اصلی منوها -->
+<div class="menu-list">
+
+    <!-- کارت اول: تم آبی -->
+    <a href="#" class="menu-link-card blue-theme">
+        <div class="card-left">
+            <!-- کلاس blue-bg رنگ پس‌زمینه آیکون را تعیین می‌کند -->
+            <div class="icon-box blue-bg">
+                <i class="fas fa-book"></i> <!-- جایگاه قرارگیری آیکون (مثلاً FontAwesome) -->
+            </div>
+            <div class="title-box">
+                <h3>عنوان منو (آبی)</h3>
+                <p>توضیحات کوتاه یا فرعی مربوط به این بخش</p>
+            </div>
+        </div>
+        <div class="arrow-action">
+            <i class="fas fa-arrow-right"></i> <!-- آیکون فلش راهنما -->
+        </div>
+    </a>
+
+    <!-- کارت دوم: تم سبز -->
+    <a href="#" class="menu-link-card green-theme">
+        <div class="card-left">
+            <div class="icon-box green-bg">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="title-box">
+                <h3>عنوان منو (سبز)</h3>
+                <p>توضیحات کوتاه یا فرعی مربوط به این بخش</p>
+            </div>
+        </div>
+        <div class="arrow-action">
+            <i class="fas fa-arrow-right"></i>
+        </div>
+    </a>
+
+    <!-- کارت سوم: تم نارنجی -->
+    <a href="#" class="menu-link-card orange-theme">
+        <div class="card-left">
+            <div class="icon-box orange-bg">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <div class="title-box">
+                <h3>عنوان منو (نارنجی)</h3>
+                <p>توضیحات کوتاه یا فرعی مربوط به این بخش</p>
+            </div>
+        </div>
+        <div class="arrow-action">
+            <i class="fas fa-arrow-right"></i>
+        </div>
+    </a>
+
+</div>
+
+
+
+<!-- کانتینر اصلی آکاردئون‌ها -->
+<div class="accordion-wrapper">
+
+    <!-- آیتم اول آکاردئون (مثال: تم آبی) -->
+    <!-- نکته: برای اینکه به صورت پیش‌فرض باز باشد، کلاس "is-open" را اضافه کنید -->
+    <div class="accordion-item">
+        <!-- هدر آکاردئون (بخش کلیک شونده) -->
+        <div class="accordion-header">
+            <div class="header-left">
+                <div class="header-icon-box blue-theme">
+                    <i class="fas fa-folder"></i>
+                </div>
+                <div class="header-info">
+                    <h3>عنوان اصلی آکاردئون</h3>
+                    <p>توضیحات فرعی یا تعداد زیرمجموعه‌ها</p>
+                </div>
+            </div>
+            <div class="chevron-icon">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- محتوای داخلی آکاردئون (لیست فرزندان) -->
+        <!-- نکته: در حالت عادی max-height: 0 است و با جاوااسکریپت مقدار می‌گیرد -->
+        <div class="accordion-content">
+            <div class="unit-list blue-theme-text">
+
+                <!-- ردیف اول داخل آکاردئون -->
+                <a href="#" class="unit-row-item">
+                    <div class="unit-left">
+                        <div class="unit-number-badge">۰۱</div>
+                        <div class="unit-details">
+                            <h4>عنوان زیرمجموعه اول</h4>
+                            <p>توضیحات تکمیلی درس یا بخش</p>
+                        </div>
+                    </div>
+                    <div class="unit-arrow">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                </a>
+
+                <!-- ردیف دوم داخل آکاردئون -->
+                <a href="#" class="unit-row-item">
+                    <div class="unit-left">
+                        <div class="unit-number-badge">۰۲</div>
+                        <div class="unit-details">
+                            <h4>عنوان زیرمجموعه دوم</h4>
+                            <p>توضیحات تکمیلی درس یا بخش</p>
+                        </div>
+                    </div>
+                    <div class="unit-arrow">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="table-responsive">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>شناسه / ID</th>
+                <th>عنوان / Title</th>
+                <th>دسته بندی / Category</th>
+                <th>وضعیت / Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>#101</td>
+                <td>واژگان درس اول (Unit 1 Vocabulary)</td>
+                <td>انگلیسی به چینی</td>
+                <td><span class="table-badge green">کامل شده</span></td>
+            </tr>
+            <tr>
+                <td>#102</td>
+                <td>تمرینات گرامر (Grammar Exercises)</td>
+                <td>صرف و نحو</td>
+                <td><span class="table-badge orange">در حال بررسی</span></td>
+            </tr>
+            <tr>
+                <td>#103</td>
+                <td>آزمون املا (Spelling Quiz)</td>
+                <td>آزمون‌ها</td>
+                <td><span class="table-badge blue">جدید</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+

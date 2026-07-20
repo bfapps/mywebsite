@@ -832,3 +832,123 @@
 
             }
 
+
+            /* ==========================================================================
+                Tables
+                 ========================================================================== */
+
+/* ==========================================================================
+    MODERN & RESPONSIVE TABLES
+   ========================================================================== */
+
+                /* کانتینر برای جلوگیری از بیرون‌زدگی جدول در موبایل */
+                .table-responsive {
+                    width: 100%;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    margin-bottom: 24px;
+                    border-radius: 16px;
+                    border: 1px solid var(--border-color);
+                    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.01);
+                    background: #ffffff;
+                }
+
+                /* استایل‌های اصلی جدول */
+                .custom-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    text-align: left;
+                    /* پیش‌فرض چپ‌چین برای انگلیسی */
+                    font-size: 15px;
+                }
+
+                /* هماهنگی کامل با جهت‌گیری زبان فارسی */
+                html[lang="fa"] .custom-table {
+                    text-align: right;
+                    /* راست‌چین شدن در حالت فارسی */
+                }
+
+                /* استایل هدر جدول */
+                .custom-table th {
+                    background-color: var(--gray-btn);
+                    color: var(--text-dark);
+                    font-weight: 700;
+                    padding: 16px 20px;
+                    font-size: 14px;
+                    letter-spacing: 0.5px;
+                    border-bottom: 2px solid var(--border-color);
+                    white-space: nowrap;
+                }
+
+                /* استایل سلول‌های بدنه جدول */
+                .custom-table td {
+                    padding: 16px 20px;
+                    color: var(--text-dark);
+                    border-bottom: 1px solid var(--border-color);
+                    line-height: 1.5;
+                    vertical-align: middle;
+                }
+
+                /* ردیف آخر مرز پایین ضخیم نداشته باشد تا با Radius کانتینر تداخل پیدا نکند */
+                .custom-table tr:last-child td {
+                    border-bottom: none;
+                }
+
+                /* افکت هاور ظریف روی ردیف‌ها */
+                .custom-table tbody tr {
+                    transition: background-color 0.2s ease;
+                }
+
+                .custom-table tbody tr:hover {
+                    background-color: var(--blue-light);
+                    /* تغییر رنگ به آبی بسیار لایت برند هنگام هاور */
+                }
+
+                /* نشانگرها یا بج‌های داخل جدول (مانند وضعیت‌ها) */
+                .table-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 4px 10px;
+                    border-radius: 8px;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+
+                .table-badge.blue {
+                    background-color: var(--blue-light);
+                    color: var(--blue);
+                }
+
+                .table-badge.green {
+                    background-color: var(--green-light);
+                    color: var(--green);
+                }
+
+                .table-badge.red {
+                    background-color: var(--red-light);
+                    color: var(--red);
+                }
+
+                .table-badge.orange {
+                    background-color: var(--orange-light);
+                    color: var(--orange);
+                }
+
+                /* ==========================================================================
+                    MEDIA QUERIES FOR TABLES (MOBILE OPTIMIZATIONS)
+                ========================================================================== */
+                @media (max-width: 768px) {
+
+                    .custom-table th,
+                    .custom-table td {
+                        padding: 12px 14px;
+                        /* فشرده‌تر شدن پدینگ‌ها در موبایل */
+                        font-size: 13.5px;
+                    }
+
+                    .table-badge {
+                        padding: 2px 8px;
+                        font-size: 11px;
+                    }
+                }
+
