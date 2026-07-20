@@ -84,6 +84,22 @@
             transition: all 0.2s ease;
         }
 
+        .header-logo-icon {
+            /* ۱. کنترل اندازه بر اساس ارتفاع آیکون‌های استاندارد */
+            height: 4.5rem;
+            width: auto;
+            /* برای حفظ خودکار تناسب طول و عرض */
+
+            /* ۲. تراز شدن دقیق با متن‌های کنارش در هدر */
+            vertical-align: middle;
+
+            /* ۳. جلوگیری از دفرمه شدن یا کشیدگی لوگو */
+            object-fit: contain;
+
+            /* ۴. ایجاد یک حاشیه ظریف در صورت نیاز (اختیاری) */
+            margin-left: 8px;
+            margin-bottom: 10px;
+        }
         .logo-text h1 {
             font-size: 22px;
             font-weight: 800;
