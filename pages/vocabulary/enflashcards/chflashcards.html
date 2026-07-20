@@ -707,7 +707,8 @@
                         </span></a>
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests
                         </span></a>
-                    <a href="#extras"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
+                    <a href="vocabulary.html"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras
+                        </span></a>
                     <a href="../../../aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About
                             me
                         </span></a>
@@ -747,6 +748,9 @@
                 </button>
                 <button class="util-btn quiz-trigger" onclick="startQuizMode('listening')">
                     <i class="fa-solid fa-ear-listen"></i> <span data-i18n="listeningQuiz">Listening Quiz</span>
+                </button>
+                <button class="util-btn quiz-trigger" onclick="startQuizMode('spelling')">
+                    <i class="fa-solid fa-keyboard"></i> <span data-i18n="spellingQuiz">Spelling Quiz</span>
                 </button>
             </div>
 
@@ -928,7 +932,15 @@
                 badgeNotSure: "Not Sure",
                 badgeKnew: "Knew It",
                 personalNotes: "My Personal Notes",
-                notesPlaceholder: "Type your personal helper notes here..."
+                notesPlaceholder: "Type your personal helper notes here...",
+                // ... ترجمه‌های قبلی شما
+                spellingQuiz: "Spelling Quiz",
+                spellingQuizTitle: "CHINESE SPELLING QUIZ",
+                typeWhatYouHear: "Listen to the audio and see the Persian translation, then type the correct Chinese characters:",
+                checkSpelling: "Check Answer",
+                correctSpelling: "Correct! 🎉",
+                wrongSpelling: "Wrong! ❌ The correct spelling was: ",
+                placeholderSpelling: "Type Chinese characters here..."
             },
             fa: {
                 home: "خانه",
@@ -985,7 +997,15 @@
                 badgeNotSure: "نامطمئن",
                 badgeKnew: "بلد بودم",
                 personalNotes: "یادداشت‌های من",
-                notesPlaceholder: "نکات کمکی یا جملات نمونه خود را اینجا بنویسید..."
+                notesPlaceholder: "نکات کمکی یا جملات نمونه خود را اینجا بنویسید...",
+                // ... ترجمه‌های قبلی شما
+                spellingQuiz: "آزمون املا چینی",
+                spellingQuizTitle: "آزمون املا کاراکترهای چینی",
+                typeWhatYouHear: "به ترجمه فارسی و صوت کلمه دقت کرده و کاراکتر چینی صحیح آن را بنویسید:",
+                checkSpelling: "بررسی پاسخ",
+                correctSpelling: "املای کاراکترها کاملاً صحیح است! 🎉",
+                wrongSpelling: "نادرست! ❌ کاراکتر درست این بود: ",
+                placeholderSpelling: "کاراکترهای چینی را اینجا بنویسید..."
             }
         };
 
@@ -1530,8 +1550,10 @@
                     if (textToSpeak) {
                         window.speechSynthesis.cancel(); // لغو سخنگوی قبلی
                         const utterance = new SpeechSynthesisUtterance(decodeURIComponent(textToSpeak));
-                        utterance.lang = 'en-US';
-                        utterance.rate = 0.9;
+                        const isChinese = /[\u4e00-\u9fa5]/.test(textToSpeak);
+                        utterance.lang = isChinese ? 'zh-CN' : 'en-US';
+
+                        utterance.rate = 0.85; // سرعت خوانش روان چینی
                         window.speechSynthesis.speak(utterance);
                         console.log("صدا از طریق سخنگوی مرورگر (TTS) پخش شد.");
                     }
@@ -1641,6 +1663,7 @@
                     <button class="nav-btn next" onclick="startQuizMode('meaning')">${dict.meaningQuiz}</button>
                     <button class="nav-btn next" style="background-color:#8b5cf6;" onclick="startQuizMode('listening')">${dict.listeningQuiz}</button>
                     <button class="nav-btn prev" onclick="restartUnit()">${dict.reviewAgain}</button>
+                    <button class="nav-btn next" style="background-color:#10b981;" onclick="startQuizMode('spelling')">${dict.spellingQuiz}</button>
                 </div>
             `;
         }
@@ -1720,6 +1743,84 @@
 
                 setTimeout(() => { playRealAudio(currentQuestionWord.audio); }, 300);
             }
+            // 👇 بخش جدید: آزمون املا و کاراکتر چینی (نمایش ترجمه انگلیسی + صوت)
+            else if (activeQuizType === 'spelling') {
+                displayBox.innerHTML = `
+                <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                
+                <!-- نمایش ترجمه انگلیسی به عنوان راهنما -->
+                <div style="font-size: 24px; font-weight: 800; color: var(--text-dark); margin: 15px 0; direction: ltr;">
+                    ${currentQuestionWord.meaning}
+                </div>
+
+                <!-- دکمه پخش مجدد صوت چینی -->
+                <button class="nav-btn next" style="margin: 8px 0 16px 0; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
+                    <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
+                </button>
+                
+                <p class="sentence-example" style="direction:initial; font-size: 13px;">${dict.typeWhatYouHear}</p>
+                
+                <div class="quiz-choices-container" style="gap:12px;">
+                    <!-- ورودی برای کاراکترهای چینی -->
+                    <input type="text" id="spellingInput" class="quiz-choice-btn" 
+                           placeholder="${dict.placeholderSpelling}" 
+                           style="text-align:center; cursor:text; background:#fff; font-size: 18px;" 
+                           autocomplete="off" autofocus>
+                    
+                    <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
+                        ${dict.checkSpelling}
+                    </button>
+                </div>
+                
+                <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+            `};
+
+            // فوکوس خودکار و قابلیت ثبت با کلید اینتر
+            setTimeout(() => {
+                const input = document.getElementById('spellingInput');
+                if (input) {
+                    input.focus();
+                    input.addEventListener('keypress', function (e) {
+                        if (e.key === 'Enter') checkSpellingAnswer();
+                    });
+                }
+                playRealAudio(currentQuestionWord.audio);
+            }, 300);
+        }
+        function checkSpellingAnswer() {
+            const inputElement = document.getElementById('spellingInput');
+            const submitBtn = document.getElementById('spellingSubmitBtn');
+            if (!inputElement) return;
+
+            // حذف فاصله‌های احتمالی اول و آخر ورودی کاربر
+            const userAnswer = inputElement.value.trim();
+            const currentQuestionWord = quizQuestions[quizStep];
+            const correctAnswer = currentQuestionWord.name.trim(); // فیلد نام حاوی کاراکتر چینی است
+            const dict = translations[currentLang];
+
+            // قفل کردن کلیک‌ها جهت جلوگیری از اسپم پاسخ
+            inputElement.disabled = true;
+            submitBtn.disabled = true;
+            submitBtn.style.pointerEvents = 'none';
+
+            if (userAnswer === correctAnswer) {
+                inputElement.classList.add('correct');
+                inputElement.value = dict.correctSpelling;
+                quizScore++;
+            } else {
+                inputElement.classList.add('wrong');
+                inputElement.value = dict.wrongSpelling + ` "${currentQuestionWord.name}"`;
+            }
+
+            // هدایت به کاراکتر بعدی پس از مکث دیداری کوتاه
+            setTimeout(() => {
+                quizStep++;
+                if (quizStep < quizQuestions.length) {
+                    generateQuizQuestion();
+                } else {
+                    showQuizResult();
+                }
+            }, 1800);
         }
 
         function handleQuizAnswer(buttonElement, chosenAnswer, correctAnswer) {

@@ -713,13 +713,7 @@
 
         <main class="flashcard-wrapper">
 
-            <!-- Progress Elements -->
-            <div class="progress-container">
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progressBarFill"></div>
-                </div>
-                <div class="progress-text" id="progressText">0 / 0</div>
-            </div>
+            
 
             <!-- Utilities Bar -->
             <div class="utilities-bar" id="utilitiesBar">
@@ -827,6 +821,14 @@
             <!-- Interactive 3D Display Box -->
             <div class="display-box" id="displayBox">
                 <!-- Content injected dynamically by JS -->
+            </div>
+
+            <!-- Progress Elements -->
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 / 0</div>
             </div>
             
 
@@ -949,7 +951,8 @@
             checkSpelling: "Check Answer",
             correctSpelling: "Correct! 🎉",
             wrongSpelling: "Wrong! ❌ The correct spelling was: ",
-            placeholderSpelling: "Type the English word here..."
+            placeholderSpelling: "Type the English word here...",
+            chooseQuizType: "Choose Quiz Type"
         },
         fa: {
             home: "خانه",
@@ -1015,7 +1018,8 @@
             checkSpelling: "بررسی پاسخ",
             correctSpelling: "املای کلمه کاملاً صحیح است! 🎉",
             wrongSpelling: "نادرست! ❌ املای درست این بود: ",
-            placeholderSpelling: "املای انگلیسی کلمه را اینجا بنویسید..."
+            placeholderSpelling: "املای انگلیسی کلمه را اینجا بنویسید...",
+            chooseQuizType: "نوع آزمون را مشخص کنید"
         }
     };
 
@@ -1663,17 +1667,18 @@
             ========================================================================== */
 
     /* --- ۱۲. سیستم آزمون‌ها و کوئیزهای هوشمند کلمات --- */
-    // تابع نمایش گزینه‌های آزمون در وسط کارت
+        // تابع نمایش گزینه‌های آزمون در وسط کارت
         function showQuizSelectionInCard() {
-            // ۱. مخفی کردن محتوای اصلی و دکمه‌های ناوبری کارت فعلی
-            // (نام اِلمان‌های زیر را بر اساس پروژه‌تان در صورت نیاز تغییر دهید، مثلاً wordText یا cardBody)
-            const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
-            const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
+            // ۱. پنهان کردن باکس سه بعدی اصلی کارت‌ها
+            const displayBox = document.getElementById('displayBox');
+            if (displayBox) {
+                displayBox.style.display = 'none';
+            }
 
-            if (cardContent) cardContent.style.display = 'none';
-            if (cardNavButtons) cardNavButtons.style.display = 'none';
+            // ۲. پنهان کردن تمام بخش‌های ناوبری، ابزارها، لایتنر و فیلترها
+            hideInterfaceForQuiz();
 
-            // ۲. نمایش کانتینر انتخاب آزمون
+            // ۳. نمایش کانتینر انتخاب آزمون به صورت Flex جهت قرارگیری عالی در وسط
             const selectionContainer = document.getElementById('quizSelectionContainer');
             if (selectionContainer) {
                 selectionContainer.style.display = 'flex';
@@ -1683,17 +1688,30 @@
         // تابع انتخاب نوع آزمون و شروع آن
         function selectQuizMode(type) {
             // پنهان کردن منوی انتخاب آزمون
-            hideQuizSelection();
+            const selectionContainer = document.getElementById('quizSelectionContainer');
+            if (selectionContainer) {
+                selectionContainer.style.display = 'none';
+            }
 
-            // اجرای تابع اصلی شروع آزمون که از قبل داشتید
+            // اجرای تابع اصلی شروع آزمون
             startQuizMode(type);
         }
 
         // تابع انصراف و بازگشت به حالت عادی کارت
         function cancelQuizSelection() {
-            hideQuizSelection();
+            // ۱. پنهان کردن کانتینر انتخاب آزمون
+            const selectionContainer = document.getElementById('quizSelectionContainer');
+            if (selectionContainer) {
+                selectionContainer.style.display = 'none';
+            }
 
-            // بازخوانی کارت فعلی برای نمایش مجدد محتوای عادی
+            // ۲. ظاهر کردن مجدد باکس سه بعدی اصلی کارت‌ها
+            const displayBox = document.getElementById('displayBox');
+            if (displayBox) {
+                displayBox.style.display = 'block';
+            }
+
+            // ۳. بازخوانی کارت فعلی برای فعال‌سازی و نمایش مجدد کنترل‌ها و ابزارها
             if (typeof renderCard === 'function') {
                 renderCard();
             }
@@ -1705,7 +1723,6 @@
             if (selectionContainer) {
                 selectionContainer.style.display = 'none';
             }
-            document.getElementById('displayBox').style.display = 'block';
         }
 
     function showCompletionScreen() {
@@ -1761,8 +1778,12 @@
     }
 
     function generateQuizQuestion() {
-        const currentQuestionWord = quizQuestions[quizStep];
         const displayBox = document.getElementById('displayBox');
+        if (displayBox) {
+            displayBox.style.display = 'block';
+        }
+        const currentQuestionWord = quizQuestions[quizStep];
+
         const dict = translations[currentLang];
 
         displayBox.classList.remove('flashcard-perspective', 'flipped');
@@ -1930,6 +1951,13 @@
     function exitQuiz() {
         if (currentAudioObject) currentAudioObject.pause();
         isQuizMode = false;
+
+        // اطمینان از نمایان شدن مجدد باکس اصلی کلمات
+        const displayBox = document.getElementById('displayBox');
+        if (displayBox) {
+            displayBox.style.display = 'block';
+        }
+
         renderCard();
     }
 </script>
