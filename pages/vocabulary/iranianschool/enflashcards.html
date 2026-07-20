@@ -744,6 +744,9 @@
                 <button class="util-btn quiz-trigger" onclick="startQuizMode('listening')">
                     <i class="fa-solid fa-ear-listen"></i> <span data-i18n="listeningQuiz">Listening Quiz</span>
                 </button>
+                <button class="util-btn quiz-trigger" onclick="startQuizMode('spelling')">
+                    <i class="fa-solid fa-keyboard"></i> <span data-i18n="spellingQuiz">Spelling Quiz</span>
+                </button>
             </div>
 
             <!-- Dynamic Analytics Panel -->
@@ -922,7 +925,16 @@
             badgeNotSure: "Not Sure",
             badgeKnew: "Knew It",
             personalNotes: "My Personal Notes",
-            notesPlaceholder: "Type your personal helper notes here..."
+            notesPlaceholder: "Type your personal helper notes here...",
+
+            // ... ترجمه‌های قبلی شما
+            spellingQuiz: "Spelling Quiz",
+            spellingQuizTitle: "SPELLING QUIZ",
+            typeWhatYouHear: "Listen to the audio and see the Persian meaning, then type the correct English spelling:",
+            checkSpelling: "Check Answer",
+            correctSpelling: "Correct! 🎉",
+            wrongSpelling: "Wrong! ❌ The correct spelling was: ",
+            placeholderSpelling: "Type the English word here..."
         },
         fa: {
             home: "خانه",
@@ -979,7 +991,16 @@
             badgeNotSure: "نامطمئن",
             badgeKnew: "بلد بودم",
             personalNotes: "یادداشت‌های من",
-            notesPlaceholder: "نکات کمکی یا جملات نمونه خود را اینجا بنویسید..."
+            notesPlaceholder: "نکات کمکی یا جملات نمونه خود را اینجا بنویسید...",
+
+            // ... ترجمه‌های قبلی شما
+            spellingQuiz: "آزمون املا",
+            spellingQuizTitle: "آزمون املا و نوشتار",
+            typeWhatYouHear: "به معنی فارسی و صوت کلمه دقت کرده و املای انگلیسی صحیح آن را بنویسید:",
+            checkSpelling: "بررسی پاسخ",
+            correctSpelling: "املای کلمه کاملاً صحیح است! 🎉",
+            wrongSpelling: "نادرست! ❌ املای درست این بود: ",
+            placeholderSpelling: "املای انگلیسی کلمه را اینجا بنویسید..."
         }
     };
 
@@ -1635,6 +1656,7 @@
                     <button class="nav-btn next" onclick="startQuizMode('meaning')">${dict.meaningQuiz}</button>
                     <button class="nav-btn next" style="background-color:#8b5cf6;" onclick="startQuizMode('listening')">${dict.listeningQuiz}</button>
                     <button class="nav-btn prev" onclick="restartUnit()">${dict.reviewAgain}</button>
+                    <button class="nav-btn next" style="background-color:#10b981;" onclick="startQuizMode('spelling')">${dict.spellingQuiz}</button>
                 </div>
             `;
     }
@@ -1714,7 +1736,85 @@
 
             setTimeout(() => { playRealAudio(currentQuestionWord.audio); }, 300);
         }
+        // 👇 بخش جدید و اصلاح‌شده برای آزمون املا (نمایش معنی فارسی + صوت)
+        else if (activeQuizType === 'spelling') {
+            displayBox.innerHTML = `
+            <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+            
+            <!-- نمایش معنی فارسی کلمه به عنوان راهنما -->
+            <div style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin: 10px 0; direction: rtl;">
+                ${currentQuestionWord.meaning}
+            </div>
+
+            <!-- دکمه پخش صوت کلمه انگلیسی -->
+            <button class="nav-btn next" style="margin: 8px 0 16px 0; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
+                <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
+            </button>
+            
+            <p class="sentence-example" style="direction:initial; font-size: 13px;">${dict.typeWhatYouHear}</p>
+            
+            <div class="quiz-choices-container" style="gap:12px;">
+                <!-- ورودی فقط برای نوشتن املای انگلیسی کلمه (چپ‌چین) -->
+                <input type="text" id="spellingInput" class="quiz-choice-btn en-lang-dir" 
+                       placeholder="${dict.placeholderSpelling}" 
+                       style="text-align:center; cursor:text; background:#fff; direction: ltr;" 
+                       autocomplete="off" autofocus>
+                
+                <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
+                    ${dict.checkSpelling}
+                </button>
+            </div>
+            
+            <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+        `;
+
+            // فوکوس خودکار روی باکس متن و امکان ثبت پاسخ با زدن دکمه اینتر کیبورد
+            setTimeout(() => {
+                const input = document.getElementById('spellingInput');
+                if (input) {
+                    input.focus();
+                    input.addEventListener('keypress', function (e) {
+                        if (e.key === 'Enter') checkSpellingAnswer();
+                    });
+                }
+                playRealAudio(currentQuestionWord.audio);
+            }, 300);
+        }
     }
+    function checkSpellingAnswer() {
+            const inputElement = document.getElementById('spellingInput');
+            const submitBtn = document.getElementById('spellingSubmitBtn');
+            if (!inputElement) return;
+
+            const userAnswer = inputElement.value.trim().toLowerCase();
+            const currentQuestionWord = quizQuestions[quizStep];
+            const correctAnswer = currentQuestionWord.name.trim().toLowerCase();
+            const dict = translations[currentLang];
+
+            // غیرفعال کردن موقت برای جلوگیری از اسپم کلیک
+            inputElement.disabled = true;
+            submitBtn.disabled = true;
+            submitBtn.style.pointerEvents = 'none';
+
+            if (userAnswer === correctAnswer) {
+                inputElement.classList.add('correct');
+                inputElement.value = dict.correctSpelling;
+                quizScore++;
+            } else {
+                inputElement.classList.add('wrong');
+                inputElement.value = dict.wrongSpelling + ` "${currentQuestionWord.name}"`;
+            }
+
+            // مکث ۱.۸ ثانیه‌ای برای دیدن نتیجه و سپس رفتن به کلمه بعدی
+            setTimeout(() => {
+                quizStep++;
+                if (quizStep < quizQuestions.length) {
+                    generateQuizQuestion();
+                } else {
+                    showQuizResult();
+                }
+            }, 1800);
+        }
 
     function handleQuizAnswer(buttonElement, chosenAnswer, correctAnswer) {
         const allButtons = document.querySelectorAll('.quiz-choice-btn');
