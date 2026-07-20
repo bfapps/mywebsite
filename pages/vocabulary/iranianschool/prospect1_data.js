@@ -140,7 +140,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "کیف",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=bag",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/39829"
         },
         {
             id: 15,
@@ -150,7 +150,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "مدادتراش",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=pencil%20sharpener",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/2553"
         },
         {
             id: 16,
@@ -160,7 +160,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "ماژیک",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=marker",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/36721"
         },
         {
             id: 17,
@@ -170,7 +170,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "جامدادی",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=pencil%20case",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/8575"
         },
         {
             id: 18,
@@ -180,7 +180,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "کوله‌پشتی",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=backpack",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/2475"
         },
         {
             id: 19,
@@ -190,7 +190,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "نیمکت",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=bench",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/3255"
         },
         {
             id: 20,
@@ -200,7 +200,7 @@ const currentBookDatabase = {
             type: "noun",
             meaning: "گچ",
             audio: "https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=chalk",
-            image: ""
+            image: "https://api.arasaac.org/api/pictograms/8107"
         }
     
         
