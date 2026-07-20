@@ -26,13 +26,27 @@ function applyLanguage(lang) {
     }
 
     //  در صفحه منو یونیت های هر درس. فراخوانی مجدد تابع رندر برای بازسازی درس‌ها با زبان جدید
-    if (typeof prospectData !== 'undefined' && typeof visionData !== 'undefined') {
-        renderBookUnits("prospect1", "prospect1-list", prospectData);
-        renderBookUnits("prospect2", "prospect2-list", prospectData);
-        renderBookUnits("prospect3", "prospect3-list", prospectData);
-        renderBookUnits("vision1", "vision1-list", visionData);
-        renderBookUnits("vision2", "vision2-list", visionData);
-        renderBookUnits("vision3", "vision3-list", visionData);
+    // ۳. رندر مجدد یونیت‌ها به صورت تفکیک‌شده و مستقل (بدون وابستگی AND)
+    if (typeof renderBookUnits === 'function') {
+
+        // اگر دیتای انگلیسی وجود دارد
+        if (typeof prospectData !== 'undefined') {
+            renderBookUnits("prospect1", "prospect1-list", prospectData);
+            renderBookUnits("prospect2", "prospect2-list", prospectData);
+            renderBookUnits("prospect3", "prospect3-list", prospectData);
+        }
+
+        // اگر دیتای دبیرستان وجود دارد
+        if (typeof visionData !== 'undefined') {
+            renderBookUnits("vision1", "vision1-list", visionData);
+            renderBookUnits("vision2", "vision2-list", visionData);
+            renderBookUnits("vision3", "vision3-list", visionData);
+        }
+
+        // اگر دیتای افعال چینی وجود دارد
+        if (typeof ch200verbsData !== 'undefined') {
+            renderBookUnits("ch200verbs", "ch200verbs_list", ch200verbsData);
+        }
     }
 }
 

@@ -17,34 +17,66 @@ const prospectData = {
             descFa: "معرفی خود و احوالپرسی"
         },
         {
-            unit: 3,
+            unit: 3.1,
             icon: "fa-solid fa-cake-candles",
-            titleEn: "Lesson 3 – My Age",
-            titleFa: "درس ۳ – سن من",
+            titleEn: "Lesson 3.1 – My Age: Dates",
+            titleFa: "درس ۳.۱ – سن من: تاریخ‌ها",
             descEn: "Talking about your age & Talking about dates",
             descFa: "صحبت درباره سن و گفتگو در مورد تاریخ‌ها"
         },
         {
-            unit: 4,
+            unit: 3.2,
+            icon: "fa-solid fa-cake-candles",
+            titleEn: "Lesson 3.2 – My Age: Numbers:",
+            titleFa: "درس ۳.۲ – سن من: اعداد",
+            descEn: "Talking about your age & Talking about dates",
+            descFa: "صحبت درباره سن و گفتگو در مورد تاریخ‌ها"
+        },
+        {
+            unit: 4.1,
             icon: "fa-solid fa-people-roof",
-            titleEn: "Lesson 4 – My family",
-            titleFa: "درس ۴ – خانواده من",
+            titleEn: "Lesson 4.1 – My family: Family Members",
+            titleFa: "درس ۴.۱ – خانواده من: اعضای خانواده",
             descEn: "Talking about your family",
             descFa: "صحبت درباره خانواده"
         },
         {
-            unit: 5,
+            unit: 4.2,
+            icon: "fa-solid fa-people-roof",
+            titleEn: "Lesson 4.2 – My family: Jobs",
+            titleFa: "درس ۴.۲ – خانواده من: شغل‌ها",
+            descEn: "Talking about your family",
+            descFa: "صحبت درباره خانواده"
+        },
+        {
+            unit: 5.1,
             icon: "fa-solid fa-user-tie",
-            titleEn: "Lesson 5 – My Appearance",
-            titleFa: "درس ۵ – ظاهر من",
+            titleEn: "Lesson 5.1 – My Appearance: Clothes",
+            titleFa: "درس ۵.۱ – ظاهر من: لباس‌ها",
             descEn: "Talking about appearance",
             descFa: "صحبت درباره ویژگی‌های ظاهری"
         },
         {
-            unit: 6,
+            unit: 5.2,
+            icon: "fa-solid fa-user-tie",
+            titleEn: "Lesson 5.2 – My Appearance: Colors",
+            titleFa: "درس ۵.۲ – ظاهر من: رنگ‌ها",
+            descEn: "Talking about appearance",
+            descFa: "صحبت درباره ویژگی‌های ظاهری"
+        },
+        {
+            unit: 6.1,
             icon: "fa-solid fa-house-chimney",
-            titleEn: "Lesson 6 – My House",
-            titleFa: "درس ۶ – خانه من",
+            titleEn: "Lesson 6.1 – My House: Places & Household Appliances",
+            titleFa: "درس ۶.۱ – خانه من: مکان‌ها و لوازم خانگی",
+            descEn: "Where people are & What people are doing",
+            descFa: "افراد کجا هستند و در حال انجام چه کاری می‌باشند"
+        },
+        {
+            unit: 6.2,
+            icon: "fa-solid fa-house-chimney",
+            titleEn: "Lesson 6.2 – My House: Activities",
+            titleFa: "درس ۶.۲ – خانه من: فعالیت‌ها",
             descEn: "Where people are & What people are doing",
             descFa: "افراد کجا هستند و در حال انجام چه کاری می‌باشند"
         },
@@ -57,10 +89,18 @@ const prospectData = {
             descFa: "آدرس، شماره تلفن و اعلام ساعت"
         },
         {
-            unit: 8,
+            unit: 8.1,
             icon: "fa-solid fa-utensils",
-            titleEn: "Lesson 8 – My Favorite Food",
-            titleFa: "درس ۸ – غذای مورد علاقه من",
+            titleEn: "Lesson 8.1 – My Favorite Food: Fruits & Vegetables",
+            titleFa: "درس ۸.۱ – غذای مورد علاقه من: میوه‌ها و سبزیجات",
+            descEn: "Your favorite food & Making suggestions",
+            descFa: "غذای مورد علاقه شما و پیشنهاد دادن"
+        },
+        {
+            unit: 8.2,
+            icon: "fa-solid fa-utensils",
+            titleEn: "Lesson 8.2 – My Favorite Food: Foods & Drinks",
+            titleFa: "درس ۸.۲ – غذای مورد علاقه من: غذاها ونوشیدنی‌ها",
             descEn: "Your favorite food & Making suggestions",
             descFa: "غذای مورد علاقه شما و پیشنهاد دادن"
         }

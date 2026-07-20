@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn English Step by Step</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" href="../../../../global.css">
+
+</head>
+<style>
+    .accordion-wrapper {
+
+        /* این گزینه رو در هر فایل خودش تغییر میدهیم */
+        /* direction: ltr !important; */
+    }
+</style>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <div class="logo-text">
+                    <h1>ESL Island</h1>
+                    <p>Let's Learn English</p>
+                </div>
+            </div>
+            <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+            <div id="sideMenu" class="side-menu">
+                <div class="menu-items">
+                    <a href="../../../../index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home
+                        </span></a>
+
+                    <div class="accordion-item lang-accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="header-left">
+                                <span><i class="fa-solid fa-globe"></i> <span
+                                        data-i18n="langTitle">Language</span></span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                        </div>
+
+                        <div class="accordion-content">
+                            <div class="lang-options">
+                                <button class="lang-btn" onclick="applyLanguage('fa')">
+                                    فارسی (Persian)
+                                </button>
+                                <button class="lang-btn" onclick="applyLanguage('en')">
+                                    English
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <a href=""><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
+                            Vocabulary </span></a>
+                    <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar
+                        </span></a>
+                    <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests
+                        </span></a>
+                    <a href="#extras"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
+                    <a href="../../../aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me
+                        </span></a>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="welcome-badge" data-i18n="WelcomeBadge">Vocabulary</span>
+                <h2 data-i18n="heroTitle">Learning Chinese</h2>
+                <p data-i18n="heroSubtitle">Master your Chinese vocabulary, unit by unit, with fun and
+                    interactive flashcards.</p>
+            </div>
+            <div class="hero-graphics">
+                <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="170" cy="215" rx="120" ry="6" fill="#E2E8F0" />
+                    <path d="M80 140C80 120 100 115 135 115H250V200H135C100 200 80 190 80 170V140Z" fill="#1D4ED8" />
+                    <path d="M70 145C70 125 90 120 125 120H240V205H125C90 205 70 195 70 175V145Z" fill="#3B82F6" />
+                    <path d="M125 120C105 120 85 125 75 135V190C85 185 105 180 125 180H240V120H125Z" fill="#FFFFFF" />
+                    <path d="M180 120V165L192 157L204 165V120H180Z" fill="#EF4444" />
+                    <g transform="translate(200, 40) rotate(10)">
+                        <rect width="85" height="55" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1.5" />
+                        <rect x="12" y="12" width="40" height="6" rx="3" fill="#64748B" />
+                        <rect x="12" y="24" width="60" height="4" rx="2" fill="#94A3B8" />
+                        <rect x="12" y="34" width="50" height="4" rx="2" fill="#94A3B8" />
+                        <circle cx="70" cy="15" r="4" fill="#10B981" />
+                    </g>
+                    <g transform="translate(50, 45) rotate(-12)">
+                        <rect width="80" height="50" rx="10" fill="#10B981" />
+                        <text x="40" y="30" fill="white" font-size="12" font-weight="700" text-anchor="middle">没有</text>
+                        <path d="M35 43L40 49L45 43H35Z" fill="#10B981" />
+                    </g>
+                    <g transform="translate(145, 25)">
+                        <rect width="52" height="24" rx="12" fill="#EFF6FF" stroke="#93C5FD" />
+                        <text x="26" y="16" fill="#1D4ED8" font-size="10" font-weight="700"
+                            text-anchor="middle">吃</text>
+                    </g>
+                    <circle cx="280" cy="120" r="4" fill="#F59E0B" />
+                    <circle cx="50" cy="140" r="5" fill="#6366F1" />
+                </svg>
+            </div>
+        </section>
+
+        <div class="accordion-wrapper">
+
+
+            
+
+            <!-- 200 Verbs -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-left">
+                        <div class="header-icon-box orange-theme">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="header-info">
+                            <h3>200 Chinese Verbs – Advanced Chinese</h3>
+                            <p>7 Units available</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <!-- این خط مشخص میکند مکان یونیت ها را -->
+                    <div class="unit-list" id="ch200verbs_list"></div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+        <footer>
+            <p>© 2026 ESL Island. All rights reserved.</p>
+            <div class="social-row">
+                <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </footer>
+    </div>
+    <script src="ch200verbs_list.js"></script>
+    <script src="../../../../global.js"></script>
+    <script>
+
+        // تابع جدید برای سوئیچ کردن (Toggle)
+        const translations = {
+            en: {
+                home: "Home",
+                about: "About Me",
+                langTitle: "Language",
+                persian: "Persian",
+                english: "English",
+                titleVocabulary: "Vocabulary",
+                titleGrammar: "Grammar",
+                titleTests: "Tests",
+                titleExtras: "Extra",
+                titleabout: "About me",
+
+                //title section
+                WelcomeBadge: "Vocabulary",
+                heroTitle: "Learning Chinese",
+                heroSubtitle: "Master your Chinese vocabulary, unit by unit, with fun and interactive flashcards."
+            },
+            fa: {
+                home: "خانه",
+                about: "درباره من",
+                langTitle: "زبان",
+                persian: "فارسی",
+                english: "انگلیسی",
+                titleVocabulary: "واژگان",
+                titleGrammar: "دستور زبان",
+                titleTests: "آزمون‌ها",
+                titleExtras: "سایر",
+                titleabout: "درباره من",
+
+                //title section
+                WelcomeBadge: "واژگان",
+                heroTitle: "یادگرفتن زبان چینی",
+                heroSubtitle: "واژگان زبان چینی را درس به درس، همراه با فلش‌کارت‌های جذاب و تعاملی مسلط شوید."
+            }
+        };
+
+
+        // تابع برای تکمیل کردن لیست یونیت های هر کتاب
+        function renderBookUnits(bookKey, containerId, sourceDatabase) {
+            const container = document.getElementById(containerId);
+            const units = sourceDatabase[bookKey];
+
+            if (!container || !units) return;
+
+            container.innerHTML = "";
+
+            // تشخیص زبان فعلی سایت (اگر تعریف نشده باشد، پیش‌فرض انگلیسی در نظر گرفته می‌شود)
+            const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
+
+            units.forEach(item => {
+                const url = `chflashcards.html?book=${bookKey}&unit=${item.unit}`;
+
+                // انتخاب داینامیک متن بر اساس زبان سیستم
+                const title = (lang === 'fa') ? item.titleFa : item.titleEn;
+                const desc = (lang === 'fa') ? item.descFa : item.descEn;
+
+                // تنظیم راست‌چین یا چپ‌چین بودن متن بر اساس زبان
+                const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
+
+                const anchor = document.createElement("a");
+                anchor.href = url;
+                anchor.className = "unit-row-item unit-link";
+
+                anchor.innerHTML = `
+            <div class="unit-left" ${textDirection}>
+                <div class="unit-number-badge">${item.unit}</div>
+                <i class="${item.icon} unit-icon"></i>
+                <div class="unit-details">
+                    <h4>${title}</h4>
+                    <p>${desc}</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+        `;
+
+                container.appendChild(anchor);
+            });
+        }
+
+        // مشخص کردن مکان یونیت های هر کتاب
+        document.addEventListener("DOMContentLoaded", () => {
+            // کتاب‌های پراسپکت از دیتابیس prospectData می‌خوانند
+            renderBookUnits("ch200verbs", "ch200verbs_list", ch200verbsData);
+            
+        });
+
+
+    </script>
+</body>
+
+</html>
