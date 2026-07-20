@@ -738,14 +738,10 @@
                 <button class="util-btn" id="analyticsBtn" onclick="toggleAnalytics()">
                     <i class="fa-solid fa-chart-pie"></i> <span data-i18n="analytics">Analytics</span>
                 </button>
-                <button class="util-btn quiz-trigger" onclick="startQuizMode('meaning')">
-                    <i class="fa-solid fa-pen-to-square"></i> <span data-i18n="meaningQuiz">Meaning Quiz</span>
-                </button>
-                <button class="util-btn quiz-trigger" onclick="startQuizMode('listening')">
-                    <i class="fa-solid fa-ear-listen"></i> <span data-i18n="listeningQuiz">Listening Quiz</span>
-                </button>
-                <button class="util-btn quiz-trigger" onclick="startQuizMode('spelling')">
-                    <i class="fa-solid fa-keyboard"></i> <span data-i18n="spellingQuiz">Spelling Quiz</span>
+            
+                <!-- دکمه آزمون استاندارد و هم‌شکل با بقیه -->
+                <button class="util-btn" id="quizMenuBtn" onclick="showQuizSelectionInCard()">
+                    <i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests">Quizzes</span>
                 </button>
             </div>
 
@@ -813,6 +809,22 @@
             <!-- Interactive 3D Display Box -->
             <div class="display-box" id="displayBox">
                 <!-- Content injected dynamically by JS -->
+            </div>
+            <div id="quizSelectionContainer"
+                style="display: none; text-align: center; padding: 24px; background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: 16px; min-height: 290px; justify-content: center; flex-direction: column; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02);">
+                <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 800; font-size: 16px;"
+                    data-i18n="chooseQuizType">Choose Quiz Type</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px; max-width: 250px; margin: 0 auto; width: 100%;">
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('meaning')" style="padding: 12px; cursor: pointer;"
+                        data-i18n="meaningQuiz">Meaning Quiz</button>
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('listening')" style="padding: 12px; cursor: pointer;"
+                        data-i18n="listeningQuiz">Listening Quiz</button>
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('spelling')" style="padding: 12px; cursor: pointer;"
+                        data-i18n="spellingQuiz">Spelling Quiz</button>
+                    <button class="quiz-choice-btn" onclick="cancelQuizSelection()"
+                        style="padding: 10px; cursor: pointer; background-color: var(--gray-btn); color: var(--text-dark); border-color: transparent;"
+                        data-i18n="exitQuiz">Cancel</button>
+                </div>
             </div>
 
             <!-- Context Hint Grid -->
@@ -1215,6 +1227,14 @@
     function renderCard() {
         isQuizMode = false;
         const dict = translations[currentLang];
+        // مخفی کردن منوی انتخاب آزمون در وسط کارت هنگام رندر شدن کارت جدید
+        hideQuizSelection();
+
+        // نمایش مجدد محتوای اصلی کارت در صورتی که پنهان شده بود
+        const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
+        const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
+        if (cardContent) cardContent.style.display = 'block';
+        if (cardNavButtons) cardNavButtons.style.display = 'flex';
 
         document.getElementById('featuresGrid').style.display = 'grid';
         document.getElementById('navigationRow').style.display = 'flex';
@@ -1640,6 +1660,51 @@
             ========================================================================== */
 
     /* --- ۱۲. سیستم آزمون‌ها و کوئیزهای هوشمند کلمات --- */
+    // تابع نمایش گزینه‌های آزمون در وسط کارت
+        function showQuizSelectionInCard() {
+            // ۱. مخفی کردن محتوای اصلی و دکمه‌های ناوبری کارت فعلی
+            // (نام اِلمان‌های زیر را بر اساس پروژه‌تان در صورت نیاز تغییر دهید، مثلاً wordText یا cardBody)
+            const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
+            const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
+
+            if (cardContent) cardContent.style.display = 'none';
+            if (cardNavButtons) cardNavButtons.style.display = 'none';
+
+            // ۲. نمایش کانتینر انتخاب آزمون
+            const selectionContainer = document.getElementById('quizSelectionContainer');
+            if (selectionContainer) {
+                selectionContainer.style.display = 'flex';
+            }
+        }
+
+        // تابع انتخاب نوع آزمون و شروع آن
+        function selectQuizMode(type) {
+            // پنهان کردن منوی انتخاب آزمون
+            hideQuizSelection();
+
+            // اجرای تابع اصلی شروع آزمون که از قبل داشتید
+            startQuizMode(type);
+        }
+
+        // تابع انصراف و بازگشت به حالت عادی کارت
+        function cancelQuizSelection() {
+            hideQuizSelection();
+
+            // بازخوانی کارت فعلی برای نمایش مجدد محتوای عادی
+            if (typeof renderCard === 'function') {
+                renderCard();
+            }
+        }
+
+        // تابع کمکی برای مخفی کردن ظرف انتخاب آزمون
+        function hideQuizSelection() {
+            const selectionContainer = document.getElementById('quizSelectionContainer');
+            if (selectionContainer) {
+                selectionContainer.style.display = 'none';
+            }
+            document.getElementById('displayBox').style.display = 'block';
+        }
+
     function showCompletionScreen() {
         isQuizMode = true;
         hideInterfaceForQuiz();
