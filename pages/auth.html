@@ -335,30 +335,7 @@
             </div>
         </header>
 
-        <section class="hero">
-            <div class="hero-content">
-                <span class="welcome-badge" data-i18n="titleabout">About me</span>
-                <h2 data-i18n="heroTitle">The Vision Behind <br> ESL Island</h2>
-                <p data-i18n="heroSubtitle">An English teacher passionate about linguistics, dedicated to making
-                    language learning an insightful and enjoyable
-                    journey for everyone.</p>
-            </div>
-            <div class="hero-graphics">
-                <svg width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="180" cy="220" rx="130" ry="7" fill="#E2E8F0" />
-
-                    <!-- دایره خط‌چین اصلی -->
-                    <circle cx="180" cy="115" r="75" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"
-                        stroke-dasharray="4 4" />
-
-                    <!-- عکس با قطر ۱۴۵ و بدون حاشیه -->
-                    <foreignObject x="107.5" y="42.5" width="145" height="145">
-                        <img src="../../Assets/img/profiles/profile1.jpg" alt="Profile"
-                            style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                    </foreignObject>
-                </svg>
-            </div>
-        </section>
+        
 
         <section class="content-section auth-section">
             <!-- تب‌های بالای فرم -->
@@ -373,8 +350,8 @@
                 </button>
             </div>
         
-            <!-- دکمه ورود / ثبت‌نام با گوگل -->
-            <button class="btn-google" type="button" onclick="loginWithGoogle()">
+            <!-- دکمه گوگل (با آیدی googleBtn و بدون onclick) -->
+            <button class="btn-google" type="button" id="googleBtn">
                 <svg class="google-icon" width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4"
                         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -392,8 +369,8 @@
                 <span data-i18n="orDivider">or continue with email</span>
             </div>
         
-            <!-- فرم ورود -->
-            <form id="loginForm" class="auth-form active" onsubmit="event.preventDefault(); handleLogin();">
+            <!-- فرم ورود (بدون onsubmit در تگ form) -->
+            <form id="loginForm" class="auth-form active">
                 <div class="form-group">
                     <label data-i18n="labelEmail">Email Address</label>
                     <div class="input-wrapper">
@@ -422,8 +399,8 @@
                 </button>
             </form>
         
-            <!-- فرم ثبت‌نام -->
-            <form id="signupForm" class="auth-form" onsubmit="event.preventDefault(); handleSignUp();">
+            <!-- فرم ثبت‌نام (بدون onsubmit در تگ form) -->
+            <form id="signupForm" class="auth-form">
                 <div class="form-group">
                     <label data-i18n="labelEmail">Email Address</label>
                     <div class="input-wrapper">
@@ -448,6 +425,8 @@
                 </button>
             </form>
         </section>
+        
+        
 
         <footer>
             <p>© 2026 ESL Island. All rights reserved.</p>
@@ -460,7 +439,7 @@
         </footer>
     </div>
     <script src="../global.js"></script>
-    <script type="module" src="auth.js"></script>
+    
     <script>
 
 
@@ -575,7 +554,12 @@
                 }
             }
 
+            
+
     </script>
+    <!-- حتماً در انتهای فایل HTML قبل از بسته شدن body فایل auth.js را فراخوانی کنید -->
+    <script type="module" src="../auth.js"></script>
+    
 
 </body>
 
