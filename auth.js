@@ -4,8 +4,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
-    signInWithRedirect, // ✅ تغییر به Redirect
-    getRedirectResult,  // ✅ برای دریافت نتیجه بازگشت از گوگل
+    signInWithPopup,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
@@ -25,23 +24,49 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-// ۳. بررسی نتیجه ورود بعد از Redirect شدن
-getRedirectResult(auth)
-    .then((result) => {
-        if (result) {
-            console.log("ورود موفقیت‌آمیز با گوگل:", result.user);
-        }
-    })
-    .catch((error) => {
-        console.error("خطا در ورود با گوگل:", error);
-    });
+// ۳. تابع تغییر نمایش UI
+function updateUI(user) {
+    const authSection = document.querySelector('.auth-section');
+    const userProfileSection = document.getElementById('userProfileSection');
 
-// ۴. تابع جدید ورود با گوگل (Redirection)
-async function loginWithGoogle() {
+    if (user) {
+        if (authSection) authSection.style.display = 'none';
+        if (userProfileSection) {
+            userProfileSection.style.display = 'block';
+
+            const emailElem = document.getElementById('userEmail');
+            const nameElem = document.getElementById('userName');
+            const avatarElem = document.getElementById('userAvatar');
+
+            if (emailElem) emailElem.textContent = user.email || 'No Email';
+            if (nameElem) nameElem.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Learner');
+            if (avatarElem && user.photoURL) avatarElem.src = user.photoURL;
+        }
+    } else {
+        if (authSection) authSection.style.display = 'block';
+        if (userProfileSection) userProfileSection.style.display = 'none';
+    }
+}
+
+// ۴. لیسنر اصلی نشست کاربر (فقط یک‌بار فراخوانی شده است)
+onAuthStateChanged(auth, (user) => {
+    console.log("وضعیت کاربر تغییر کرد:", user);
+    updateUI(user);
+});
+
+// ۵. تابع ورود با گوگل (با Popup بهینه)
+async function loginWithGoogle(e) {
+    if (e) e.preventDefault();
     try {
-        await signInWithRedirect(auth, googleProvider);
+        const result = await signInWithPopup(auth, googleProvider);
+        console.log("ورود موفق با گوگل:", result.user);
     } catch (error) {
-        alert("خطا در ارتباط با گوگل: " + error.message);
+        console.error("خطا در ورود با گوگل:", error);
+        if (error.code === 'auth/popup-blocked') {
+            alert("لطفاً اجازه باز شدن پنجره Pop-up را در مرورگر خود بدهید.");
+        } else {
+            alert("خطا در ارتباط با گوگل: " + error.message);
+        }
     }
 }
 
@@ -82,29 +107,6 @@ async function handleLogout() {
         alert("خطا در خروج: " + error.message);
     }
 }
-
-// ۵. مدیریت وضعیت لاگین کاربر
-onAuthStateChanged(auth, (user) => {
-    const authSection = document.querySelector('.auth-section');
-    const userProfileSection = document.getElementById('userProfileSection');
-
-    if (user) {
-        if (authSection) authSection.style.display = 'none';
-        if (userProfileSection) {
-            userProfileSection.style.display = 'block';
-            const emailElem = document.getElementById('userEmail');
-            const nameElem = document.getElementById('userName');
-            const avatarElem = document.getElementById('userAvatar');
-
-            if (emailElem) emailElem.textContent = user.email;
-            if (nameElem) nameElem.textContent = user.displayName || 'Learner';
-            if (avatarElem && user.photoURL) avatarElem.src = user.photoURL;
-        }
-    } else {
-        if (authSection) authSection.style.display = 'block';
-        if (userProfileSection) userProfileSection.style.display = 'none';
-    }
-});
 
 // ۶. اتصال eventها
 document.addEventListener('DOMContentLoaded', () => {
