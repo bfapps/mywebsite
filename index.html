@@ -254,10 +254,16 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
             import {
                 getAuth,
+                createUserWithEmailAndPassword,
+                signInWithEmailAndPassword,
                 GoogleAuthProvider,
-                signInWithCredential,
+                signInWithPopup,
+                signInWithRedirect,
+                getRedirectResult,
                 onAuthStateChanged,
-                signOut
+                signOut,
+                setPersistence,
+                browserLocalPersistence
             } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
             const firebaseConfig = {
@@ -272,7 +278,17 @@
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
 
-            // تابع بروزرسانی UI
+            // اجبار فایربیس به ذخیره توکن در localStorage دامنه‌ی فعلی
+            setPersistence(auth, browserLocalPersistence).catch((err) => {
+                console.error("خطا در تنظیم Persistence:", err);
+            });
+
+            const googleProvider = new GoogleAuthProvider();
+            // افزودن پرامپت اجباری برای انتخاب اکانت
+            googleProvider.setCustomParameters({
+                prompt: 'select_account'
+            });
+
             function updateUI(user) {
                 const authSection = document.querySelector('.auth-section');
                 const userProfileSection = document.getElementById('userProfileSection');
@@ -287,7 +303,7 @@
                         const avatarElem = document.getElementById('userAvatar');
 
                         if (emailElem) emailElem.textContent = user.email || 'No Email';
-                        if (nameElem) nameElem.textContent = user.displayName || user.email.split('@')[0];
+                        if (nameElem) nameElem.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Learner');
                         if (avatarElem && user.photoURL) avatarElem.src = user.photoURL;
                     }
                 } else {
@@ -296,46 +312,38 @@
                 }
             }
 
-            // لیسنر اصلی فایربیس
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    console.log("✅ لاگین موفق:", user.email);
-                    updateUI(user);
-                } else {
-                    console.log("ℹ️ کاربر مهمان است");
-                    updateUI(null);
-                }
-            });
-
-            // تابع لاگین جدید با گوگل (مستقیم با Credential توکن)
-            window.loginWithGoogle = function () {
-                if (typeof google === 'undefined') {
-                    alert("کتابخانه گوگل هنوز لود نشده است. چند ثانیه صبر کنید.");
-                    return;
-                }
-
-                google.accounts.id.initialize({
-                    client_id: "507461771746-????????.apps.googleusercontent.com", // Client ID شما در فایربیس
-                    callback: async (response) => {
-                        try {
-                            // تبدیل توکن گوگل به کریپتو فایربیس
-                            const credential = GoogleAuthProvider.credential(response.credential);
-                            const result = await signInWithCredential(auth, credential);
-                            console.log("ورود موفقیت‌آمیز مستند:", result.user);
-                        } catch (error) {
-                            console.error("خطا در لاگین:", error);
-                            alert("خطا: " + error.message);
-                        }
+            // بررسی بازگشت از ریدایرکت
+            getRedirectResult(auth)
+                .then((result) => {
+                    if (result && result.user) {
+                        console.log("ورود موفق از ریدایرکت:", result.user);
+                        updateUI(result.user);
                     }
-                });
+                })
+                .catch((error) => console.error("خطای ریدایرکت:", error));
 
-                google.accounts.id.prompt(); // نمایش پنجره نیتیو گوگل
-            };
-
-            // تابع خروج
-            document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-                await signOut(auth);
+            // لیسنر نشست
+            onAuthStateChanged(auth, (user) => {
+                console.log("وضعیت کاربر در هاست:", user ? user.email : "مهمان (null)");
+                updateUI(user);
             });
+
+            // تابع ورود مستقیم روی هاست
+            window.loginWithGoogle = function (e) {
+                if (e) e.preventDefault();
+
+                // روی هاست واقعی معمولاً signInWithPopup به دلیل Cross-Origin محدود می‌شود
+                signInWithPopup(auth, googleProvider)
+                    .then((result) => {
+                        console.log("ورود موفق با Popup:", result.user);
+                        updateUI(result.user);
+                    })
+                    .catch((error) => {
+                        console.warn("پاپ‌آپ در هاست مسدود شد. سوئیچ به Redirect...", error);
+                        // اگر در هاست واقعی پاپ‌آپ مسدود شد، بلافاصله ریدایرکت انجام شود
+                        signInWithRedirect(auth, googleProvider);
+                    });
+            };
         
     </script>
     
