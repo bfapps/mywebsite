@@ -2,7 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import {
     getAuth,
     GoogleAuthProvider,
-    signInWithCredential, // ✅ به جای signInWithPopup / signInWithRedirect
+    signInWithPopup,
+    signInWithCredential,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
@@ -18,8 +19,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
-// تابع آپدیت UI
+// تابع به‌روزرسانی UI
 function updateUI(user) {
     const authSection = document.querySelector('.auth-section');
     const userProfileSection = document.getElementById('userProfileSection');
@@ -34,7 +36,7 @@ function updateUI(user) {
             const avatarElem = document.getElementById('userAvatar');
 
             if (emailElem) emailElem.textContent = user.email || 'No Email';
-            if (nameElem) nameElem.textContent = user.displayName || user.email.split('@')[0];
+            if (nameElem) nameElem.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Learner');
             if (avatarElem && user.photoURL) avatarElem.src = user.photoURL;
         }
     } else {
@@ -43,45 +45,74 @@ function updateUI(user) {
     }
 }
 
-// مدیریت نشست کاربر
+// لیسنر نشست کاربر
 onAuthStateChanged(auth, (user) => {
-    console.log("وضعیت کاربر در Vercel:", user ? user.email : "مهمان (null)");
+    console.log("وضعیت نشست کاربر:", user ? user.email : "مهمان (null)");
     updateUI(user);
 });
 
-// ✅ تابع لاگین جدید و بدون ارور برای Vercel
+// ✅ تابع ورود هوشمند و مقاوم در برابر خطا
 window.loginWithGoogle = function (e) {
     if (e) e.preventDefault();
 
-    if (typeof google === 'undefined') {
-        alert("کتابخانه گوگل در حال بارگذاری است، دوباره تلاش کنید.");
-        return;
+    console.log("درخواست ورود با گوگل ثبت شد...");
+
+    // ۱. بررسی اینکه آیا کتابخانه Google Identity آماده است یا خیر
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+        try {
+            google.accounts.id.initialize({
+                // Client ID واقعی مربوط به پروژه eslisland-a233f
+                client_id: "507461771746-vit4mvsmb92rc531bh1i0t5a47vk00ap.apps.googleusercontent.com",
+                callback: async (response) => {
+                    try {
+                        const credential = GoogleAuthProvider.credential(response.credential);
+                        const result = await signInWithCredential(auth, credential);
+                        console.log("ورود موفقیت‌آمیز با GSI:", result.user);
+                    } catch (err) {
+                        console.error("خطا در ورود با Credential:", err);
+                        // در صورت خطا، سوئیچ به Pop-up استاندارد فایربیس
+                        fallbackToPopup();
+                    }
+                }
+            });
+
+            // باز کردن پنجره انتخاب حساب
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    fallbackToPopup();
+                }
+            });
+            return;
+        } catch (err) {
+            console.warn("خطا در اجرای GSI، سوئیچ به روش Popup...", err);
+        }
     }
 
-    google.accounts.id.initialize({
-        // این Client ID اختصاصی پروژه فایربیس شماست
-        client_id: "507461771746-880479155938.apps.googleusercontent.com",
-        callback: async (response) => {
-            try {
-                // ساخت کریپتو توکن و ورود مستقیم در فایربیس بدون ریدایرکت دامنه‌ای
-                const credential = GoogleAuthProvider.credential(response.credential);
-                const result = await signInWithCredential(auth, credential);
-                console.log("ورود موفق در Vercel:", result.user);
-            } catch (error) {
-                console.error("خطا در ورود:", error);
-                alert("خطا در ورود: " + error.message);
-            }
-        }
-    });
-
-    // باز کردن پنجره ایمن گوگل
-    google.accounts.id.prompt((notification) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-            // اگر پنجره شناور نیاامد، حالت استاندارد را اجرا کن
-            google.accounts.id.renderButton(
-                document.getElementById('googleBtn'),
-                { theme: 'outline', size: 'large' }
-            );
-        }
-    });
+    // ۲. اگر کتابخانه گوگل لود نشده بود یا خطایی رخ داد، از پاپ‌آپ مستقیم استفاده کن
+    fallbackToPopup();
 };
+
+function fallbackToPopup() {
+    signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            console.log("ورود موفقیت‌آمیز با Pop-up:", result.user);
+            updateUI(result.user);
+        })
+        .catch((error) => {
+            console.error("خطا در پاپ‌آپ فایربیس:", error);
+            alert("خطا در ورود به حساب: " + error.message);
+        });
+}
+
+// اتصال Event ها
+document.addEventListener('DOMContentLoaded', () => {
+    const googleBtn = document.getElementById('googleBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (googleBtn) {
+        googleBtn.addEventListener('click', window.loginWithGoogle);
+    }
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => signOut(auth));
+    }
+});
