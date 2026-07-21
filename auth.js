@@ -25,10 +25,9 @@ const googleProvider = new GoogleAuthProvider();
 // تابع ورود با گوگل
 async function loginWithGoogle() {
     try {
-        const result = await signInWithPopup(auth, googleProvider);
-        alert("ورود با گوگل موفقیت‌آمیز بود: " + result.user.displayName);
+        await signInWithRedirect(auth, googleProvider);
     } catch (error) {
-        alert("خطا در ورود با گوگل: " + error.message);
+        console.error(error);
     }
 }
 
