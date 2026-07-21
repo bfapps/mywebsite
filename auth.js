@@ -4,7 +4,8 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    signInWithRedirect
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 // تنضیمات پروژه
