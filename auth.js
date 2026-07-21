@@ -6,6 +6,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     signInWithRedirect, // ✅ اضافه شده برای حالت رزرو
+    getRedirectResult,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
@@ -25,7 +26,20 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+// ✅ ۲. پردازش نتیجه بازگشت از گوگل پس از ریدایرکت
+getRedirectResult(auth)
+    .then((result) => {
+        if (result && result.user) {
+            console.log("ورود موفقیت‌آمیز پس از Redirect:", result.user);
+            updateUI(result.user);
+        }
+    })
+    .catch((error) => {
+        console.error("خطا در بازگشت از ریدایرکت گوگل:", error);
+    });
+
 // ۳. تابع تغییر نمایش UI
+// تابع به‌روزرسانی ظاهر صفحه
 function updateUI(user) {
     const authSection = document.querySelector('.auth-section');
     const userProfileSection = document.getElementById('userProfileSection');
@@ -50,27 +64,32 @@ function updateUI(user) {
 }
 
 // ۴. لیسنر اصلی نشست کاربر (فقط یک‌بار فراخوانی شده است)
+// مدیریت نشست کاربر
 onAuthStateChanged(auth, (user) => {
-    console.log("وضعیت کاربر تغییر کرد:", user);
+    console.log("وضعیت کاربر تغییر کرد:", user ? user.email : null);
     updateUI(user);
 });
 
 // ۵. تابع ورود با گوگل (با Popup بهینه)
-async function loginWithGoogle(e) {
+// ✅ روش صحیح: بدون async
+window.loginWithGoogle = function (e) {
+    if (e) e.preventDefault();
+
+    // فراخوانی مستقیم
     signInWithPopup(auth, googleProvider)
         .then((result) => {
             console.log("ورود موفقیت‌آمیز با Pop-up:", result.user);
+            updateUI(result.user);
         })
         .catch((error) => {
             console.warn("پاپ‌آپ بلاک شد، سوییچ به Redirect...", error);
             if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
-                // اگر پاپ‌آپ مسدود شد، بلافاصله از ریدایرکت استفاده کن
                 signInWithRedirect(auth, googleProvider);
             } else {
                 alert("خطا در ورود: " + error.message);
             }
         });
-}
+};
 
 // تابع ثبت‌نام با ایمیل
 async function handleSignUp(e) {
