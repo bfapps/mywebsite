@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import {
     getAuth,
     GoogleAuthProvider,
-    signInWithPopup,
     signInWithCredential,
     onAuthStateChanged,
     signOut
@@ -19,9 +18,56 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 
-// تابع به‌روزرسانی UI
+// متغیر برای جلوگیری از چندباره Initialize شدن
+let isGsiInitialized = false;
+
+// ۱. تابع آماده‌سازی اولیه گوگل (فقط یک‌بار اجرا می‌شود)
+function initGoogleClient() {
+    if (isGsiInitialized) return true;
+
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+        google.accounts.id.initialize({
+            client_id: "507461771746-vit4mvsmb92rc531bh1i0t5a47vk00ap.apps.googleusercontent.com",
+            use_fedcm_for_prompt: false, // ✅ غیرفعال کردن FedCM برای جلوگیری از AbortError در برخی مرورگرها
+            callback: async (response) => {
+                try {
+                    const credential = GoogleAuthProvider.credential(response.credential);
+                    const result = await signInWithCredential(auth, credential);
+                    console.log("✅ ورود موفقیت‌آمیز:", result.user.email);
+                } catch (err) {
+                    console.error("خطا در ثبت توکن ورود:", err);
+                }
+            }
+        });
+        isGsiInitialized = true;
+        return true;
+    }
+    return false;
+}
+
+// ۲. تابع مدیریت کلیک روی دکمه گوگل
+window.loginWithGoogle = function (e) {
+    if (e) e.preventDefault();
+
+    const isReady = initGoogleClient();
+
+    if (isReady) {
+        // لغو درخواست‌های قبلی جهت جلوگیری از AbortError
+        google.accounts.id.cancel();
+
+        // نمایش پرامپت انتخاب حساب
+        google.accounts.id.prompt((notification) => {
+            if (notification.isDismissedMoment()) {
+                console.log("کاربر پنجره لاگین را بست.");
+            }
+        });
+    } else {
+        alert("کتابخانه گوگل هنوز کاملاً بارگذاری نشده است. لطفاً چند ثانیه دیگر دوباره تلاش کنید.");
+    }
+};
+
+// ۳. به‌روزرسانی UI و بررسی نشست
 function updateUI(user) {
     const authSection = document.querySelector('.auth-section');
     const userProfileSection = document.getElementById('userProfileSection');
@@ -45,59 +91,14 @@ function updateUI(user) {
     }
 }
 
-// لیسنر نشست کاربر
 onAuthStateChanged(auth, (user) => {
-    console.log("وضعیت نشست کاربر:", user ? user.email : "مهمان (null)");
     updateUI(user);
 });
 
-// ✅ تابع ورود هوشمند و مقاوم در برابر خطا
-window.loginWithGoogle = function (e) {
-    if (e) e.preventDefault();
-
-    if (window.google && window.google.accounts && window.google.accounts.id) {
-        google.accounts.id.initialize({
-            client_id: "507461771746-vit4mvsmb92rc531bh1i0t5a47vk00ap.apps.googleusercontent.com", // 👈 Client ID واقعی‌تان
-            callback: async (response) => {
-                try {
-                    const credential = GoogleAuthProvider.credential(response.credential);
-                    const result = await signInWithCredential(auth, credential);
-                    console.log("ورود موفقیت‌آمیز:", result.user);
-                } catch (err) {
-                    console.error("خطا در ورود:", err);
-                    alert("خطا در ورود: " + err.message);
-                }
-            }
-        });
-
-        // درخواست مستقیم و ایمن از گوگل (بدون درگیر کردن پاپ‌آپ فایربیس)
-        google.accounts.id.prompt();
-    } else {
-        alert("کتابخانه گوگل هنوز کاملاً بارگذاری نشده است. لطفاً چند ثانیه دیگر دوباره تلاش کنید.");
-    }
-};
-
-function fallbackToPopup() {
-    signInWithPopup(auth, googleProvider)
-        .then((result) => {
-            console.log("ورود موفقیت‌آمیز با Pop-up:", result.user);
-            updateUI(result.user);
-        })
-        .catch((error) => {
-            console.error("خطا در پاپ‌آپ فایربیس:", error);
-            alert("خطا در ورود به حساب: " + error.message);
-        });
-}
-
-// اتصال Event ها
 document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.getElementById('googleBtn');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    if (googleBtn) {
-        googleBtn.addEventListener('click', window.loginWithGoogle);
-    }
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => signOut(auth));
-    }
+    if (googleBtn) googleBtn.addEventListener('click', window.loginWithGoogle);
+    if (logoutBtn) logoutBtn.addEventListener('click', () => signOut(auth));
 });
