@@ -5,6 +5,7 @@ import {
     signInWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithPopup,
+    signInWithRedirect, // ✅ اضافه شده برای حالت رزرو
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
@@ -56,18 +57,19 @@ onAuthStateChanged(auth, (user) => {
 
 // ۵. تابع ورود با گوگل (با Popup بهینه)
 async function loginWithGoogle(e) {
-    if (e) e.preventDefault();
-    try {
-        const result = await signInWithPopup(auth, googleProvider);
-        console.log("ورود موفق با گوگل:", result.user);
-    } catch (error) {
-        console.error("خطا در ورود با گوگل:", error);
-        if (error.code === 'auth/popup-blocked') {
-            alert("لطفاً اجازه باز شدن پنجره Pop-up را در مرورگر خود بدهید.");
-        } else {
-            alert("خطا در ارتباط با گوگل: " + error.message);
-        }
-    }
+    signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            console.log("ورود موفقیت‌آمیز با Pop-up:", result.user);
+        })
+        .catch((error) => {
+            console.warn("پاپ‌آپ بلاک شد، سوییچ به Redirect...", error);
+            if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+                // اگر پاپ‌آپ مسدود شد، بلافاصله از ریدایرکت استفاده کن
+                signInWithRedirect(auth, googleProvider);
+            } else {
+                alert("خطا در ورود: " + error.message);
+            }
+        });
 }
 
 // تابع ثبت‌نام با ایمیل
