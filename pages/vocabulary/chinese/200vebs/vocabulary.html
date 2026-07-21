@@ -238,12 +238,31 @@
             });
         }
 
+
+        /* ----------------------------------------------------
+        مشخص کردن مکان لیست یونیت ها و زبان در دو تابع پایین. این دو تابع با توجه به کتاب های صفحه تغییر میکنند
+        ----------------------------------------------------------*/
+
         // مشخص کردن مکان یونیت های هر کتاب
         document.addEventListener("DOMContentLoaded", () => {
             // کتاب‌های پراسپکت از دیتابیس prospectData می‌خوانند
             renderBookUnits("ch200verbs", "ch200verbs_list", ch200verbsData);
             
         });
+
+        // تابع تغییر زبان قسمت یونیت ها داخل  accordions
+        window.addEventListener('languageChanged', function (e) {
+                // اگر تابع رندر در صفحه موجود است
+                if (typeof renderBookUnits === 'function') {
+
+                    // ۱. رندر مجدد سری کتاب‌های Prospect (اگر دیتایش بارگذاری شده)
+                    if (typeof ch200verbsData !== 'undefined') {
+                        renderBookUnits("ch200verbs", "ch200verbs_list", ch200verbsData);
+                        
+                    }
+
+                }
+            });
 
 
     </script>

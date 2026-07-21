@@ -1,7 +1,35 @@
 
 let currentLang = 'en';
 
+// تابع اصلی تغییر زبان (فایل global.js)
+function applyLanguage(lang) {
+    // ۱. ذخیره در مرورگر
+    localStorage.setItem('siteLanguage', lang);
+
+    // ۲. تغییر جهت صفحه (RTL/LTR)
+    document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+
+    // ۳. به‌روزرسانی متغیر عمومی
+    currentLang = lang;
+
+    // ۴. ترجمه المان‌های ثابتی که data-i18n دارند
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            element.innerHTML = translations[lang][key];
+        }
+    });
+
+    // ۵. 📢 خبر دادن به تمام صفحات که زبان تغییر کرده است!
+    window.dispatchEvent(new CustomEvent('languageChanged', {
+        detail: { language: lang }
+    }));
+}
+
+
 // تابع اصلی تغییر زبان
+/*
 function applyLanguage(lang) {
     // ذخیره در مرورگر
     localStorage.setItem('siteLanguage', lang);
@@ -49,6 +77,7 @@ function applyLanguage(lang) {
         }
     }
 }
+*/
 
 // تشخیص زبان سیستم هنگام ورود
 document.addEventListener('DOMContentLoaded', () => {

@@ -370,6 +370,11 @@
                 });
             }
 
+
+            /* ----------------------------------------------------
+            مشخص کردن مکان لیست یونیت ها و زبان در دو تابع پایین. این دو تابع با توجه به کتاب های صفحه تغییر میکنند
+            ----------------------------------------------------------*/
+
             // مشخص کردن مکان یونیت های هر کتاب
             document.addEventListener("DOMContentLoaded", () => {
                     // کتاب‌های پراسپکت از دیتابیس prospectData می‌خوانند
@@ -381,6 +386,27 @@
                     renderBookUnits("vision1", "vision1-list", visionData);
                     renderBookUnits("vision2", "vision2-list", visionData);
                     renderBookUnits("vision3", "vision3-list", visionData);
+                });
+            
+            window.addEventListener('languageChanged', function (e) {
+                    // اگر تابع رندر در صفحه موجود است
+                    if (typeof renderBookUnits === 'function') {
+
+                        // ۱. رندر مجدد سری کتاب‌های Prospect (اگر دیتایش بارگذاری شده)
+                        if (typeof prospectData !== 'undefined') {
+                            renderBookUnits("prospect1", "prospect1-list", prospectData);
+                            renderBookUnits("prospect2", "prospect2-list", prospectData);
+                            renderBookUnits("prospect3", "prospect3-list", prospectData);
+                        }
+
+                        // ۲. رندر مجدد سری کتاب‌های Vision (اگر دیتایش بارگذاری شده)
+                        if (typeof visionData !== 'undefined') {
+                            renderBookUnits("vision1", "vision1-list", visionData);
+                            renderBookUnits("vision2", "vision2-list", visionData);
+                            renderBookUnits("vision3", "vision3-list", visionData);
+                        }
+
+                    }
                 });
 
 

@@ -1963,6 +1963,13 @@
 
         renderCard();
     }
+
+    // تغییر زبان بر اساس زبان لیست یونیت ها در accordions قبلی
+        window.addEventListener('languageChanged', function (e) {
+            if (typeof renderCard === 'function') {
+                renderCard();
+            }
+        });
 </script>
 </body>
 
