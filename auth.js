@@ -55,41 +55,26 @@ onAuthStateChanged(auth, (user) => {
 window.loginWithGoogle = function (e) {
     if (e) e.preventDefault();
 
-    console.log("درخواست ورود با گوگل ثبت شد...");
-
-    // ۱. بررسی اینکه آیا کتابخانه Google Identity آماده است یا خیر
     if (window.google && window.google.accounts && window.google.accounts.id) {
-        try {
-            google.accounts.id.initialize({
-                // Client ID واقعی مربوط به پروژه eslisland-a233f
-                client_id: "507461771746-vit4mvsmb92rc531bh1i0t5a47vk00ap.apps.googleusercontent.com",
-                callback: async (response) => {
-                    try {
-                        const credential = GoogleAuthProvider.credential(response.credential);
-                        const result = await signInWithCredential(auth, credential);
-                        console.log("ورود موفقیت‌آمیز با GSI:", result.user);
-                    } catch (err) {
-                        console.error("خطا در ورود با Credential:", err);
-                        // در صورت خطا، سوئیچ به Pop-up استاندارد فایربیس
-                        fallbackToPopup();
-                    }
+        google.accounts.id.initialize({
+            client_id: "507461771746-vit4mvsmb92rc531bh1i0t5a47vk00ap.apps.googleusercontent.com", // 👈 Client ID واقعی‌تان
+            callback: async (response) => {
+                try {
+                    const credential = GoogleAuthProvider.credential(response.credential);
+                    const result = await signInWithCredential(auth, credential);
+                    console.log("ورود موفقیت‌آمیز:", result.user);
+                } catch (err) {
+                    console.error("خطا در ورود:", err);
+                    alert("خطا در ورود: " + err.message);
                 }
-            });
+            }
+        });
 
-            // باز کردن پنجره انتخاب حساب
-            google.accounts.id.prompt((notification) => {
-                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                    fallbackToPopup();
-                }
-            });
-            return;
-        } catch (err) {
-            console.warn("خطا در اجرای GSI، سوئیچ به روش Popup...", err);
-        }
+        // درخواست مستقیم و ایمن از گوگل (بدون درگیر کردن پاپ‌آپ فایربیس)
+        google.accounts.id.prompt();
+    } else {
+        alert("کتابخانه گوگل هنوز کاملاً بارگذاری نشده است. لطفاً چند ثانیه دیگر دوباره تلاش کنید.");
     }
-
-    // ۲. اگر کتابخانه گوگل لود نشده بود یا خطایی رخ داد، از پاپ‌آپ مستقیم استفاده کن
-    fallbackToPopup();
 };
 
 function fallbackToPopup() {
