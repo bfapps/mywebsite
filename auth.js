@@ -4,8 +4,8 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
-    signInWithPopup,
-    signInWithRedirect,
+    signInWithRedirect, // ✅ تغییر به Redirect
+    getRedirectResult,  // ✅ برای دریافت نتیجه بازگشت از گوگل
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
@@ -25,18 +25,23 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-// ۳. تعریف توابع ورود و ثبت‌نام (حتماً قبل از addEventListener باشند)
+// ۳. بررسی نتیجه ورود بعد از Redirect شدن
+getRedirectResult(auth)
+    .then((result) => {
+        if (result) {
+            console.log("ورود موفقیت‌آمیز با گوگل:", result.user);
+        }
+    })
+    .catch((error) => {
+        console.error("خطا در ورود با گوگل:", error);
+    });
 
-// تابع ورود با گوگل
+// ۴. تابع جدید ورود با گوگل (Redirection)
 async function loginWithGoogle() {
     try {
-        await signInWithPopup(auth, googleProvider);
+        await signInWithRedirect(auth, googleProvider);
     } catch (error) {
-        if (error.code === 'auth/popup-blocked') {
-            alert("لطفاً در مرورگر خود اجازه باز شدن پاپ‌آپ (Pop-up) را بدهید.");
-        } else {
-            alert("خطا در ورود با گوگل: " + error.message);
-        }
+        alert("خطا در ارتباط با گوگل: " + error.message);
     }
 }
 
@@ -78,7 +83,7 @@ async function handleLogout() {
     }
 }
 
-// ۴. مدیریت وضعیت لاگین بودن کاربر (نمایش/مخفی‌سازی کارت)
+// ۵. مدیریت وضعیت لاگین کاربر
 onAuthStateChanged(auth, (user) => {
     const authSection = document.querySelector('.auth-section');
     const userProfileSection = document.getElementById('userProfileSection');
@@ -101,7 +106,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// ۵. اتصال دکمه‌ها پس از بارگذاری DOM
+// ۶. اتصال eventها
 document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.getElementById('googleBtn');
     const loginForm = document.getElementById('loginForm');
