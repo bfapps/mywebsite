@@ -324,6 +324,27 @@
                     <p>Let's Learn English</p>
                 </div>
             </div>
+            
+            <!-- ۲. بخش وضعیت کاربر (کنار منوی همبرگری) -->
+            <div class="header-user-status">
+                <!-- حالت ۱: فقط دکمه Sign In برای مهمان -->
+                <div class="guest-only">
+                    <a href="/pages/auth.html" class="nav-login-btn">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Sign In</span>
+                    </a>
+                </div>
+            
+                <!-- حالت ۲: فقط عکس پروفایل و دکمه خروج برای کاربر واردشده -->
+                <div class="user-only" style="display: none;">
+                    <img id="navUserAvatar" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar"
+                        class="nav-avatar">
+                    <button id="navLogoutBtn" class="nav-logout-btn" type="button" title="Log Out">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+
             <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
                 <i class="fa-solid fa-bars" id="menuIcon"></i>
             </button>
@@ -575,6 +596,7 @@
     </script>
     <!-- حتماً در انتهای فایل HTML قبل از بسته شدن body فایل auth.js را فراخوانی کنید -->
     <script type="module" src="../auth.js"></script>
+    <script type="module" src="/auth-guard.js"></script>
 
 
 </body>
