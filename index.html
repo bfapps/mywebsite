@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            
+
             <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
                 <i class="fa-solid fa-bars" id="menuIcon"></i>
             </button>
@@ -273,105 +273,12 @@
         };
 
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-            import {
-                getAuth,
-                GoogleAuthProvider,
-                signInWithCredential,
-                onAuthStateChanged,
-                signOut
-            } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
-            const firebaseConfig = {
-                apiKey: "AIzaSyA8G93Dez_X4QJJ5yixnoGP3BjDhEr5cNw",
-                authDomain: "eslisland-a233f.firebaseapp.com",
-                projectId: "eslisland-a233f",
-                storageBucket: "eslisland-a233f.firebasestorage.app",
-                messagingSenderId: "507461771746",
-                appId: "1:507461771746:web:7dd0c8c8457a81721559bb"
-            };
-
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-
-            // تابع آپدیت UI
-            function updateUI(user) {
-                const authSection = document.querySelector('.auth-section');
-                const userProfileSection = document.getElementById('userProfileSection');
-
-                if (user) {
-                    if (authSection) authSection.style.display = 'none';
-                    if (userProfileSection) {
-                        userProfileSection.style.display = 'block';
-
-                        const emailElem = document.getElementById('userEmail');
-                        const nameElem = document.getElementById('userName');
-                        const avatarElem = document.getElementById('userAvatar');
-
-                        if (emailElem) emailElem.textContent = user.email || 'No Email';
-                        if (nameElem) nameElem.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Learner');
-                        if (avatarElem && user.photoURL) avatarElem.src = user.photoURL;
-                    }
-                } else {
-                    if (authSection) authSection.style.display = 'block';
-                    if (userProfileSection) userProfileSection.style.display = 'none';
-                }
-            }
-
-            // مدیریت نشست کاربر
-            onAuthStateChanged(auth, (user) => {
-                console.log("وضعیت کاربر در لپ‌تاپ:", user ? user.email : "مهمان (null)");
-                updateUI(user);
-            });
-
-            // تابع لاگین مخصوص دسکتاپ و لپ‌تاپ (بدون استفاده از Pop-up فایربیس)
-            window.loginWithGoogle = function (e) {
-                if (e) e.preventDefault();
-
-                if (typeof google === 'undefined') {
-                    alert("کتابخانه گوگل در حال بارگذاری است، لطفاً چند ثانیه دیگر دوباره تلاش کنید.");
-                    return;
-                }
-
-                // راه اندازی پاپ‌آپ نیتیو گوگل
-                google.accounts.id.initialize({
-                    client_id: "507461771746-880479155938.apps.googleusercontent.com", // Client ID استاندارد پروژه فایربیس شما
-                    callback: async (response) => {
-                        try {
-                            // دریافت توکن و احراز هویت مستقیم در فایربیس
-                            const credential = GoogleAuthProvider.credential(response.credential);
-                            const userCredential = await signInWithCredential(auth, credential);
-                            console.log("ورود موفقیت‌آمیز در دسکتاپ:", userCredential.user);
-                        } catch (error) {
-                            console.error("خطای ورود با توکن:", error);
-                            alert("خطا در ورود: " + error.message);
-                        }
-                    }
-                });
-
-                // نمایش پنجره انتخاب حساب گوگل
-                google.accounts.id.prompt((notification) => {
-                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                        // اگر پنجره شناور نشان داده نشد، متد استاندارد انتخاب حساب را اجرا کن
-                        google.accounts.id.renderButton(
-                            document.getElementById("googleBtn"),
-                            { theme: "outline", size: "large" }
-                        );
-                    }
-                });
-            };
-
-            document.addEventListener('DOMContentLoaded', () => {
-                const googleBtn = document.getElementById('googleBtn');
-                const logoutBtn = document.getElementById('logoutBtn');
-
-                if (googleBtn) googleBtn.addEventListener('click', window.loginWithGoogle);
-                if (logoutBtn) logoutBtn.addEventListener('click', () => signOut(auth));
-            });
+        
 
     </script>
     <!-- اضافه کردن SDK گوگل در <head> فایل HTML -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module" src="/auth-guard.js"></script>
     
 
 </body>
