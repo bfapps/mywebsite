@@ -172,7 +172,7 @@ function updateUI(user) {
 onAuthStateChanged(auth, (user) => {
     updateUI(user);
 });
-
+/* */
 // ۵. اتصال Event Listener ها
 document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.getElementById('googleBtn');
