@@ -8,7 +8,7 @@ window.loginWithGoogle = async function (e) {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.origin // بازگشت به همین صفحه بعد لاگین
+                redirectTo: window.location.href // بازگشت به همین صفحه بعد لاگین
             }
         });
         if (error) throw error;
@@ -18,7 +18,7 @@ window.loginWithGoogle = async function (e) {
     }
 };
 
-// ۲. مدیریت ثبت نام با ایمیل (Sign Up با ذخیره نام کاربر)
+/// ثبت‌نام با ایمیل
 async function handleEmailSignUp(e) {
     e.preventDefault();
 
@@ -32,16 +32,14 @@ async function handleEmailSignUp(e) {
             email: email,
             password: password,
             options: {
-                data: {
-                    full_name: fullName // ذخیره نام کاربر در متاداده پروفایل Supabase
-                }
+                data: { full_name: fullName }
             }
         });
 
         if (error) throw error;
 
-        console.log("✅ ثبت‌نام با موفقیت انجام شد:", data.user);
         alert("حساب کاربری شما با موفقیت ساخته شد!");
+        // هیچ کدی برای انتقال به صفحه دیگر اینجا اضافه نمی‌کنیم
 
     } catch (error) {
         console.error("خطا در ثبت‌نام:", error);
@@ -49,7 +47,7 @@ async function handleEmailSignUp(e) {
     }
 }
 
-// ۳. مدیریت ورود با ایمیل (Log In)
+// ورود با ایمیل
 async function handleEmailLogin(e) {
     e.preventDefault();
 
@@ -63,13 +61,14 @@ async function handleEmailLogin(e) {
         });
 
         if (error) throw error;
+        // هیچ کدی برای انتقال به صفحه دیگر اینجا اضافه نمی‌کنیم
 
-        console.log("✅ ورود موفقیت‌آمیز:", data.user);
     } catch (error) {
         console.error("خطا در ورود:", error);
         alert("ایمیل یا رمز عبور اشتباه است یا مشکلی در ورود پیش آمده.");
     }
 }
+
 
 // ۴. به‌روزرسانی UI و نمایش نام/ایمیل کاربر
 function updateUI(user) {
