@@ -1,8 +1,24 @@
-import { supabase } from './supabase-client.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA8G93Dez_X4QJJ5yixnoGP3BjDhEr5cNw",
+    authDomain: "eslisland-a233f.firebaseapp.com",
+    projectId: "eslisland-a233f",
+    storageBucket: "eslisland-a233f.firebasestorage.app",
+    messagingSenderId: "507461771746",
+    appId: "1:507461771746:web:7dd0c8c8457a81721559bb"
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
 function updateHeaderAndAccess(user) {
     const navUserAvatar = document.getElementById('navUserAvatar');
-    const navUsername = document.getElementById('navUsername');
     const guestBox = document.querySelector('.guest-only');
     const userBox = document.querySelector('.user-only');
 
@@ -10,19 +26,16 @@ function updateHeaderAndAccess(user) {
         if (guestBox) guestBox.style.setProperty('display', 'none', 'important');
         if (userBox) userBox.style.setProperty('display', 'flex', 'important');
 
-        const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
-        const displayName = user.user_metadata?.full_name || user.user_metadata?.name || (user.email ? user.email.split('@')[0] : 'Learner');
-
-        if (navUserAvatar && avatarUrl) {
-            navUserAvatar.src = avatarUrl;
-        }
-        if (navUsername) {
-            navUsername.textContent = displayName;
+        if (navUserAvatar && user.photoURL) {
+            navUserAvatar.src = user.photoURL;
         }
     } else {
         if (guestBox) guestBox.style.setProperty('display', 'flex', 'important');
         if (userBox) userBox.style.setProperty('display', 'none', 'important');
     }
+
+    // 🔒 ریست کردن اجباری اسکرول صفحه به بالا و چپ جهت جلوگیری از پرش موقع تغییر وضعیت
+    /* window.scrollTo(0, 0); */
 
     setupProtectedLinks(user);
 }
@@ -46,21 +59,19 @@ function handleProtectedClick(e) {
     alert("🔒 این بخش فقط برای اعضای سایت فعال است. لطفاً ابتدا وارد حساب کاربری خود شوید.");
 }
 
-// گوش دادن به تغییر وضعیت ورود/خروج در هدر
-supabase.auth.onAuthStateChange((event, session) => {
-    const user = session ? session.user : null;
+onAuthStateChanged(auth, (user) => {
     updateHeaderAndAccess(user);
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     const navLogoutBtn = document.getElementById('navLogoutBtn');
     if (navLogoutBtn) {
-        navLogoutBtn.addEventListener('click', async () => {
-            await supabase.auth.signOut();
-        });
+        navLogoutBtn.addEventListener('click', () => signOut(auth));
     }
-
-    // بررسی وضعیت اولیه در زمان بارگذاری
-    const { data: { user } } = await supabase.auth.getUser();
-    updateHeaderAndAccess(user);
 });
+/*document.addEventListener('DOMContentLoaded', () => {
+    const navUserAvatar = document.getElementById('navUserAvatar');
+    if (navUserAvatar) {
+        navUserAvatar.addEventListener('click', () => signOut(auth));
+    }
+});*/
