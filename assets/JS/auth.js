@@ -5,13 +5,13 @@ window.loginWithGoogle = async function (e) {
     if (e) e.preventDefault();
 
     try {
-        // ساخت آدرس تمیز صفحه فعلی (بدون # یا کوئری‌های قبلی)
-        const cleanRedirectUrl = window.location.origin + window.location.pathname;
+        // دریافت آدرس دقیق صفحه بدون هش و کوئری‌های قبلی
+        const cleanRedirectUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
 
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: cleanRedirectUrl // کاربر دقیقا به همین صفحه فعلی برمی‌گردد
+                redirectTo: cleanRedirectUrl
             }
         });
         if (error) throw error;
@@ -102,13 +102,14 @@ function updateUI(user) {
 }
 
 // برسی وضعیت نشست (Session Listener)
+// به‌روزرسانی UI و پاک‌سازی کامل علامت # از آدرس‌بار
 supabase.auth.onAuthStateChange((event, session) => {
     const user = session ? session.user : null;
     updateUI(user);
 
-    // اگر کاربر تازه لاگین کرده و توکن در آدرس بار وجود دارد، آدرس بار را پاکسازی کن
-    if (event === 'SIGNED_IN' && window.location.hash.includes('access_token')) {
-        window.history.replaceState(null, '', window.location.pathname);
+    // به محض ورود موفق یا وجود هش در URL، هش # را کاملاً حذف کن
+    if (window.location.hash) {
+        window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
     }
 });
 
