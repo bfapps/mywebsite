@@ -32,18 +32,40 @@
                 <!--
                                 <i class="fa-solid fa-graduation-cap logo-icon"></i>
                             -->
-                <img src="../logo.png" alt="ESL Logo" class="header-logo-icon">
+                <img src="/logo.png" alt="ESL Logo" class="header-logo-icon">
                 <div class="logo-text">
                     <h1>ESL Island</h1>
                     <p>Let's Learn English</p>
                 </div>
             </div>
+
+            <!-- ۲. بخش وضعیت کاربر (کنار منوی همبرگری) -->
+            <div class="header-user-status">
+                <!-- حالت ۱: فقط دکمه Sign In برای مهمان -->
+                <div class="guest-only">
+                    <a href="/pages/auth.html" class="nav-login-btn">
+
+                        <span class="nav-login-btn-span">Sign In</span>
+                    </a>
+                </div>
+
+                <!-- حالت ۲: فقط عکس پروفایل و دکمه خروج برای کاربر واردشده -->
+                <div class="user-only" style="display: none;">
+                    <a href="/pages/auth.html"> <img id="navUserAvatar" src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                            alt="Avatar" class="nav-avatar"> </a>
+                    <!-- کلاس کلید پایین رو در کلاس کلی نامرئی کردم. میشه تغییر داد  -->
+                    <button id="navLogoutBtn" class="nav-logout-btn" type="button" title="Log Out">
+                        <i class="fa-solid fa-right-from-bracket navLogoutIcn"></i>
+                    </button>
+                </div>
+            </div>
+
             <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
                 <i class="fa-solid fa-bars" id="menuIcon"></i>
             </button>
             <div id="sideMenu" class="side-menu">
                 <div class="menu-items">
-                    <a href="../index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
+                    <a href="/index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
             
                     <div class="accordion-item lang-accordion-item">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -64,12 +86,12 @@
                             </div>
                         </div>
                     </div>
-                    <a href="vocabulary/iranianschool/vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
+                    <a href="/pages/vocabulary/iranianschool/vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
                             Vocabulary </span></a>
                     <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar </span></a>
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
-                    <a href="#extras"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
-                    <a href=""><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
+                    <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
+                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
                 </div>
             </div>
         </header>
@@ -90,7 +112,7 @@
             
                     <!-- عکس با قطر ۱۴۵ و بدون حاشیه -->
                     <foreignObject x="107.5" y="42.5" width="145" height="145">
-                        <img src="../../Assets/img/profiles/profile1.jpg" alt="Profile"
+                        <img src="/assets/img/profiles/profile2.jpg" alt="Profile"
                             style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
                     </foreignObject>
                 </svg>
@@ -145,7 +167,9 @@
             </div>
         </footer>
     </div>
-    <script src="../global.js"></script>
+    <script src="/global.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
     <script>
 
 

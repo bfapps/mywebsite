@@ -11,7 +11,7 @@
         type="text/css" />
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
         type="text/css" />
-    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="/global.css">
 
 </head>
 <style>
@@ -29,13 +29,11 @@
                 <!--
                 <i class="fa-solid fa-graduation-cap logo-icon"></i>
             -->
-                <img src="logo.png" alt="ESL Logo" class="header-logo-icon">
+                <img src="/logo.png" alt="ESL Logo" class="header-logo-icon">
                 <div class="logo-text">
                     <h1>ESL Island</h1>
                     <p>Let's Learn English</p> 
-                </div>
-                
-            
+                </div>    
             </div>
 
 
@@ -44,17 +42,18 @@
                 <!-- حالت ۱: فقط دکمه Sign In برای مهمان -->
                 <div class="guest-only">
                     <a href="/pages/auth.html" class="nav-login-btn">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        <span>Sign In</span>
+            
+                        <span class="nav-login-btn-span">Sign In</span>
                     </a>
                 </div>
             
                 <!-- حالت ۲: فقط عکس پروفایل و دکمه خروج برای کاربر واردشده -->
                 <div class="user-only" style="display: none;">
-                    <img id="navUserAvatar" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar"
-                        class="nav-avatar">
+                    <a href="/pages/auth.html"> <img id="navUserAvatar" src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                            alt="Avatar" class="nav-avatar"> </a>
+                    <!-- کلاس کلید پایین رو در کلاس کلی نامرئی کردم. میشه تغییر داد  -->
                     <button id="navLogoutBtn" class="nav-logout-btn" type="button" title="Log Out">
-                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <i class="fa-solid fa-right-from-bracket navLogoutIcn"></i>
                     </button>
                 </div>
             </div>
@@ -65,7 +64,7 @@
             </button>
             <div id="sideMenu" class="side-menu">
                 <div class="menu-items">
-                    <a href=""><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
+                    <a href="/index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
         
                     <div class="accordion-item lang-accordion-item">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -86,11 +85,11 @@
                             </div>
                         </div>
                     </div>
-                    <a href="pages/vocabulary/iranianschool/vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary"> Vocabulary </span></a>
+                    <a href="/pages/vocabulary/iranianschool/vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary"> Vocabulary </span></a>
                     <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar </span></a>
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
-                    <a href="pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
-                    <a href="pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
+                    <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
+                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
                 </div>
             </div>
         </header>
@@ -139,7 +138,7 @@
 
             
 
-            <a href="pages/vocabulary/iranianschool/vocabulary.html" class="menu-link-card green-theme">
+            <a href="/pages/vocabulary/iranianschool/vocabulary.html" class="menu-link-card green-theme">
                 <div class="card-left">
                     <div class="icon-box green-bg">
                         <i class="fa-solid fa-book-open-reader"></i>
@@ -165,7 +164,7 @@
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
             </a>
 
-            <a href="pages/auth.html" class="menu-link-card orange-theme">
+            <a href="#Tests" class="menu-link-card orange-theme">
                 <div class="card-left">
                     <div class="icon-box orange-bg">
                         <i class="fa-solid fa-list-check"></i>
@@ -178,7 +177,7 @@
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
             </a>
 
-            <a href="pages/vocabulary/chinese/200vebs/vocabulary.html" class="menu-link-card purple-theme">
+            <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html" class="menu-link-card purple-theme">
                 <div class="card-left">
                     <div class="icon-box purple-bg">
                         <i class="fa-solid fa-star"></i>
@@ -191,7 +190,7 @@
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
             </a>
 
-            <a href="pages/aboutme.html" class="menu-link-card pink-theme">
+            <a href="/pages/aboutme.html" class="menu-link-card pink-theme">
                 <div class="card-left">
                     <div class="icon-box pink-bg">
                         <i class="fa-solid fa-user"></i>
@@ -216,7 +215,10 @@
             </div>
         </footer>
     </div>
-    <script src="global.js"></script>
+    <script src="/global.js"></script>
+    <!-- اضافه کردن SDK گوگل در <head> فایل HTML -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
     
     
     <script>

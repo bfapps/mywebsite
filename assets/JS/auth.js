@@ -3,10 +3,11 @@ import {
     getAuth,
     GoogleAuthProvider,
     signInWithCredential,
-    createUserWithEmailAndPassword, // ✅ اضافه شد برای ثبت نام
-    signInWithEmailAndPassword,      // ✅ اضافه شد برای ورود
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
     onAuthStateChanged,
-    signOut
+    signOut,
+    updateProfile // 👈 ۱. اضافه شدن updateProfile برای ثبت نام با ایمیل
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -21,7 +22,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// متغیر برای جلوگیری از چندباره Initialize شدن گوگل
 let isGsiInitialized = false;
 
 function initGoogleClient() {
@@ -35,7 +35,9 @@ function initGoogleClient() {
                 try {
                     const credential = GoogleAuthProvider.credential(response.credential);
                     const result = await signInWithCredential(auth, credential);
-                    console.log("✅ ورود موفقیت‌آمیز با گوگل:", result.user.email);
+
+                    // 👈 گوگل به طور خودکار displayName کاربر را بازمی‌گرداند
+                    console.log("✅ ورود موفقیت‌آمیز با گوگل. نام کاربر:", result.user.displayName);
                 } catch (err) {
                     console.error("خطا در ثبت توکن ورود:", err);
                 }
@@ -65,17 +67,34 @@ window.loginWithGoogle = function (e) {
     }
 };
 
-// ۲. ✅ مدیریت ثبت نام با ایمیل (Sign Up)
+// ۲. ✅ مدیریت ثبت نام با ایمیل (Sign Up با ذخیره نام کاربر)
 async function handleEmailSignUp(e) {
     e.preventDefault();
+
+    // 👈 دریافت نام از فیلد ورودی فرم ثبت‌نام
+    const nameInput = document.getElementById('signupName');
+    const fullName = nameInput ? nameInput.value.trim() : '';
 
     const email = document.getElementById('signupEmail').value.trim();
     const password = document.getElementById('signupPassword').value.trim();
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log("✅ ثبت‌نام موفقیت‌آمیز:", userCredential.user);
+        const user = userCredential.user;
+
+        // 👈 ۲. ثبت نام کاربر در پروفایل فایربیس
+        if (fullName) {
+            await updateProfile(user, {
+                displayName: fullName
+            });
+        }
+
+        console.log("✅ ثبت‌نام و به‌روزرسانی نام با موفقیت انجام شد:", user);
         alert("حساب کاربری شما با موفقیت ساخته شد!");
+
+        // به‌روزرسانی دستی UI جهت نمایش آنی نام
+        updateUI(auth.currentUser);
+
     } catch (error) {
         console.error("خطا در ثبت‌نام:", error);
         switch (error.code) {
@@ -86,7 +105,7 @@ async function handleEmailSignUp(e) {
                 alert("فرمت ایمیل نامعتبر است.");
                 break;
             case 'auth/weak-password':
-                alert(" رمز عبور باید حداقل ۶ کاراکتر باشد.");
+                alert("رمز عبور باید حداقل ۶ کاراکتر باشد.");
                 break;
             default:
                 alert("خطا در ثبت‌نام: " + error.message);
@@ -94,7 +113,7 @@ async function handleEmailSignUp(e) {
     }
 }
 
-// ۳. ✅ مدیریت ورود با ایمیل (Log In)
+// ۳. مدیریت ورود با ایمیل (Log In)
 async function handleEmailLogin(e) {
     e.preventDefault();
 
@@ -110,7 +129,7 @@ async function handleEmailLogin(e) {
             case 'auth/user-not-found':
             case 'auth/wrong-password':
             case 'auth/invalid-credential':
-                alert(" ایمیل یا رمز عبور اشتباه است.");
+                alert("ایمیل یا رمز عبور اشتباه است.");
                 break;
             case 'auth/invalid-email':
                 alert("فرمت ایمیل نامعتبر است.");
@@ -121,7 +140,7 @@ async function handleEmailLogin(e) {
     }
 }
 
-// ۴. به‌روزرسانی UI و بررسی نشست
+// ۴. به‌روزرسانی UI و نمایش نام کاربر (چه گوگل و چه ایمیل)
 function updateUI(user) {
     const authSection = document.querySelector('.auth-section');
     const userProfileSection = document.getElementById('userProfileSection');
@@ -136,7 +155,12 @@ function updateUI(user) {
             const avatarElem = document.getElementById('userAvatar');
 
             if (emailElem) emailElem.textContent = user.email || 'No Email';
-            if (nameElem) nameElem.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Learner');
+
+            // 👈 نمایش نام کاربر (اگر نام ثبت نشده بود، بخش قبل از @ ایمیل را قرار می‌دهد)
+            if (nameElem) {
+                nameElem.textContent = user.displayName || (user.email ? user.email.split('@')[0] : 'Learner');
+            }
+
             if (avatarElem && user.photoURL) avatarElem.src = user.photoURL;
         }
     } else {
@@ -149,7 +173,7 @@ onAuthStateChanged(auth, (user) => {
     updateUI(user);
 });
 
-// ۵. اتصال Event Listener ها به دکمه‌ها و فرم‌ها
+// ۵. اتصال Event Listener ها
 document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.getElementById('googleBtn');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -159,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (googleBtn) googleBtn.addEventListener('click', window.loginWithGoogle);
     if (logoutBtn) logoutBtn.addEventListener('click', () => signOut(auth));
 
-    // ✅ اتصال فرم‌های ورود و ثبت‌نام با ایمیل
     if (loginForm) loginForm.addEventListener('submit', handleEmailLogin);
     if (signupForm) signupForm.addEventListener('submit', handleEmailSignUp);
 });
