@@ -55,6 +55,15 @@
         h3 {
             font-weight: 700;
         }
+        /* استایل لینک‌های محافظت‌شده وقتی کاربر وارد نشده است */
+        a.auth-disabled {
+            opacity: 0.6;
+            /* کم‌رنگ‌تر شدن لینک */
+            cursor: not-allowed !important;
+            /* تغییر شکل نشانگر موس به حالت غیرمجاز */
+            filter: grayscale(100%);
+        }
+        
         .container {
             max-width: 1000px;
             margin: 0 auto;
