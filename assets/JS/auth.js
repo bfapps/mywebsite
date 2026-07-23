@@ -5,14 +5,13 @@ window.loginWithGoogle = async function (e) {
     if (e) e.preventDefault();
 
     try {
-        // ۱. تعریف دقیق متغیر آدرس تمیز
+        // ساخت آدرس تمیز صفحه فعلی (بدون # یا کوئری‌های قبلی)
         const cleanRedirectUrl = window.location.origin + window.location.pathname;
 
-        // ۲. ارسال متغیر به Supabase
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: cleanRedirectUrl
+                redirectTo: cleanRedirectUrl // کاربر دقیقا به همین صفحه فعلی برمی‌گردد
             }
         });
         if (error) throw error;
