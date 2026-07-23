@@ -43,7 +43,7 @@
                 <div class="guest-only">
                     <a href="/pages/auth.html" class="nav-login-btn">
             
-                        <span class="nav-login-btn-span">Sign In</span>
+                        <span class="nav-login-btn-span" data-i18n="signinBtn">Sign In</span>
                     </a>
                 </div>
             
@@ -89,6 +89,8 @@
                     <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar </span></a>
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
                     <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titlecontact"> Contact
+                            me </span></a>
                     <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
                 </div>
             </div>
@@ -189,6 +191,20 @@
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
             </a>
+
+            <a href="/pages/contact.html" class="menu-link-card blue-theme">
+                <div class="card-left">
+                    <div class="icon-box blue-bg">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div class="title-box">
+                        <h3><span data-i18n="titlecontact"> Contact me </span></h3>
+                        <p data-i18n="desccontact">Sending private or public messages</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow-action"></i>
+            </a>
+            
             <a href="/pages/aboutme.html" class="menu-link-card pink-theme">
                 <div class="card-left">
                     <div class="icon-box pink-bg">
@@ -224,6 +240,7 @@
 
         const translations = {
                 en: {
+                    signinBtn: "Sign In",
                     home: "Home",
                     about: "About Me",
                     langTitle: "Language",
@@ -237,6 +254,8 @@
                     descTests: "Test your English proficiency.",
                     titleExtras: "Extra",
                     descExtras: "Cultural insights, and downloadable tools.",
+                    titlecontact: "Contact me",
+                    desccontact:"Sending private or public messages",
                     titleabout: "About me",
                     descAbout: "Who created ESL Island?",
 
@@ -248,6 +267,7 @@
                     
                 },
                 fa: {
+                    signinBtn: "ورود",
                     home: "خانه",
                     about: "درباره من",
                     langTitle: "زبان",
@@ -261,6 +281,8 @@
                     descTests: "مهارت‌های زبان خود را بسنجید.",
                     titleExtras: "سایر",
                     descExtras: "نکات فرهنگی و ابزارهای قابل دانلود",
+                    titlecontact: "تماس با من",
+                    desccontact: "فرستادن پیام به صورت خصوصی یا عمومی",
                     titleabout: "درباره من",
                     descAbout: "با سازنده ESL Island آشنا شوید.",
 

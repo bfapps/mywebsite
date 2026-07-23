@@ -680,7 +680,7 @@
                 <div class="guest-only">
                     <a href="/pages/auth.html" class="nav-login-btn">
 
-                        <span class="nav-login-btn-span">Sign In</span>
+                        <span class="nav-login-btn-span" data-i18n="signinBtn">Sign In</span>
                     </a>
                 </div>
 
@@ -733,6 +733,8 @@
                         </span></a>
                     <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
                             data-i18n="titleExtras"> Extras </span></a>
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titlecontact"> Contact
+                            me </span></a>
                     <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About
                             me
                         </span></a>
@@ -935,12 +937,14 @@
         /* --- ۲. دیکشنری ترجمه قالب سیستم --- */
         const translations = {
             en: {
+                signinBtn: "Sign In",
                 home: "Home",
                 titleVocabulary: "Vocabulary",
                 titleGrammar: "Grammar",
                 titleTests: "Tests",
                 titleExtras: "Extra",
                 titleabout: "About me",
+                titlecontact: "Contact me",
                 about: "About Me",
                 langTitle: "Language",
                 persian: "Persian",
@@ -1002,12 +1006,14 @@
                 chooseQuizType: "Choose Quiz Type"
             },
             fa: {
+                signinBtn: "ورود",
                 home: "خانه",
                 titleVocabulary: "واژگان",
                 titleGrammar: "دستور زبان",
                 titleTests: "آزمون‌ها",
                 titleExtras: "سایر",
                 titleabout: "درباره من",
+                titlecontact: "تماس با من",
                 about: "درباره من",
                 langTitle: "زبان",
                 persian: "فارسی",
