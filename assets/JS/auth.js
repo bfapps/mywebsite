@@ -5,10 +5,14 @@ window.loginWithGoogle = async function (e) {
     if (e) e.preventDefault();
 
     try {
+        // ۱. تعریف دقیق متغیر آدرس تمیز
+        const cleanRedirectUrl = window.location.origin + window.location.pathname;
+
+        // ۲. ارسال متغیر به Supabase
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.href // بازگشت به همین صفحه بعد لاگین
+                redirectTo: cleanRedirectUrl
             }
         });
         if (error) throw error;
@@ -102,6 +106,11 @@ function updateUI(user) {
 supabase.auth.onAuthStateChange((event, session) => {
     const user = session ? session.user : null;
     updateUI(user);
+
+    // اگر کاربر تازه لاگین کرده و توکن در آدرس بار وجود دارد، آدرس بار را پاکسازی کن
+    if (event === 'SIGNED_IN' && window.location.hash.includes('access_token')) {
+        window.history.replaceState(null, '', window.location.pathname);
+    }
 });
 
 // ۵. اتصال Event Listener ها
