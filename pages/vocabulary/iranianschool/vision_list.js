@@ -22,7 +22,8 @@ const visionData = {
             titleEn: "Unit 3 – The Value of Knowledge",
             titleFa: "درس ۳ – ارزش دانش",
             descEn: "Discover famous scientists, human intelligence, and research.",
-            descFa: "آشنایی با دانشمندان مشهور، هوش انسانی و پژوهش."
+            descFa: "آشنایی با دانشمندان مشهور، هوش انسانی و پژوهش.",
+            requireAuth: true
         },
         {
             unit: 4,
@@ -30,7 +31,8 @@ const visionData = {
             titleEn: "Unit 4 – Traveling the World",
             titleFa: "درس ۴ – سفر به جهان",
             descEn: "Plan trips, learn about tourism, and international cultures.",
-            descFa: "برنامه‌ریزی برای سفر، آشنایی با گردشگری و فرهنگ‌های بین‌المللی."
+            descFa: "برنامه‌ریزی برای سفر، آشنایی با گردشگری و فرهنگ‌های بین‌المللی.",
+            requireAuth: true
         }
     ],
     vision2: [
@@ -48,7 +50,8 @@ const visionData = {
             titleEn: "Unit 2 – A Healthy Lifestyle",
             titleFa: "درس ۲ – سبک زندگی سالم",
             descEn: "Master balanced diets, physical health, and avoiding bad habits.",
-            descFa: "تسلط بر رژیم‌های غذایی متعادل، سلامت جسمانی و دوری از عادات بد."
+            descFa: "تسلط بر رژیم‌های غذایی متعادل، سلامت جسمانی و دوری از عادات بد.",
+            requireAuth: true
         },
         {
             unit: 3,
@@ -56,7 +59,8 @@ const visionData = {
             titleEn: "Unit 3 – Art and Culture",
             titleFa: "درس ۳ – هنر و فرهنگ",
             descEn: "Appreciate local customs, traditional crafts, and unique art forms.",
-            descFa: "قدردانی از آداب و رسوم محلی، صنایع دستی سنتی و هنرهای منحصربه‌فرد."
+            descFa: "قدردانی از آداب و رسوم محلی، صنایع دستی سنتی و هنرهای منحصربه‌فرد.",
+            requireAuth: true,
         }
     ],
     vision3: [
@@ -74,7 +78,8 @@ const visionData = {
             titleEn: "Unit 2 – Look it Up!",
             titleFa: "درس ۲ – پیدایش کن! (جستجوی واژگان)",
             descEn: "Master reference tools, lookup definitions, and choose guide words.",
-            descFa: "تسلط بر ابزارهای مرجع، پیدا کردن تعاریف و انتخاب کلمات راهنما."
+            descFa: "تسلط بر ابزارهای مرجع، پیدا کردن تعاریف و انتخاب کلمات راهنما.",
+            requireAuth: true
         },
         {
             unit: 3,
@@ -82,7 +87,8 @@ const visionData = {
             titleEn: "Unit 3 – Renewable Energy",
             titleFa: "درس ۳ – انرژی تجدیدپذیر",
             descEn: "Learn about clean power, solar energy, and sustainable resources.",
-            descFa: "آشنایی با انرژی‌های پاک، انرژی خورشیدی و منابع پایدار."
+            descFa: "آشنایی با انرژی‌های پاک، انرژی خورشیدی و منابع پایدار.",
+            requireAuth: true
         }
     ]
 };

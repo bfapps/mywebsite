@@ -16,7 +16,7 @@
         type="text/css" />
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
         type="text/css" />
-    <link rel="stylesheet" href="../../../../global.css">
+    <link rel="stylesheet" href="/global.css">
 
     <style>
         body {
@@ -666,19 +666,41 @@
     <div class="container">
         <header>
             <div class="logo-container">
-                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <img src="/logo.png" alt="ESL Logo" class="header-logo-icon">
                 <div class="logo-text">
                     <h1>ESL Island</h1>
-                    <p>Flashcards Studio</p>
+                    <p>Let's Learn English</p>
                 </div>
             </div>
+
+            <!-- ۲. بخش وضعیت کاربر (کنار منوی همبرگری) -->
+            <div class="header-user-status">
+                <!-- حالت ۱: فقط دکمه Sign In برای مهمان -->
+                <div class="guest-only">
+                    <a href="/pages/auth.html" class="nav-login-btn">
+
+                        <span class="nav-login-btn-span">Sign In</span>
+                    </a>
+                </div>
+
+                <!-- حالت ۲: فقط عکس پروفایل و دکمه خروج برای کاربر واردشده -->
+                <div class="user-only" style="display: none;">
+                    <a href="/pages/auth.html"> <img id="navUserAvatar"
+                            src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar" class="nav-avatar">
+                    </a>
+                    <!-- کلاس کلید پایین رو در کلاس کلی نامرئی کردم. میشه تغییر داد  -->
+                    <button id="navLogoutBtn" class="nav-logout-btn" type="button" title="Log Out">
+                        <i class="fa-solid fa-right-from-bracket navLogoutIcn"></i>
+                    </button>
+                </div>
+            </div>
+
             <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
                 <i class="fa-solid fa-bars" id="menuIcon"></i>
             </button>
             <div id="sideMenu" class="side-menu">
                 <div class="menu-items">
-                    <a href="../../../../index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home
-                        </span></a>
+                    <a href="/index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
 
                     <div class="accordion-item lang-accordion-item">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -700,31 +722,28 @@
                             </div>
                         </div>
                     </div>
-                    <a href="vocabulary.html"><i class="fa-solid fa-book-open-reader"></i> <span
-                            data-i18n="titleVocabulary">
+                    <a href="/pages/vocabulary/iranianschool/vocabulary.html"><i
+                            class="fa-solid fa-book-open-reader"></i>
+                        <span data-i18n="titleVocabulary">
                             Vocabulary </span></a>
                     <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar
                         </span></a>
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests
                         </span></a>
-                    <a href="vocabulary.html"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras
-                        </span></a>
-                    <a href="../../../aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About
+                    <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
+                            data-i18n="titleExtras"> Extras </span></a>
+                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About
                             me
                         </span></a>
+
+
                 </div>
             </div>
         </header>
 
         <main class="flashcard-wrapper">
 
-            <!-- Progress Elements -->
-            <div class="progress-container">
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progressBarFill"></div>
-                </div>
-                <div class="progress-text" id="progressText">0 / 0</div>
-            </div>
+
 
             <!-- Utilities Bar -->
             <div class="utilities-bar" id="utilitiesBar">
@@ -820,6 +839,14 @@
                 <!-- Content injected dynamically by JS -->
             </div>
 
+            <!-- Progress Elements -->
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 / 0</div>
+            </div>
+
             <!-- Context Hint Grid -->
             <div class="features-grid" id="featuresGrid">
                 <button class="feature-btn" onclick="toggleHint('meaning', this)">
@@ -869,7 +896,16 @@
     </div>
     <audio id="globalAudioPlayer" style="display: none;"></audio>
 
-    <script src="../../../../global.js"></script>
+    <script src="/global.js"></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
+
+    <script src="/pages/vocabulary/chinese/200vebs/ch200verbs_list.js"></script>
+    <script>
+        window.pageBooksData = {
+            ...ch200verbsData
+        };
+    </script>
+    <script src="/assets/JS/supabaseSQL.js"></script>
 
     <script>
 
@@ -1871,6 +1907,13 @@
             isQuizMode = false;
             renderCard();
         }
+
+        // تغییر زبان بر اساس زبان لیست یونیت ها در accordions قبلی
+        window.addEventListener('languageChanged', function (e) {
+            if (typeof renderCard === 'function') {
+                renderCard();
+            }
+        });
     </script>
 </body>
 

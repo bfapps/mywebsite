@@ -315,6 +315,30 @@
             background: #ef4444;
             color: #ffffff;
         }
+
+        /* Reset Progress Button Styling */
+        .reset-progress-btn {
+            width: 100%;
+            padding: 12px;
+            background: #fff7ed;
+            color: #c2410c;
+            border: 1px solid #ffedd5;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 12px;
+        }
+
+        .reset-progress-btn:hover {
+            background: #ea580c;
+            color: #ffffff;
+            border-color: #ea580c;
+        }
     </style>
 </head>
 
@@ -405,6 +429,12 @@
             </div>
 
             <div class="profile-actions">
+                <!-- دکمه جدید ریست کل پیشرفت -->
+                <button id="resetAllDataBtn" class="reset-progress-btn" type="button">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Reset All Flashcard Progress</span>
+                </button>
+
                 <button id="logoutBtn" class="logout-btn" type="button">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Log Out</span>
@@ -612,6 +642,24 @@
                 iconElem.classList.add('fa-eye');
             }
         }
+
+
+        async function logoutUser() {
+                // ۱. خروج از Supabase
+                const { error } = await supabase.auth.signOut();
+
+                if (!error) {
+                    // ۲. پاک‌سازی تمام حافظه‌های محلی مربوط به مرورگر
+                    localStorage.clear();
+                    sessionStorage.clear();
+
+                    console.log("خروج موفقیت‌آمیز انجام شد و داده‌های دستگاه پاک شدند.");
+                    // هدایت کاربر به صفحه ورود
+                    window.location.href = '/login.html';
+                } else {
+                    console.error("خطا در خروج:", error.message);
+                }
+            }
 
 
 

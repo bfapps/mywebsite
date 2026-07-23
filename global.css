@@ -58,10 +58,13 @@
         /* استایل لینک‌های محافظت‌شده وقتی کاربر وارد نشده است */
         a.auth-disabled {
             opacity: 0.6;
-            /* کم‌رنگ‌تر شدن لینک */
             cursor: not-allowed !important;
-            /* تغییر شکل نشانگر موس به حالت غیرمجاز */
             filter: grayscale(100%);
+        }
+
+        a.auth-disabled * {
+            pointer-events: none;
+            /* مانع کلیک روی متن‌ها و آیکون‌های داخلی لینک می‌شود */
         }
         
         .container {

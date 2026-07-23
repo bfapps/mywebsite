@@ -14,7 +14,7 @@ const prospectData = {
             titleEn: "Lesson 1 & 2 – My Name & Classmates",
             titleFa: "درس ۱ و ۲ – نام من و همکلاسی‌های من",
             descEn: "Introducing yourself & Greeting",
-            descFa: "معرفی خود و احوالپرسی"
+            descFa: "معرفی خود و احوالپرسی",
         },
         {
             unit: 3.1,
@@ -30,7 +30,8 @@ const prospectData = {
             titleEn: "Lesson 3.2 – My Age: Numbers:",
             titleFa: "درس ۳.۲ – سن من: اعداد",
             descEn: "Talking about your age & Talking about dates",
-            descFa: "صحبت درباره سن و گفتگو در مورد تاریخ‌ها"
+            descFa: "صحبت درباره سن و گفتگو در مورد تاریخ‌ها",
+            requireAuth: true
         },
         {
             unit: 4.1,
@@ -38,7 +39,8 @@ const prospectData = {
             titleEn: "Lesson 4.1 – My family: Family Members",
             titleFa: "درس ۴.۱ – خانواده من: اعضای خانواده",
             descEn: "Talking about your family",
-            descFa: "صحبت درباره خانواده"
+            descFa: "صحبت درباره خانواده",
+            requireAuth: true
         },
         {
             unit: 4.2,
@@ -46,7 +48,8 @@ const prospectData = {
             titleEn: "Lesson 4.2 – My family: Jobs",
             titleFa: "درس ۴.۲ – خانواده من: شغل‌ها",
             descEn: "Talking about your family",
-            descFa: "صحبت درباره خانواده"
+            descFa: "صحبت درباره خانواده",
+            requireAuth: true
         },
         {
             unit: 5.1,
@@ -54,7 +57,8 @@ const prospectData = {
             titleEn: "Lesson 5.1 – My Appearance: Clothes",
             titleFa: "درس ۵.۱ – ظاهر من: لباس‌ها",
             descEn: "Talking about appearance",
-            descFa: "صحبت درباره ویژگی‌های ظاهری"
+            descFa: "صحبت درباره ویژگی‌های ظاهری",
+            requireAuth: true
         },
         {
             unit: 5.2,
@@ -62,7 +66,8 @@ const prospectData = {
             titleEn: "Lesson 5.2 – My Appearance: Colors",
             titleFa: "درس ۵.۲ – ظاهر من: رنگ‌ها",
             descEn: "Talking about appearance",
-            descFa: "صحبت درباره ویژگی‌های ظاهری"
+            descFa: "صحبت درباره ویژگی‌های ظاهری",
+            requireAuth: true
         },
         {
             unit: 6.1,
@@ -70,7 +75,8 @@ const prospectData = {
             titleEn: "Lesson 6.1 – My House: Places & Household Appliances",
             titleFa: "درس ۶.۱ – خانه من: مکان‌ها و لوازم خانگی",
             descEn: "Where people are & What people are doing",
-            descFa: "افراد کجا هستند و در حال انجام چه کاری می‌باشند"
+            descFa: "افراد کجا هستند و در حال انجام چه کاری می‌باشند",
+            requireAuth: true
         },
         {
             unit: 6.2,
@@ -78,7 +84,8 @@ const prospectData = {
             titleEn: "Lesson 6.2 – My House: Activities",
             titleFa: "درس ۶.۲ – خانه من: فعالیت‌ها",
             descEn: "Where people are & What people are doing",
-            descFa: "افراد کجا هستند و در حال انجام چه کاری می‌باشند"
+            descFa: "افراد کجا هستند و در حال انجام چه کاری می‌باشند",
+            requireAuth: true
         },
         {
             unit: 7,
@@ -86,7 +93,8 @@ const prospectData = {
             titleEn: "Lesson 7 – My Address",
             titleFa: "درس ۷ – آدرس من",
             descEn: "Address-phone number & Telling the time",
-            descFa: "آدرس، شماره تلفن و اعلام ساعت"
+            descFa: "آدرس، شماره تلفن و اعلام ساعت",
+            requireAuth: true
         },
         {
             unit: 8.1,
@@ -94,7 +102,8 @@ const prospectData = {
             titleEn: "Lesson 8.1 – My Favorite Food: Fruits & Vegetables",
             titleFa: "درس ۸.۱ – غذای مورد علاقه من: میوه‌ها و سبزیجات",
             descEn: "Your favorite food & Making suggestions",
-            descFa: "غذای مورد علاقه شما و پیشنهاد دادن"
+            descFa: "غذای مورد علاقه شما و پیشنهاد دادن",
+            requireAuth: true
         },
         {
             unit: 8.2,
@@ -102,7 +111,8 @@ const prospectData = {
             titleEn: "Lesson 8.2 – My Favorite Food: Foods & Drinks",
             titleFa: "درس ۸.۲ – غذای مورد علاقه من: غذاها ونوشیدنی‌ها",
             descEn: "Your favorite food & Making suggestions",
-            descFa: "غذای مورد علاقه شما و پیشنهاد دادن"
+            descFa: "غذای مورد علاقه شما و پیشنهاد دادن",
+            requireAuth: true
         }
     ],
     prospect2: [
@@ -136,7 +146,8 @@ const prospectData = {
             titleEn: "Lesson 4 – My Health",
             titleFa: "درس ۴ – سلامت من",
             descEn: "Health Problems & Giving Health Advice",
-            descFa: "مشکلات سلامتی و دادن توصیه‌های پزشکی"
+            descFa: "مشکلات سلامتی و دادن توصیه‌های پزشکی",
+            requireAuth: true
         },
         {
             unit: 5,
@@ -144,7 +155,8 @@ const prospectData = {
             titleEn: "Lesson 5 – My City",
             titleFa: "درس ۵ – شهر من",
             descEn: "Talking about a Place",
-            descFa: "صحبت درباره یک مکان (شهر)"
+            descFa: "صحبت درباره یک مکان (شهر)",
+            requireAuth: true
         },
         {
             unit: 6,
@@ -152,7 +164,8 @@ const prospectData = {
             titleEn: "Lesson 6 – My Village",
             titleFa: "درس ۶ – روستای من",
             descEn: "Talking about a Place & Weather",
-            descFa: "صحبت درباره یک مکان (روستا) و آب‌وهوا"
+            descFa: "صحبت درباره یک مکان (روستا) و آب‌وهوا",
+            requireAuth: true
         },
         {
             unit: 7,
@@ -160,7 +173,8 @@ const prospectData = {
             titleEn: "Lesson 7 – My Hobbies",
             titleFa: "درس ۷ – سرگرمی‌های من",
             descEn: "Talking about Free Time Activities",
-            descFa: "صحبت درباره فعالیت‌های اوقات فراغت"
+            descFa: "صحبت درباره فعالیت‌های اوقات فراغت",
+            requireAuth: true
         }
         
     ],
@@ -195,7 +209,8 @@ const prospectData = {
             titleEn: "Lesson 4 – Services",
             titleFa: "درس ۴ – خدمات",
             descEn: "Talking about Service",
-            descFa: "صحبت درباره خدمات عمومی و رفاهی"
+            descFa: "صحبت درباره خدمات عمومی و رفاهی",
+            requireAuth: true
         },
         {
             unit: 5,
@@ -203,7 +218,8 @@ const prospectData = {
             titleEn: "Lesson 5 – Media",
             titleFa: "درس ۵ – رسانه‌ها",
             descEn: "Talking about Media",
-            descFa: "صحبت درباره رسانه‌ها و اخبار"
+            descFa: "صحبت درباره رسانه‌ها و اخبار",
+            requireAuth: true
         },
         {
             unit: 6,
@@ -211,7 +227,8 @@ const prospectData = {
             titleEn: "Lesson 6 – Health & Injuries",
             titleFa: "درس ۶ – سلامت و جراحت‌ها",
             descEn: "Talking about Health & Injuries",
-            descFa: "صحبت درباره وضعیت سلامتی و آسیب‌دیدگی‌ها"
+            descFa: "صحبت درباره وضعیت سلامتی و آسیب‌دیدگی‌ها",
+            requireAuth: true
         }
     ]
 };

@@ -382,6 +382,11 @@
                     anchor.href = url;
                     anchor.className = "unit-row-item unit-link";
 
+                    // 👈 بررسی نیازمندی به لاگین و اضافه کردن attribute به تگ a
+                    if (item.requireAuth) {
+                        anchor.setAttribute("data-require-auth", "true");
+                    }
+
                     anchor.innerHTML = `
             <div class="unit-left" ${textDirection}>
                 <div class="unit-number-badge">${item.unit}</div>
@@ -396,6 +401,11 @@
 
                     container.appendChild(anchor);
                 });
+
+                // 👈 فراخوانی مجدد سیستم محافظت از لینک‌ها بعد از ساخت کامل عناصر داینامیک
+            if (typeof updateLinksStyle === 'function') {
+                updateLinksStyle();
+            }
             }
 
 
