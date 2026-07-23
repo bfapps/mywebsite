@@ -63,9 +63,15 @@ onAuthStateChanged(auth, (user) => {
     updateHeaderAndAccess(user);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
     const navLogoutBtn = document.getElementById('navLogoutBtn');
     if (navLogoutBtn) {
         navLogoutBtn.addEventListener('click', () => signOut(auth));
+    }
+});*/
+document.addEventListener('DOMContentLoaded', () => {
+    const navUserAvatar = document.getElementById('navUserAvatar');
+    if (navUserAvatar) {
+        navUserAvatar.addEventListener('click', () => signOut(auth));
     }
 });

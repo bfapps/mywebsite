@@ -115,6 +115,109 @@
             margin-top: 2px;
         }
 
+        /* لوگو سمت چپ قرار می‌گیرد */
+        /*.logo-container {
+            margin-right: auto !important;
+            margin-left: 0 !important;
+        } */
+
+        /* ------------------------------------------------
+            بخش sign in
+        ---------------------------------------------------*/
+
+        /* 🌟 بخش کانتینر وضعیت کاربر در هدر */
+        .header-user-status {
+            margin-left: auto;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 🔒 مدیریت نمایش وضعیت ورود/خروج کاربر */
+        .guest-only,
+        .user-only {
+            display: none;
+        }
+
+        body.logged-out .guest-only {
+            display: flex;
+        }
+
+        body.logged-in .user-only {
+            display: flex;
+        }
+
+        /* 🔑 دکمه ورود (Sign In) */
+        .nav-login-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #ffffff;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 3px 10px rgba(29, 78, 216, 0.2);
+            transition: all 0.25s ease;
+        }
+
+        .nav-login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(29, 78, 216, 0.35);
+        }
+
+        /* 👤 بخش پروفایل کاربر لاگین‌شده */
+        .user-only {
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            max-height: 40px;
+        }
+
+        .nav-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .nav-username {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-dark);
+            max-width: 90px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-logout-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--red-light, #fee2e2);
+            color: var(--red, #ef4444);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-logout-btn:hover {
+            background: var(--red, #ef4444);
+            color: #ffffff;
+        }
+
+
+
         /* Hero Layout */
         .hero {
             display: flex;
@@ -361,6 +464,11 @@
                 font-size: 11px;
             }
 
+            
+            .nav-login-btn-span {
+                font-size: .6rem;
+                margin-right: 2px;
+            }
 
             /* Responsive Hero Section */
             .hero {
@@ -465,9 +573,6 @@
                 transform: rotate(90deg);
             }
     
-                        /* ==========================================================================
-               Hamburger Menu (Fix Scroll in RTL)
-               ========================================================================== */
             
             .side-menu {
                 position: absolute;
@@ -981,166 +1086,7 @@
 
                     
     
-                    /* لوگو سمت چپ قرار می‌گیرد */
-                    .logo-container {
-                        margin-right: auto !important;
-                        margin-left: 0 !important;
-                    }
-    
-                    /* 🌟 بخش ورود/خروج (چسبیده به سمت چپِ دکمه همبرگری) */
-                    .header-user-status {
-                        margin-left: auto !important;
-                        margin-right: 12px !important;
-                        display: flex !important;
-                        align-items: center !important;
-                        direction: ltr !important;
-                        /* ثابت ماندن چیدمان داخلی آواتار و نام */
-                    }
-    
-                    /* دکمه ورود */
-                    .nav-login-btn {
-                        display: inline-flex !important;
-                        align-items: center !important;
-                        gap: 8px !important;
-                        padding: 8px 16px !important;
-                        background: linear-gradient(135deg, var(--blue, #1d4ed8), var(--purple, #6366f1)) !important;
-                        color: #ffffff !important;
-                        border-radius: 10px !important;
-                        font-size: 13.5px !important;
-                        font-weight: 600 !important;
-                        text-decoration: none !important;
-                        transition: all 0.25s ease !important;
-                        box-shadow: 0 3px 10px rgba(29, 78, 216, 0.2) !important;
-                    }
-    
-                    .nav-login-btn:hover {
-                        transform: translateY(-1px) !important;
-                        box-shadow: 0 5px 14px rgba(29, 78, 216, 0.35) !important;
-                    }
-    
-                    /* پروفایل کاربر لاگین شده */
-                    .user-only {
-                        display: none;
-                        align-items: center;
-                        gap: 8px;
-                        margin: 0 !important;
-                        padding: 0 !important;
-                        background: rgba(255, 255, 255, 0.85) !important;
-                        backdrop-filter: blur(8px) !important;
-                        
-                        border-radius: 12px !important;
-                        border: 1px solid var(--border-color, #e2e8f0) !important;
-                        height: 100%;
-                            max-height: 40px;
-                            /* جلوگیری از بزرگتر شدن هدر */
-                    }
-    
-                    .nav-user-info {
-                        display: flex !important;
-                        align-items: center !important;
-                        gap: 8px !important;
-                    }
-    
-                  /*  .nav-avatar {
-                        width: 32px !important;
-                        height: 32px !important;
-                        border-radius: 50% !important;
-                        object-fit: cover !important;
-                        border: 2px solid var(--purple, #6366f1) !important;
-                    }*/
-                                        .nav-avatar {
-                                            width: 32px !important;
-                                            height: 32px !important;
-                                            min-width: 32px !important;
-                                            min-height: 32px !important;
-                                            border-radius: 50% !important;
-                                            object-fit: cover !important;
-                                            margin: 0 !important;
-                                            display: block !important;
-                                        }
-    
-                    .nav-username {
-                        font-size: 13.5px !important;
-                        font-weight: 600 !important;
-                        color: var(--text-dark, #0f172a) !important;
-                        max-width: 90px !important;
-                        white-space: nowrap !important;
-                        overflow: hidden !important;
-                        text-overflow: ellipsis !important;
-                    }
-    
-               /*     .nav-logout-btn {
-                        background: #fee2e2 !important;
-                        color: #ef4444 !important;
-                        border: none !important;
-                        width: 30px !important;
-                        height: 30px !important;
-                        border-radius: 8px !important;
-                        cursor: pointer !important;
-                        display: flex !important;
-                        align-items: center !important;
-                        justify-content: center !important;
-                        font-size: 13px !important;
-                        transition: all 0.2s ease !important;
-                    }*/
-
-                                        .nav-logout-btn {
-                                            width: 32px !important;
-                                            height: 32px !important;
-                                            min-width: 32px !important;
-                                            padding: 0 !important;
-                                            margin: 0 !important;
-                                            display: flex !important;
-                                            align-items: center !important;
-                                            justify-content: center !important;
-                                            background: #fee2e2 !important;
-                                            color: #ef4444 !important;
-                                            border: none !important;
-                                            border-radius: 8px !important;
-                                            cursor: pointer !important;
-                                        }
-    
-                    .nav-logout-btn:hover {
-                        background: #ef4444 !important;
-                        color: #ffffff !important;
-                    }
-    
-                    /* 🍔 دکمه همبرگری (سمت راست مطلق) */
-                    .hamburger {
-                        margin-left: 0 !important;
-                        margin-right: 0 !important;
-                    }
-    
-                    /* خنثی‌سازی هرگونه قانون RTL که روی هدر جابه‌جایی ایجاد می‌کند */
-                    html[lang="fa"] header,
-                    html[lang="fa"] .header-user-status {
-                        direction: ltr !important;
-                    }
-
-
-                    /* 🔒 حالت پیش‌فرض: مخفی کردن هر دو بخش برای جلوگیری از پرش صفحه */
-                    .guest-only,
-                    .user-only {
-                        display: none !important;
-                    }
-
-                    /* 👤 وقتی کاربر لاگین نیست (مهمان است) */
-                    body.logged-out .guest-only {
-                        display: flex !important;
-                    }
-
-                    body.logged-out .user-only {
-                        display: none !important;
-                    }
-
-                    /* 🔓 وقتی کاربر لاگین است */
-                    body.logged-in .user-only {
-                        display: flex !important;
-                    }
-
-                    body.logged-in .guest-only {
-                        display: none !important;
-                    }
+                    
 
                                       
                                        
