@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome To ESL Island</title>
+    <title>ESL Island</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
@@ -316,6 +316,32 @@
             color: #ffffff;
         }
 
+        /* My Dictionary Link Styling */
+        .my-dictionary-btn {
+            width: 100%;
+            padding: 12px;
+            background: #eff6ff; /* رنگ پس‌زمینه آبی ملایم */
+            color: #1d4ed8;     /* رنگ متن آبی */
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 12px;
+            text-decoration: none; /* حذف خط زیر لینک */
+            box-sizing: border-box;
+        }
+
+        .my-dictionary-btn:hover {
+            background: #1d4ed8;
+            color: #ffffff;
+            border-color: #1d4ed8;
+        }
+
         /* Reset Progress Button Styling */
         .reset-progress-btn {
             width: 100%;
@@ -339,6 +365,7 @@
             color: #ffffff;
             border-color: #ea580c;
         }
+
     </style>
 </head>
 
@@ -375,7 +402,7 @@
                 </div>
             </div>
 
-            <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
+            <button type="button" class="hamburger" onclick="toggleMenu()" id="menuBtn" aria-label="Toggle Navigation Menu">
                 <i class="fa-solid fa-bars" id="menuIcon"></i>
             </button>
             <div id="sideMenu" class="side-menu">
@@ -431,15 +458,24 @@
             </div>
 
             <div class="profile-actions">
+                <a href="/index.html" class="my-dictionary-btn">
+                    <i class="fa-solid fa-house"></i>
+                    <span data-i18n="home">Home</span>
+                </a>
+                <!-- لینک جدید My Dictionary -->
+                <a href="/pages/personal/personal.html" class="my-dictionary-btn">
+                    <i class="fa-solid fa-book"></i>
+                    <span data-i18n="myDict">My Dictionary</span>
+                </a>
                 <!-- دکمه جدید ریست کل پیشرفت -->
                 <button id="resetAllDataBtn" class="reset-progress-btn" type="button">
                     <i class="fa-solid fa-rotate-left"></i>
-                    <span>Reset All Flashcard Progress</span>
+                    <span data-i18n="rstAllBtn">Reset All Flashcard Progress</span>
                 </button>
 
                 <button id="logoutBtn" class="logout-btn" type="button">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Log Out</span>
+                    <span data-i18n="logoutBtn">Log Out</span>
                 </button>
             </div>
         </section>
@@ -568,6 +604,7 @@
                 titleExtras: "Extra",
                 titleabout: "About me",
                 titlecontact:"Contact me",
+                myDict: "My Dictionary",
 
                 //title section
                 WelcomeBadge: "",
@@ -582,7 +619,9 @@
                 orDivider: "or continue with email",
                 labelEmail: "Email Address",
                 labelPassword: "Password",
-                forgotPass: "Forgot Password?"
+                forgotPass: "Forgot Password?",
+                rstAllBtn: "Reset All Flashcard Progress",
+                logoutBtn: "Log Out"
 
             },
             fa: {
@@ -598,6 +637,7 @@
                 titleExtras: "سایر",
                 titleabout: "درباره من",
                 titlecontact: "تماس با من",
+                myDict: "واژه‌نامه من",
 
                 //title section
                 WelcomeBadge: "",
@@ -612,7 +652,9 @@
                 orDivider: "یا ادامه با ایمیل",
                 labelEmail: "آدرس ایمیل",
                 labelPassword: "رمز عبور",
-                forgotPass: "رمز عبور را فراموش کرده‌اید؟"
+                forgotPass: "رمز عبور را فراموش کرده‌اید؟",
+                rstAllBtn: "بازنشانی پیشرفت تمامی فلش‌کارت‌ها",
+                logoutBtn: "خروج از حساب کاربری"
 
             }
         };

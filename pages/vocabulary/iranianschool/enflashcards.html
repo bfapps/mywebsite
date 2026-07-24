@@ -590,6 +590,7 @@
             gap: 8px;
             transition: all 0.2s ease;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         .nav-btn.next {
@@ -697,7 +698,7 @@
                 </div>
             </div>
         
-            <button class="hamburger" onclick="toggleMenu()" id="menuBtn">
+            <button class="hamburger" onclick="toggleMenu()" id="menuBtn" aria-label="Toggle Navigation Menu">
                 <i class="fa-solid fa-bars" id="menuIcon"></i>
             </button>
             <div id="sideMenu" class="side-menu">
@@ -836,14 +837,14 @@
                 <h3 style="margin-bottom: 20px; color: var(--text-dark); font-weight: 800; font-size: 16px;"
                     data-i18n="chooseQuizType">Choose Quiz Type</h3>
                 <div style="display: flex; flex-direction: column; gap: 10px; max-width: 250px; margin: 0 auto; width: 100%;">
-                    <button class="quiz-choice-btn" onclick="selectQuizMode('meaning')" style="padding: 12px; cursor: pointer;"
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('meaning')" style="padding: 12px; cursor: pointer;" aria-label="Meaning Quiz"
                         data-i18n="meaningQuiz">Meaning Quiz</button>
-                    <button class="quiz-choice-btn" onclick="selectQuizMode('listening')" style="padding: 12px; cursor: pointer;"
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('listening')" style="padding: 12px; cursor: pointer;" aria-label="Listening Quiz"
                         data-i18n="listeningQuiz">Listening Quiz</button>
-                    <button class="quiz-choice-btn" onclick="selectQuizMode('spelling')" style="padding: 12px; cursor: pointer;"
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('spelling')" style="padding: 12px; cursor: pointer;" aria-label="Spelling Quiz"
                         data-i18n="spellingQuiz">Spelling Quiz</button>
                     <button class="quiz-choice-btn" onclick="cancelQuizSelection()"
-                        style="padding: 10px; cursor: pointer; background-color: var(--gray-btn); color: var(--text-dark); border-color: transparent;"
+                        style="padding: 10px; cursor: pointer; background-color: var(--gray-btn); color: var(--text-dark); border-color: transparent;" aria-label="Cancel Quiz"
                         data-i18n="exitQuiz">Cancel</button>
                 </div>
             </div>
@@ -924,7 +925,7 @@
             };
         </script>
         
-        <script type="module" src="/assets/JS/supabaseSQL.js"></script>
+        <script type="module" src="/assets/JS/save-progress.js"></script>
 
 <script>
 

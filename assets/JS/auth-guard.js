@@ -69,7 +69,7 @@ function checkDirectUrlAccess(user) {
 
         // اگر یونیت نیاز به لاگین داشته باشد و کاربر لاگین نباشد
         if (currentUnit && currentUnit.requireAuth && !user) {
-            alert("🔒 برای دسترسی به این محتوا، ابتدا باید وارد حساب کاربری خود شوید.");
+            alert("🔒 Please sign in to your account to access this content.");
 
             // ذخیره آدرس فعلی جهت بازگشت بعد از لاگین
             sessionStorage.setItem('redirectAfterLogin', window.location.href);
@@ -88,7 +88,7 @@ document.addEventListener('click', (e) => {
         e.stopPropagation();
         e.stopImmediatePropagation();
 
-        alert("🔒 این بخش فقط برای اعضای سایت فعال است. لطفاً ابتدا وارد حساب کاربری خود شوید.");
+        alert("🔒 Please sign in to your account to access this content.");
         return false;
     }
 }, true); // capturing phase
@@ -100,7 +100,7 @@ export async function enforcePageAccess(requiresAuth = true) {
     const { data: { session } } = await supabase.auth.getSession();
 
     if (!session || !session.user) {
-        alert("🔒 برای دسترسی به این محتوا، ابتدا باید وارد حساب کاربری خود شوید.");
+        alert("🔒 Please sign in to your account to access this content.");
         sessionStorage.setItem('redirectAfterLogin', window.location.href);
         window.location.href = '/pages/auth.html';
     }
@@ -125,3 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+

@@ -406,7 +406,6 @@
             max-width: 440px;
             font-style: italic;
             direction: ltr;
-            text-align: center;
         }
 
         html[lang="fa"] .sentence-example {
@@ -734,7 +733,8 @@
                         </span></a>
                     <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
                             data-i18n="titleExtras"> Extras </span></a>
-                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titlecontact"> Contact
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titlecontact">
+                            Contact
                             me </span></a>
                     <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About
                             me
@@ -841,15 +841,18 @@
                     data-i18n="chooseQuizType">Choose Quiz Type</h3>
                 <div
                     style="display: flex; flex-direction: column; gap: 10px; max-width: 250px; margin: 0 auto; width: 100%;">
-                    <button class="quiz-choice-btn" onclick="selectQuizMode('meaning')" aria-label="Meaning Quiz"
-                        style="padding: 12px; cursor: pointer;" data-i18n="meaningQuiz">Meaning Quiz</button>
-                    <button class="quiz-choice-btn" onclick="selectQuizMode('listening')" aria-label="Listening Quiz"
-                        style="padding: 12px; cursor: pointer;" data-i18n="listeningQuiz">Listening Quiz</button>
-                    <button class="quiz-choice-btn" onclick="selectQuizMode('spelling')" aria-label="Spelling Quiz"
-                        style="padding: 12px; cursor: pointer;" data-i18n="spellingQuiz">Spelling Quiz</button>
-                    <button class="quiz-choice-btn" onclick="cancelQuizSelection()" aria-label="Cancel Quiz Mode"
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('meaning')"
+                        style="padding: 12px; cursor: pointer;" aria-label="Meaning Quiz"
+                        data-i18n="meaningQuiz">Meaning Quiz</button>
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('listening')"
+                        style="padding: 12px; cursor: pointer;" aria-label="Listening Quiz"
+                        data-i18n="listeningQuiz">Listening Quiz</button>
+                    <button class="quiz-choice-btn" onclick="selectQuizMode('spelling')"
+                        style="padding: 12px; cursor: pointer;" aria-label="Spelling Quiz"
+                        data-i18n="spellingQuiz">Spelling Quiz</button>
+                    <button class="quiz-choice-btn" onclick="cancelQuizSelection()"
                         style="padding: 10px; cursor: pointer; background-color: var(--gray-btn); color: var(--text-dark); border-color: transparent;"
-                        data-i18n="exitQuiz">Cancel</button>
+                        aria-label="Cancel Quiz" data-i18n="exitQuiz">Cancel</button>
                 </div>
             </div>
 
@@ -920,20 +923,36 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="/assets/JS/auth.js"></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>
+    <script type="module" src="/assets/JS/auth-lock.js"></script>
 
-
-    <script src="/pages/vocabulary/chinese/200vebs/ch200verbs_list.js"></script>
-    <script>
-        window.pageBooksData = {
-            ...ch200verbsData
-        };
-    </script>
 
     <script type="module" src="/assets/JS/save-progress.js"></script>
 
     <script>
+        /* --- ۱. تنظیمات و متغیرهای سراسری سیستم --- */
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedBook = urlParams.get('book'); // اسم لیست/کتاب
+        const selectedUnit = urlParams.get('unit') || '1'; // شماره یونیت
 
+        // کلید منحصربه‌فرد برای ذخیره‌سازی اطلاعات در LocalStorage مربوط به هر یونیت و کتاب
+        const selectedUnitKey = `${selectedBook}_u${selectedUnit}`;
 
+        let masterDataset = [];
+        let workingDataset = [];
+        let currentIndex = 0;
+        let currentAudioObject = null;
+
+        let isShuffleActive = false;
+        let isAutoPlayActive = false;
+        let isStarredFilterActive = false;
+        let isWeakFilterActive = false;
+        let isAnalyticsOpen = false;
+
+        let isQuizMode = false;
+        let activeQuizType = 'meaning';
+        let quizScore = 0;
+        let quizStep = 0;
+        let quizQuestions = [];
 
         /* --- ۲. دیکشنری ترجمه قالب سیستم --- */
         const translations = {
@@ -995,15 +1014,13 @@
                 badgeKnew: "Knew It",
                 personalNotes: "My Personal Notes",
                 notesPlaceholder: "Type your personal helper notes here...",
-
-                // ... ترجمه‌های قبلی شما
                 spellingQuiz: "Spelling Quiz",
                 spellingQuizTitle: "SPELLING QUIZ",
-                typeWhatYouHear: "Listen to the audio and see the Persian meaning, then type the correct Chinese spelling:",
+                typeWhatYouHear: "Listen to the audio and see the Persian meaning, then type the correct English spelling:",
                 checkSpelling: "Check Answer",
                 correctSpelling: "Correct! 🎉",
                 wrongSpelling: "Wrong! ❌ The correct spelling was: ",
-                placeholderSpelling: "Type the Chinese word here...",
+                placeholderSpelling: "Type the English word here...",
                 chooseQuizType: "Choose Quiz Type"
             },
             fa: {
@@ -1038,7 +1055,6 @@
                 knewItText: "بلد بودم 😊",
                 prev: "قبلی",
                 next: "بعدی",
-
                 noMatches: "هیچ کلمه‌ای یافت نشد",
                 noMatchesSub: "فیلترهای فعال خود را در بالا تغییر دهید.",
                 tapClues: "برای مشاهده پاسخ، روی گزینه‌های زیر کلیک کنید",
@@ -1064,134 +1080,104 @@
                 badgeKnew: "بلد بودم",
                 personalNotes: "یادداشت‌های من",
                 notesPlaceholder: "نکات کمکی یا جملات نمونه خود را اینجا بنویسید...",
-
-                // ... ترجمه‌های قبلی شما
                 spellingQuiz: "آزمون املا",
                 spellingQuizTitle: "آزمون املا و نوشتار",
-                typeWhatYouHear: "به معنی فارسی و صوت کلمه دقت کرده و املای چینی صحیح آن را بنویسید:",
+                typeWhatYouHear: "به معنی فارسی و صوت کلمه دقت کرده و املای انگلیسی صحیح آن را بنویسید:",
                 checkSpelling: "بررسی پاسخ",
                 correctSpelling: "املای کلمه کاملاً صحیح است! 🎉",
                 wrongSpelling: "نادرست! ❌ املای درست این بود: ",
-                placeholderSpelling: "املای چینی کلمه را اینجا بنویسید...",
+                placeholderSpelling: "املای انگلیسی کلمه را اینجا بنویسید...",
                 chooseQuizType: "نوع آزمون را مشخص کنید"
             }
         };
 
-
-
-        /* ==========================================================================
-                         انتخاب لود اولیه کدام مخزن کلمات 
-                ========================================================================== */
-
-
-        /* --- ۱. تنظیمات و متغیرهای سراسری سیستم --- */
-        const urlParams = new URLSearchParams(window.location.search);
-        const selectedBook = urlParams.get('book') || 'vision1'; // نام کتاب (مثلا vision1)
-        const selectedUnit = urlParams.get('unit') || '1';       // شماره یونیت (مثلا 1)
-
-        // کلید منحصربه‌فرد برای ذخیره‌سازی اطلاعات در LocalStorage مربوط به هر یونیت و کتاب
-        const selectedUnitKey = `${selectedBook}_u${selectedUnit}`;
-
-        let masterDataset = [];
-        let workingDataset = [];
-        let currentIndex = 0;
-        let currentAudioObject = null;
-        // let currentLang = 'en';
-
-        let isShuffleActive = false;
-        let isAutoPlayActive = false;
-        let isStarredFilterActive = false;
-        let isWeakFilterActive = false;
-        let isAnalyticsOpen = false;
-
-        let isQuizMode = false;
-        let activeQuizType = 'meaning';
-        let quizScore = 0;
-        let quizStep = 0;
-        let quizQuestions = [];
-        let isAutoPlay = false;
-
-
-
-
-
-        /* --- ۳. تابع بارگذاری دینامیک فایل جاوااسکریپت از پوشه Books --- */
-        function loadDynamicDataset(bookName, callback) {
-            const script = document.createElement('script');
-            script.src = `${bookName}_data.js`;
-            script.type = 'text/javascript';
-
-            script.onload = () => {
-                console.log(`Database for ${bookName} loaded successfully.`);
-                callback();
-            };
-
-            script.onerror = () => {
-                console.error(`Failed to load database for ${bookName}`);
-                masterDataset = [{ id: 0, name: "Error Loading", pronunciation: "-", example: "-", type: "-", meaning: "خطا در بارگذاری فایل دیتا از پوشه Books", audio: "", image: "" }];
-                callback();
-            };
-
-            document.head.appendChild(script);
-        }
-
-        /* --- ۴. راه‌اندازی و لود اولیه برنامه --- */
-        window.onload = function () {
-
+        // ==========================================
+        // دریافت کلمات از Supabase و راه اندازی کارت‌ها
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', async () => {
             initSwipeGestures();
 
-            loadDynamicDataset(selectedBook, function () {
+            if (!selectedBook) {
+                alert("عنوان لیست مشخص نشده است.");
+                return;
+            }
 
-                if (typeof currentBookDatabase !== 'undefined' && currentBookDatabase[`u${selectedUnit}`]) {
-                    masterDataset = currentBookDatabase[`u${selectedUnit}`];
-                } else {
-                    masterDataset = [{ id: 0, name: "No Data Available", pronunciation: "-", example: "Please check your data file.", type: "-", meaning: "کلماتی برای این یونیت یافت نشد", audio: "", image: "" }];
+            try {
+                // ۱. بررسی لاگین بودن کاربر
+                const { data: { user } } = await window.supabase.auth.getUser();
+                if (!user) {
+                    alert("برای دسترسی به این لیست ابتدا باید وارد شوید.");
+                    window.location.href = '/pages/auth.html';
+                    return;
                 }
 
-                workingDataset = [...masterDataset];
+                // ۲. دریافت کلمات از جدول user_lists
+                const { data, error } = await window.supabase
+                    .from('user_lists')
+                    .select('words')
+                    .eq('user_id', user.id)
+                    .eq('title', decodeURIComponent(selectedBook))
+                    .single();
 
-                const savedIndex = localStorage.getItem(`saved_progress_${selectedUnitKey}`);
-                if (savedIndex && parseInt(savedIndex) < workingDataset.length) {
-                    currentIndex = parseInt(savedIndex);
-                } else {
-                    currentIndex = 0;
+                if (error || !data || !data.words || data.words.length === 0) {
+                    alert("لیست مورد نظر یافت نشد یا خالی است.");
+                    return;
                 }
 
-                // مقداردهی اولیه isAutoPlay از LocalStorage
-                isAutoPlayActive = localStorage.getItem(`autoplay_${selectedUnitKey}`) === 'true';
+                // ۳. آماده‌سازی داده‌های کلمات
+                initFlashcards(data.words);
 
-                if (window.getUnitProgress) {
-                    window.getUnitProgress(selectedBook, selectedUnit).then(dbData => {
-                        if (dbData) {
-                            if (dbData.starred_words) localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(dbData.starred_words));
-                            if (dbData.words_status) localStorage.setItem(`words_status_${selectedUnitKey}`, JSON.stringify(dbData.words_status));
-                            if (dbData.word_notes) localStorage.setItem(`word_notes_${selectedUnitKey}`, JSON.stringify(dbData.word_notes));
+            } catch (err) {
+                console.error("Error loading flashcards:", err);
+            }
+        });
 
-                            if (dbData.last_card_index !== undefined && dbData.last_card_index < workingDataset.length) {
-                                currentIndex = dbData.last_card_index;
-                                localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
-                            }
+        function initFlashcards(words) {
+            masterDataset = words.map((w, index) => ({
+                id: w.id || index + 1,
+                name: w.name || w.word || '',
+                meaning: w.meaning || '',
+                example: w.example || '',
+                pronunciation: w.pronunciation || '',
+                type: w.type || 'Word',
+                image: w.image || '',
+                audio: w.audio || `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(w.name || w.word || '')}`
+            }));
 
-                            // دریافت isAutoPlay از Supabase
-                            if (dbData.is_autoplay !== undefined && dbData.is_autoplay !== null) {
-                                isAutoPlayActive = dbData.is_autoplay;
-                                localStorage.setItem(`autoplay_${selectedUnitKey}`, isAutoPlayActive);
-                            }
+            workingDataset = [...masterDataset];
+
+            // مقداردهی اولیه تنظیمات از LocalStorage و Supabase
+            isAutoPlayActive = localStorage.getItem(`autoplay_${selectedUnitKey}`) === 'true';
+
+            if (window.getUnitProgress) {
+                window.getUnitProgress(selectedBook, selectedUnit).then(dbData => {
+                    if (dbData) {
+                        if (dbData.starred_words) localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(dbData.starred_words));
+                        if (dbData.words_status) localStorage.setItem(`words_status_${selectedUnitKey}`, JSON.stringify(dbData.words_status));
+                        if (dbData.word_notes) localStorage.setItem(`word_notes_${selectedUnitKey}`, JSON.stringify(dbData.word_notes));
+
+                        if (dbData.last_card_index !== undefined && dbData.last_card_index < workingDataset.length) {
+                            currentIndex = dbData.last_card_index;
+                            localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
                         }
 
-                        updateAutoPlayUI();
-                        renderCard();
-                    }).catch(err => {
-                        console.error("خطا در دریافت اطلاعات از Supabase:", err);
-                        updateAutoPlayUI();
-                        renderCard();
-                    });
-                } else {
+                        if (dbData.is_autoplay !== undefined && dbData.is_autoplay !== null) {
+                            isAutoPlayActive = dbData.is_autoplay;
+                            localStorage.setItem(`autoplay_${selectedUnitKey}`, isAutoPlayActive);
+                        }
+                    }
                     updateAutoPlayUI();
                     renderCard();
-                }
-            });
-        };
+                }).catch(err => {
+                    console.error("خطا در دریافت اطلاعات از Supabase:", err);
+                    updateAutoPlayUI();
+                    renderCard();
+                });
+            } else {
+                updateAutoPlayUI();
+                renderCard();
+            }
+        }
 
         // تابع کمکی برای بروزرسانی ظاهر دکمه Auto Play
         function updateAutoPlayUI() {
@@ -1201,12 +1187,7 @@
             }
         }
 
-        /* ==========================================================================
-                       جعبه لایتنر
-            ========================================================================== */
-
-
-        /* --- ۷. مدیریت کلیدهای حافظه و وضعیت لایتنر کلمات --- */
+        /* --- مدیریت کلیدهای حافظه و وضعیت لایتنر کلمات --- */
         function getStarredList() {
             return JSON.parse(localStorage.getItem(`starred_words_${selectedUnitKey}`)) || [];
         }
@@ -1223,7 +1204,6 @@
                 statusList[wordId] = status;
             }
             localStorage.setItem(`words_status_${selectedUnitKey}`, JSON.stringify(statusList));
-            // ✅ اضافه شد: ارسال به دیتابیس Supabase
             if (window.updateWordStatus) {
                 window.updateWordStatus(selectedBook, selectedUnit, wordId, status);
             }
@@ -1246,7 +1226,6 @@
                 notes[wordId] = value;
             }
             localStorage.setItem(`word_notes_${selectedUnitKey}`, JSON.stringify(notes));
-            // ✅ اضافه شد: ارسال یادداشت به Supabase
             if (window.updateWordNote) {
                 window.updateWordNote(selectedBook, selectedUnit, wordId, value);
             }
@@ -1259,7 +1238,6 @@
                 localStorage.removeItem(`saved_progress_${selectedUnitKey}`);
                 localStorage.removeItem(`autoplay_${selectedUnitKey}`);
 
-                // ۲. ارسال درخواست حذف/ریست به Supabase (در صورت وجود تابع)
                 if (window.resetUnitDataInSupabase) {
                     window.resetUnitDataInSupabase(selectedBook, selectedUnit);
                 }
@@ -1280,27 +1258,21 @@
         }
 
         function toggleAutoPlay() {
-            // ۱. معکوس کردن مقدار متغیر اصلی پخش خودکار
             isAutoPlayActive = !isAutoPlayActive;
-
-            // ۲. ذخیره وضعیت جدید در LocalStorage
             localStorage.setItem(`autoplay_${selectedUnitKey}`, isAutoPlayActive);
 
-            // ۳. ارسال و ذخیره در Supabase (در صورت وجود)
             if (window.updateAutoPlayStatus) {
                 window.updateAutoPlayStatus(selectedBook, selectedUnit, isAutoPlayActive);
             }
 
-            // ۴. تغییر ظاهر دکمه
             updateAutoPlayUI();
 
-            // ۵. اگر همین حالا روشن شد و کارتی در حال نمایش است، صدا را پخش کن
             if (isAutoPlayActive && workingDataset[currentIndex] && workingDataset[currentIndex].audio) {
                 playRealAudio(workingDataset[currentIndex].audio);
             }
         }
 
-        /* --- ۸. داشبورد آمار تحلیلی لایتنر --- */
+        /* --- داشبورد آمار تحلیلی لایتنر --- */
         function toggleAnalytics() {
             const panel = document.getElementById('analyticsPanel');
             isAnalyticsOpen = !isAnalyticsOpen;
@@ -1345,14 +1317,12 @@
             document.getElementById(`${idPrefix}Fill`).style.width = `${percent}%`;
         }
 
-        /* --- ۹. رندر کردن و نمایش کارت‌ها --- */
+        /* --- رندر کردن و نمایش کارت‌ها --- */
         function renderCard() {
             isQuizMode = false;
-            const dict = translations[currentLang];
-            // مخفی کردن منوی انتخاب آزمون در وسط کارت هنگام رندر شدن کارت جدید
+            const dict = translations[currentLang] || translations['en'];
             hideQuizSelection();
 
-            // نمایش مجدد محتوای اصلی کارت در صورتی که پنهان شده بود
             const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
             const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
             if (cardContent) cardContent.style.display = 'block';
@@ -1381,10 +1351,10 @@
                 displayBox.classList.remove('flashcard-perspective');
                 displayBox.classList.add('quiz-style');
                 displayBox.innerHTML = `
-                    <i class="fa-solid fa-folder-open" style="font-size: 40px; color: var(--text-muted);"></i>
-                    <div class="word-title" style="font-size: 16px; margin-top:10px; direction:initial;">${dict.noMatches}</div>
-                    <p class="sentence-example" style="direction:initial; margin:4px auto;">${dict.noMatchesSub}</p>
-                `;
+                        <i class="fa-solid fa-folder-open" style="font-size: 40px; color: var(--text-muted);"></i>
+                        <div class="word-title" style="font-size: 16px; margin-top:10px; direction:initial;">${dict.noMatches}</div>
+                        <p class="sentence-example" style="direction:initial; margin: 4px auto;">${dict.noMatchesSub}</p>
+                    `;
                 updateProgressBar(0, 0);
                 prevBtn.disabled = true;
                 prevBtn.classList.add('disabled');
@@ -1409,21 +1379,21 @@
             if (currentStatus === 'easy') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--green-light); color:#10b981; border-radius:12px; font-weight:700;">${dict.badgeKnew}</span>`;
 
             displayBox.innerHTML = `
-                <div class="card-inner">
-                    <div class="card-front">
-                        ${statusBadge}
-                        <div class="word-header-row">
-                            <div class="word-title" id="wordTitle">${currentWord.name}</div>
-                            <i class="fa-star ${isStarred ? 'fa-solid starred' : 'fa-regular'} star-icon" onclick="toggleStar(${currentWord.id}); event.stopPropagation();"></i>
+                    <div class="card-inner">
+                        <div class="card-front">
+                            ${statusBadge}
+                            <div class="word-header-row">
+                                <div class="word-title" id="wordTitle">${currentWord.name}</div>
+                                <i class="fa-star ${isStarred ? 'fa-solid starred' : 'fa-regular'} star-icon" onclick="toggleStar(${currentWord.id}); event.stopPropagation();"></i>
+                            </div>
+                            <div class="sentence-example" id="wordExample">"${currentWord.example}"</div>
+                            <div class="dynamic-hint-area">
+                                <i class="fa-solid fa-circle-question" style="margin: 0 6px; opacity: 0.7; font-size: 12px;"></i> ${dict.tapClues}
+                            </div>
                         </div>
-                        <div class="sentence-example" id="wordExample">"${currentWord.example}"</div>
-                        <div class="dynamic-hint-area">
-                            <i class="fa-solid fa-circle-question" style="margin: 0 6px; opacity: 0.7; font-size: 12px;"></i> ${dict.tapClues}
-                        </div>
+                        <div class="card-back" id="cardBack"></div>
                     </div>
-                    <div class="card-back" id="cardBack"></div>
-                </div>
-            `;
+                `;
 
             document.getElementById('btnHard').classList.toggle('active', currentStatus === 'hard');
             document.getElementById('btnMedium').classList.toggle('active', currentStatus === 'medium');
@@ -1450,7 +1420,6 @@
             updateProgressBar(currentIndex + 1, workingDataset.length);
             localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
 
-            /* --- پخش صوتی خودکار --- */
             if (isAutoPlayActive && currentWord.audio) {
                 setTimeout(() => {
                     if (!isQuizMode && workingDataset[currentIndex] && workingDataset[currentIndex].id === currentWord.id) {
@@ -1458,22 +1427,19 @@
                     }
                 }, 400);
             }
-            // در انتهای تابع renderCard، ذخیره آخرین کارت دیده‌شده را اضافه کنید:
+
             if (window.updateCardProgress) {
                 window.updateCardProgress(selectedBook, selectedUnit, currentIndex);
             }
         }
 
-        /* ==========================================================================
-                    لمس و سوایپ
-            ========================================================================== */
-
-        // متغیرهای سوایپ لمسی روی موبایل
+        /* --- لمس و سوایپ --- */
         let touchstartX = 0;
         let touchendX = 0;
-        /* --- ۱۰. ردیابی حرکت سوایپ لمسی بر روی موبایل --- */
+
         function initSwipeGestures() {
             const displayBox = document.getElementById('displayBox');
+            if (!displayBox) return;
 
             displayBox.addEventListener('touchstart', function (e) {
                 if (e.target.tagName.toLowerCase() === 'textarea') return;
@@ -1541,17 +1507,6 @@
             }
         }
 
-        /*  function toggleStar(wordId) {
-              let starredList = getStarredList();
-              if (starredList.includes(wordId)) {
-                  starredList = starredList.filter(id => id !== wordId);
-              } else {
-                  starredList.push(wordId);
-              }
-              localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(starredList));
-              applyFilters();
-          } */
-
         function toggleStar(wordId) {
             let starredList = getStarredList();
             const isStarredCurrently = starredList.includes(wordId);
@@ -1563,12 +1518,10 @@
             }
             localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(starredList));
 
-            // ✅ اضافه شد: ارسال وضعیت جدید ستاره‌ها به Supabase
             if (window.toggleStarredWord) {
                 window.toggleStarredWord(selectedBook, selectedUnit, wordId);
             }
 
-            // اگر فیلتر "فقط ستاره‌دارها" فعال نیست، نیازی نیست کل فیلترها را از اول اجرا کنیم
             if (!isStarredFilterActive) {
                 const starIcon = document.querySelector('.star-icon');
                 if (starIcon) {
@@ -1581,7 +1534,6 @@
                     }
                 }
             } else {
-                // اگر فیلتر فعال است، فیلترها را با حفظ کارت فعلی اعمال می‌کنیم
                 applyFilters();
             }
         }
@@ -1604,24 +1556,7 @@
             applyFilters();
         }
 
-        /*  function applyFilters() {
-              let base = [...masterDataset];
-              if (isStarredFilterActive) {
-                  const starredList = getStarredList();
-                  base = base.filter(w => starredList.includes(w.id));
-              }
-              if (isWeakFilterActive) {
-                  const statusList = getWordsStatus();
-                  base = base.filter(w => statusList[w.id] === 'hard' || statusList[w.id] === 'medium');
-              }
-              if (isShuffleActive) base.sort(() => Math.random() - 0.5);
-              workingDataset = base;
-              currentIndex = 0;
-              renderCard();
-          } */
-
         function applyFilters() {
-            // ذخیره شناسه کلمه‌ای که در حال حاضر کاربر دارد آن را می‌بیند
             const currentWordId = workingDataset[currentIndex]?.id;
 
             let base = [...masterDataset];
@@ -1636,14 +1571,11 @@
             if (isShuffleActive) base.sort(() => Math.random() - 0.5);
             workingDataset = base;
 
-            // پیدا کردن جایگاه جدید همان کلمه در لیست فیلتر شده جدید
             if (currentWordId) {
                 const newIndex = workingDataset.findIndex(w => w.id === currentWordId);
                 if (newIndex !== -1) {
-                    currentIndex = newIndex; // ماندن روی همان کلمه قبلی
+                    currentIndex = newIndex;
                 } else {
-                    // اگر کلمه دیگر در لیست فیلتر شده وجود نداشت (مثلا ستاره‌اش را برداشتید)
-                    // ایندکس را کنترل می‌کنیم تا از طول آرایه جدید فراتر نرود
                     if (currentIndex >= workingDataset.length) {
                         currentIndex = Math.max(0, workingDataset.length - 1);
                     }
@@ -1655,31 +1587,17 @@
             renderCard();
         }
 
-        /* function playRealAudio(audioPath) {
-             if (!audioPath) return;
-             if (currentAudioObject) { currentAudioObject.pause(); currentAudioObject.currentTime = 0; }
-             currentAudioObject = new Audio(audioPath);
-             currentAudioObject.play().catch(e => console.log("Audio play error"));
-         
-         }
-     
-         */
-
-
         function playRealAudio(audioPath, wordText) {
             if (!audioPath) return;
 
-            // ۱. متوقف کردن صدای قبلی برای جلوگیری از تداخل
             if (currentAudioObject) {
                 currentAudioObject.pause();
                 currentAudioObject.removeAttribute('src');
                 currentAudioObject.load();
             }
 
-            // ۲. تعریف تابع پشتیبان (Fallback) برای استفاده از سخنگوی مرورگر
             const playFallbackTTS = () => {
                 try {
-                    // اگر پارامتر دوم فرستاده شده بود از آن استفاده کند، در غیر این صورت آن را از لینک گوگل استخراج کند
                     let textToSpeak = wordText;
 
                     if (!textToSpeak && typeof audioPath === 'string') {
@@ -1687,57 +1605,44 @@
                             const urlObj = new URL(audioPath);
                             textToSpeak = urlObj.searchParams.get('q');
                         } else {
-                            // اگر لینک محلی بود (مثلاً audio/respect.mp3)، نام فایل را به عنوان کلمه در نظر بگیرد
                             const fileName = audioPath.split('/').pop().split('.')[0];
-                            textToSpeak = fileName.replace(/[-_]/g, ' '); // جایگزینی خط فاصله با اسپیس
+                            textToSpeak = fileName.replace(/[-_]/g, ' ');
                         }
                     }
 
                     if (textToSpeak) {
-                        window.speechSynthesis.cancel(); // لغو سخنگوی قبلی
+                        window.speechSynthesis.cancel();
                         const utterance = new SpeechSynthesisUtterance(decodeURIComponent(textToSpeak));
                         utterance.lang = 'en-US';
                         utterance.rate = 0.9;
                         window.speechSynthesis.speak(utterance);
-                        console.log("صدا از طریق سخنگوی مرورگر (TTS) پخش شد.");
                     }
                 } catch (e) {
-                    console.log("حتی سخنگوی مرورگر هم پشتیبانی نمی‌شود یا با خطا مواجه شد:", e.message);
+                    console.log("خطا در سیستم صوتی:", e.message);
                 }
             };
 
-            // ۳. ساخت المان صوتی جدید و تنظیم عدم ارسال هویت سایت (برای دور زدن فیلتر گوگل)
             currentAudioObject = document.createElement('audio');
             currentAudioObject.referrerPolicy = "no-referrer";
             currentAudioObject.src = audioPath;
 
-            // ۴. تلاش برای پخش فایل صوتی (چه گوگل، چه فایل داخل پوشه‌ها)
             const playPromise = currentAudioObject.play();
             if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    // پخش فایل صوتی با موفقیت انجام شد
-                }).catch(error => {
-                    if (error.name === 'AbortError') return; // نادیده گرفتن توقف تعمدی کاربر
-
-                    console.log("لود فایل صوتی ناموفق بود؛ سوئیچ روی سخنگوی مرورگر...");
+                playPromise.then(() => { }).catch(error => {
+                    if (error.name === 'AbortError') return;
                     playFallbackTTS();
                 });
             }
         }
 
-        /* ==========================================================================
-                         انیمیشن چرخش کارت و دیگر انیمیشن ها 
-                ========================================================================== */
-
-
-        /* --- ۱۱. انیمیشن چرخش کارت و نمایش ابزارهای راهنما --- */
+        /* --- انیمیشن چرخش کارت --- */
         function toggleHint(type, element) {
             if (isQuizMode || workingDataset.length === 0) return;
             const displayBox = document.getElementById('displayBox');
             const cardBack = document.getElementById('cardBack');
             const currentWord = workingDataset[currentIndex];
             const isAlreadyActive = element.classList.contains('active');
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
 
             document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
 
@@ -1751,123 +1656,90 @@
 
                 if (type === 'image') {
                     coreContent = `
-                        <img src="${currentWord.image}" alt="${currentWord.name}" style="max-height: 140px; max-width: 100%; border-radius: 10px; object-fit: contain;">
-                        <div style="font-size: 13px; color: var(--text-muted); font-weight:600; direction:ltr; margin-top:2px;">${currentWord.name}</div>
-                    `;
+                            <img src="${currentWord.image}" alt="${currentWord.name}" style="max-height: 140px; max-width: 100%; border-radius: 10px; object-fit: contain;">
+                            <div style="font-size: 13px; color: var(--text-muted); font-weight:600; direction:ltr; margin-top:2px;">${currentWord.name}</div>
+                        `;
                 } else if (type === 'pronunciation') {
                     coreContent = `
-                        <i class="fa-solid fa-volume-high" style="font-size: 24px; color: var(--blue);"></i>
-                        <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); direction: ltr; margin: 4px 0;">${currentWord.pronunciation}</div>
-                        <button class="util-btn" style="padding: 4px 12px; font-size:11px;" onclick="playRealAudio('${currentWord.audio}'); event.stopPropagation();">
-                            <i class="fa-solid fa-rotate-right"></i> ${dict.listenAgain}
-                        </button>
-                    `;
+                            <i class="fa-solid fa-volume-high" style="font-size: 24px; color: var(--blue);"></i>
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); direction: ltr; margin: 4px 0;">${currentWord.pronunciation}</div>
+                            <button class="util-btn" style="padding: 4px 12px; font-size:11px;" onclick="playRealAudio('${currentWord.audio}'); event.stopPropagation();">
+                                <i class="fa-solid fa-rotate-right"></i> ${dict.listenAgain}
+                            </button>
+                        `;
                 } else if (type === 'type') {
                     coreContent = `
-                        <i class="fa-solid fa-tags" style="font-size: 24px; color: var(--blue);"></i>
-                        <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); background: var(--gray-btn); padding: 4px 14px; border-radius: 20px; direction: ltr; margin-top:5px;">${currentWord.type}</div>
-                    `;
+                            <i class="fa-solid fa-tags" style="font-size: 24px; color: var(--blue);"></i>
+                            <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); background: var(--gray-btn); padding: 4px 14px; border-radius: 20px; direction: ltr; margin-top:5px;">${currentWord.type}</div>
+                        `;
                 } else if (type === 'meaning') {
                     coreContent = `
-                        <i class="fa-solid fa-language" style="font-size: 28px; color: var(--blue);"></i>
-                        <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-top:5px; direction:rtl;">${currentWord.meaning}</div>
-                    `;
+                            <i class="fa-solid fa-language" style="font-size: 28px; color: var(--blue);"></i>
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-top:5px; direction:rtl;">${currentWord.meaning}</div>
+                        `;
                 }
 
                 const notesBlockHTML = `
-                    <div style="width:100%; margin-top:auto; padding-top:10px; border-top:1px dashed var(--border-color); display:flex; flex-direction:column; gap:4px;">
-                        <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-align:initial;"><i class="fa-regular fa-note-sticky"></i> ${dict.personalNotes}</label>
-                        <textarea style="width:100%; height:44px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-page); color:var(--text-dark); font-size:12px; padding:6px; resize:none;" oninput="saveWordNote(${currentWord.id}, this.value)" onclick="event.stopPropagation();" placeholder="${dict.notesPlaceholder}">${getWordNote(currentWord.id)}</textarea>
-                    </div>
-                `;
+                        <div style="width:100%; margin-top:auto; padding-top:10px; border-top:1px dashed var(--border-color); display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-align:initial;"><i class="fa-regular fa-note-sticky"></i> ${dict.personalNotes}</label>
+                            <textarea style="width:100%; height:44px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-page); color:var(--text-dark); font-size:12px; padding:6px; resize:none;" oninput="saveWordNote(${currentWord.id}, this.value)" onclick="event.stopPropagation();" placeholder="${dict.notesPlaceholder}">${getWordNote(currentWord.id)}</textarea>
+                        </div>
+                    `;
 
                 cardBack.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%;">${coreContent} ${notesBlockHTML}</div>`;
                 displayBox.classList.add('flipped');
             }
         }
 
-        /* ==========================================================================
-                         آزمون سازی ها 
-                ========================================================================== */
-
-        /* --- ۱۲. سیستم آزمون‌ها و کوئیزهای هوشمند کلمات --- */
-        // تابع نمایش گزینه‌های آزمون در وسط کارت
+        /* --- سیستم آزمون‌ها --- */
         function showQuizSelectionInCard() {
-            // ۱. پنهان کردن باکس سه بعدی اصلی کارت‌ها
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'none';
-            }
+            if (displayBox) displayBox.style.display = 'none';
 
-            // ۲. پنهان کردن تمام بخش‌های ناوبری، ابزارها، لایتنر و فیلترها
             hideInterfaceForQuiz();
 
-            // ۳. نمایش کانتینر انتخاب آزمون به صورت Flex جهت قرارگیری عالی در وسط
             const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'flex';
-            }
+            if (selectionContainer) selectionContainer.style.display = 'flex';
         }
 
-        // تابع انتخاب نوع آزمون و شروع آن
         function selectQuizMode(type) {
-            // پنهان کردن منوی انتخاب آزمون
-            const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'none';
-            }
-
-            // اجرای تابع اصلی شروع آزمون
+            hideQuizSelection();
             startQuizMode(type);
         }
 
-        // تابع انصراف و بازگشت به حالت عادی کارت
         function cancelQuizSelection() {
-            // ۱. پنهان کردن کانتینر انتخاب آزمون
-            const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'none';
-            }
+            hideQuizSelection();
 
-            // ۲. ظاهر کردن مجدد باکس سه بعدی اصلی کارت‌ها
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'block';
-            }
+            if (displayBox) displayBox.style.display = 'block';
 
-            // ۳. بازخوانی کارت فعلی برای فعال‌سازی و نمایش مجدد کنترل‌ها و ابزارها
-            if (typeof renderCard === 'function') {
-                renderCard();
-            }
+            renderCard();
         }
 
-        // تابع کمکی برای مخفی کردن ظرف انتخاب آزمون
         function hideQuizSelection() {
             const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'none';
-            }
+            if (selectionContainer) selectionContainer.style.display = 'none';
         }
 
         function showCompletionScreen() {
             isQuizMode = true;
             hideInterfaceForQuiz();
             const displayBox = document.getElementById('displayBox');
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
 
             displayBox.innerHTML = `
-                <i class="fa-solid fa-trophy" style="font-size: 48px; color: #f59e0b;"></i>
-                <div class="word-title" style="margin-top: 10px; direction:initial;">${dict.goodJob}</div>
-                <p class="sentence-example" style="direction:initial;">${dict.reviewedAll}</p>
-                <div class="quiz-choices-container" style="margin-top:15px;">
-                    <button class="nav-btn next" onclick="startQuizMode('meaning')">${dict.meaningQuiz}</button>
-                    <button class="nav-btn next" style="background-color:#8b5cf6;" onclick="startQuizMode('listening')">${dict.listeningQuiz}</button>
-                    <button class="nav-btn prev" onclick="restartUnit()">${dict.reviewAgain}</button>
-                    <button class="nav-btn next" style="background-color:#10b981;" onclick="startQuizMode('spelling')">${dict.spellingQuiz}</button>
-                </div>
-            `;
+                    <i class="fa-solid fa-trophy" style="font-size: 48px; color: #f59e0b;"></i>
+                    <div class="word-title" style="margin-top: 10px; direction:initial;">${dict.goodJob}</div>
+                    <p class="sentence-example" style="direction:initial;">${dict.reviewedAll}</p>
+                    <div class="quiz-choices-container" style="margin-top:15px;">
+                        <button class="nav-btn next" onclick="startQuizMode('meaning')">${dict.meaningQuiz}</button>
+                        <button class="nav-btn next" style="background-color:#8b5cf6;" onclick="startQuizMode('listening')">${dict.listeningQuiz}</button>
+                        <button class="nav-btn prev" onclick="restartUnit()">${dict.reviewAgain}</button>
+                        <button class="nav-btn next" style="background-color:#10b981;" onclick="startQuizMode('spelling')">${dict.spellingQuiz}</button>
+                    </div>
+                `;
         }
 
         function restartUnit() {
@@ -1885,7 +1757,7 @@
 
         function startQuizMode(quizType) {
             if (masterDataset.length < 2) {
-                alert("Not enough words to generate a quiz!");
+                alert("کلمات کافی برای ساخت آزمون وجود ندارد!");
                 return;
             }
             if (currentAudioObject) currentAudioObject.pause();
@@ -1903,12 +1775,10 @@
 
         function generateQuizQuestion() {
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'block';
-            }
-            const currentQuestionWord = quizQuestions[quizStep];
+            if (displayBox) displayBox.style.display = 'block';
 
-            const dict = translations[currentLang];
+            const currentQuestionWord = quizQuestions[quizStep];
+            const dict = translations[currentLang] || translations['en'];
 
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
@@ -1921,14 +1791,14 @@
                 choices = choices.concat(wrongOptions.slice(0, 3)).sort(() => Math.random() - 0.5);
 
                 displayBox.innerHTML = `
-                    <div style="font-size:12px; font-weight:700; color:var(--blue); direction:initial;">${dict.meaningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
-                    <div class="word-title" style="margin-top:5px;">${currentQuestionWord.name}</div>
-                    <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whatIsMeaning}</p>
-                    <div class="quiz-choices-container">
-                        ${choices.map(choice => `<button class="quiz-choice-btn fa-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.meaning}')">${choice}</button>`).join('')}
-                    </div>
-                    <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
-                `;
+                        <div style="font-size:12px; font-weight:700; color:var(--blue); direction:initial;">${dict.meaningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                        <div class="word-title" style="margin-top:5px;">${currentQuestionWord.name}</div>
+                        <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whatIsMeaning}</p>
+                        <div class="quiz-choices-container">
+                            ${choices.map(choice => `<button class="quiz-choice-btn fa-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.meaning}')">${choice}</button>`).join('')}
+                        </div>
+                        <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+                    `;
             } else if (activeQuizType === 'listening') {
                 let choices = [currentQuestionWord.name];
                 let wrongOptions = masterDataset.filter(w => w.id !== currentQuestionWord.id).map(w => w.name);
@@ -1936,52 +1806,40 @@
                 choices = choices.concat(wrongOptions.slice(0, 3)).sort(() => Math.random() - 0.5);
 
                 displayBox.innerHTML = `
-                    <div style="font-size:12px; font-weight:700; color:#8b5cf6; direction:initial;">${dict.listeningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
-                    <button class="nav-btn next" style="margin: 16px auto; max-width: 180px; background-color:#8b5cf6; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
-                        <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
-                    </button>
-                    <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whichWordHear}</p>
-                    <div class="quiz-choices-container">
-                        ${choices.map(choice => `<button class="quiz-choice-btn en-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.name}')">${choice}</button>`).join('')}
-                    </div>
-                    <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
-                `;
+                        <div style="font-size:12px; font-weight:700; color:#8b5cf6; direction:initial;">${dict.listeningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                        <button class="nav-btn next" style="margin: 16px auto; max-width: 180px; background-color:#8b5cf6; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
+                            <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
+                        </button>
+                        <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whichWordHear}</p>
+                        <div class="quiz-choices-container">
+                            ${choices.map(choice => `<button class="quiz-choice-btn en-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.name}')">${choice}</button>`).join('')}
+                        </div>
+                        <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+                    `;
 
                 setTimeout(() => { playRealAudio(currentQuestionWord.audio); }, 300);
-            }
-            // 👇 بخش جدید و اصلاح‌شده برای آزمون املا (نمایش معنی فارسی + صوت)
-            else if (activeQuizType === 'spelling') {
+            } else if (activeQuizType === 'spelling') {
                 displayBox.innerHTML = `
-            <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
-            
-            <!-- نمایش معنی فارسی کلمه به عنوان راهنما -->
-            <div style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin: 10px 0; direction: rtl;">
-                ${currentQuestionWord.meaning}
-            </div>
+                        <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                        <div style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin: 10px 0; direction: rtl;">
+                            ${currentQuestionWord.meaning}
+                        </div>
+                        <button class="nav-btn next" style="margin: 8px auto 16px auto; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
+                            <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
+                        </button>
+                        <p class="sentence-example" style="direction:initial; font-size: 13px; text-align:center; margin: auto auto;">${dict.typeWhatYouHear}</p>
+                        <div class="quiz-choices-container" style="gap:12px;">
+                            <input type="text" id="spellingInput" class="quiz-choice-btn en-lang-dir" 
+                                   placeholder="${dict.placeholderSpelling}" 
+                                   style="text-align:center; cursor:text; background:#fff; direction: ltr;" 
+                                   autocomplete="off" autofocus>
+                            <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
+                                ${dict.checkSpelling}
+                            </button>
+                        </div>
+                        <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+                    `;
 
-            <!-- دکمه پخش صوت کلمه انگلیسی -->
-            <button class="nav-btn next" style="margin: 8px auto 16px auto; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
-                <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
-            </button>
-            
-            <p class="sentence-example" style="direction:initial; font-size: 13px; text-align:center; margin: auto auto;">${dict.typeWhatYouHear}</p>
-            
-            <div class="quiz-choices-container" style="gap:12px;">
-                <!-- ورودی فقط برای نوشتن املای انگلیسی کلمه (چپ‌چین) -->
-                <input type="text" id="spellingInput" class="quiz-choice-btn en-lang-dir" 
-                       placeholder="${dict.placeholderSpelling}" 
-                       style="text-align:center; cursor:text; background:#fff; direction: ltr;" 
-                       autocomplete="off" autofocus>
-                
-                <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
-                    ${dict.checkSpelling}
-                </button>
-            </div>
-            
-            <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
-        `;
-
-                // فوکوس خودکار روی باکس متن و امکان ثبت پاسخ با زدن دکمه اینتر کیبورد
                 setTimeout(() => {
                     const input = document.getElementById('spellingInput');
                     if (input) {
@@ -1994,6 +1852,7 @@
                 }, 300);
             }
         }
+
         function checkSpellingAnswer() {
             const inputElement = document.getElementById('spellingInput');
             const submitBtn = document.getElementById('spellingSubmitBtn');
@@ -2002,9 +1861,8 @@
             const userAnswer = inputElement.value.trim().toLowerCase();
             const currentQuestionWord = quizQuestions[quizStep];
             const correctAnswer = currentQuestionWord.name.trim().toLowerCase();
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
 
-            // غیرفعال کردن موقت برای جلوگیری از اسپم کلیک
             inputElement.disabled = true;
             submitBtn.disabled = true;
             submitBtn.style.pointerEvents = 'none';
@@ -2018,7 +1876,6 @@
                 inputElement.value = dict.wrongSpelling + ` "${currentQuestionWord.name}"`;
             }
 
-            // مکث ۱.۸ ثانیه‌ای برای دیدن نتیجه و سپس رفتن به کلمه بعدی
             setTimeout(() => {
                 quizStep++;
                 if (quizStep < quizQuestions.length) {
@@ -2056,19 +1913,19 @@
         function showQuizResult() {
             const displayBox = document.getElementById('displayBox');
             const percent = Math.round((quizScore / quizQuestions.length) * 100);
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
 
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
 
             displayBox.innerHTML = `
-                <i class="fa-solid fa-square-poll-vertical" style="font-size: 46px; color: var(--blue);"></i>
-                <div class="word-title" style="margin-top:10px; direction:initial;">${dict.quizFinished}</div>
-                <p class="sentence-example" style="direction:initial;">${dict.score}: <strong>${quizScore}</strong> / ${quizQuestions.length} (${percent}%)</p>
-                <div class="quiz-choices-container" style="margin-top:15px;">
-                    <button class="nav-btn next" onclick="exitQuiz()">${dict.backToFlashcards}</button>
-                </div>
-            `;
+                    <i class="fa-solid fa-square-poll-vertical" style="font-size: 46px; color: var(--blue);"></i>
+                    <div class="word-title" style="margin-top:10px; direction:initial;">${dict.quizFinished}</div>
+                    <p class="sentence-example" style="direction:initial;">${dict.score}: <strong>${quizScore}</strong> / ${quizQuestions.length} (${percent}%)</p>
+                    <div class="quiz-choices-container" style="margin-top:15px;">
+                        <button class="nav-btn next" onclick="exitQuiz()">${dict.backToFlashcards}</button>
+                    </div>
+                `;
             updateProgressBar(quizQuestions.length, quizQuestions.length);
         }
 
@@ -2076,16 +1933,12 @@
             if (currentAudioObject) currentAudioObject.pause();
             isQuizMode = false;
 
-            // اطمینان از نمایان شدن مجدد باکس اصلی کلمات
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'block';
-            }
+            if (displayBox) displayBox.style.display = 'block';
 
             renderCard();
         }
 
-        // تغییر زبان بر اساس زبان لیست یونیت ها در accordions قبلی
         window.addEventListener('languageChanged', function (e) {
             if (typeof renderCard === 'function') {
                 renderCard();
