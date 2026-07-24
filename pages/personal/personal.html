@@ -561,13 +561,64 @@
             </div>
             <div class="hero-graphics">
                 <svg width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="180" cy="220" rx="130" ry="7" fill="#E2E8F0" />
-                    <circle cx="180" cy="115" r="75" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"
-                        stroke-dasharray="4 4" />
-                    <foreignObject x="107.5" y="42.5" width="145" height="145">
-                        <img src="" alt="" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                    </foreignObject>
+                    <!-- سایه پایه -->
+                    <ellipse cx="180" cy="215" rx="120" ry="8" fill="#E2E8F0" />
+                
+                    <!-- کتاب/دیکشنری باز شده (صفحات پشت) -->
+                    <path d="M60 185C110 185 170 192 180 197C190 192 250 185 300 185V65C250 65 190 72 180 77C170 72 110 65 60 65V185Z"
+                        fill="#DBEAFE" />
+                
+                    <!-- صفحات اصلی (سفید) -->
+                    <path d="M64 180C112 180 170 187 180 192V72C170 67 112 60 64 60V180Z" fill="#FFFFFF" stroke="#93C5FD"
+                        stroke-width="1.5" />
+                    <path d="M296 180C248 180 190 187 180 192V72C190 67 248 60 296 60V180Z" fill="#FFFFFF" stroke="#93C5FD"
+                        stroke-width="1.5" opacity="0.9" />
+                
+                    <!-- شیرازه‌/انحنای وسط کتاب -->
+                    <path d="M180 72V192" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" />
+                
+                    <!-- نشانگر کتاب (Bookmark) -->
+                    <path d="M180 72L195 50H165L180 72Z" fill="#2563EB" />
+                    <path d="M180 72V120L170 112L160 120V72H180Z" fill="#3B82F6" />
+                
+                    <!-- صفحه سمت چپ: نمایش واژگان و تعاریف (Dictionary List) -->
+                    <!-- واژه ۱ (کلمه شاخص + خطوط تعریف) -->
+                    <rect x="85" y="82" width="30" height="6" rx="3" fill="#1D4ED8" />
+                    <rect x="120" y="83" width="15" height="4" rx="2" fill="#94A3B8" />
+                    <rect x="85" y="93" width="70" height="3" rx="1.5" fill="#CBD5E1" />
+                    <rect x="85" y="100" width="55" height="3" rx="1.5" fill="#CBD5E1" />
+                
+                    <!-- واژه ۲ -->
+                    <rect x="85" y="112" width="25" height="6" rx="3" fill="#1D4ED8" />
+                    <rect x="115" y="113" width="18" height="4" rx="2" fill="#94A3B8" />
+                    <rect x="85" y="123" width="65" height="3" rx="1.5" fill="#CBD5E1" />
+                
+                    <!-- واژه ۳ -->
+                    <rect x="85" y="135" width="35" height="6" rx="3" fill="#1D4ED8" />
+                    <rect x="85" y="146" width="70" height="3" rx="1.5" fill="#CBD5E1" />
+                    <rect x="85" y="153" width="45" height="3" rx="1.5" fill="#CBD5E1" />
+                
+                    <!-- صفحه سمت راست: فرمت مشابه یا لیست تعاریف -->
+                    <!-- واژه ۴ -->
+                    <rect x="200" y="82" width="28" height="6" rx="3" fill="#2563EB" />
+                    <rect x="200" y="93" width="75" height="3" rx="1.5" fill="#CBD5E1" />
+                    <rect x="200" y="100" width="60" height="3" rx="1.5" fill="#CBD5E1" />
+                
+                    <!-- واژه ۵ -->
+                    <rect x="200" y="112" width="38" height="6" rx="3" fill="#2563EB" />
+                    <rect x="200" y="123" width="70" height="3" rx="1.5" fill="#CBD5E1" />
+                    <rect x="200" y="130" width="50" height="3" rx="1.5" fill="#CBD5E1" />
+                
+                    <!-- واژه ۶ -->
+                    <rect x="200" y="142" width="22" height="6" rx="3" fill="#2563EB" />
+                    <rect x="200" y="153" width="65" height="3" rx="1.5" fill="#CBD5E1" />
+                
+                    <!-- نشانگر حرف A-Z در بالاوگوشه صفحه (نماد دیکشنری) -->
+                    <circle cx="275" cy="80" r="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1" />
+                    <text x="275" y="84" font-family="sans-serif" font-weight="bold" font-size="10" fill="#3B82F6"
+                        text-anchor="middle">A-Z</text>
                 </svg>
+
             </div>
         </section>
 
