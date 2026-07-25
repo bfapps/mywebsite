@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="/pages/personal/wordlist.html"><i class="fa-solid fa-book"></i> <span data-i18n="titleMyWordList"> My wordlists </span></a>
                     <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar
                         </span></a>
-                    <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests
+                    <a href="/pages/community/shared.html"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests
                         </span></a>
                     <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
                             data-i18n="titleExtras"> Extras </span></a>

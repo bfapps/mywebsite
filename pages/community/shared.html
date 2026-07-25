@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Wordlists - ESL Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/global.css">
+    <style>
+        .community-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-title h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-dark, #1f2937);
+        }
+
+        .lists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .list-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .list-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1d4ed8;
+            margin-bottom: 8px;
+        }
+
+        .card-author {
+            font-size: 13px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .practice-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .practice-link:hover {
+            background: #1d4ed8;
+        }
+
+        .empty-state {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header id="header"></header>
+
+        <main class="community-container">
+            <div class="header-title">
+                <h1>Community Wordlists</h1>
+                <p>Explore vocabulary lists created and shared by learners from around the world.</p>
+            </div>
+
+            <div id="communityGrid" class="lists-grid">
+                <div class="empty-state">Loading community lists...</div>
+            </div>
+        </main>
+
+        <footer id="footer"></footer>
+    </div>
+
+    <script src="/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
+    <script type="module" src="/assets/JS/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const _supabase = window.supabase;
+            const communityGrid = document.getElementById('communityGrid');
+
+            try {
+                // دریافت فقط لیست‌های تاییدشده (status = 'approved')
+                const { data, error } = await _supabase
+                    .from('community_lists')
+                    .select('*')
+                    .eq('is_approved', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    communityGrid.innerHTML = `<div class="empty-state">No approved community lists available yet.</div>`;
+                    return;
+                }
+
+                communityGrid.innerHTML = data.map(item => {
+                    const wordCount = Array.isArray(item.words) ? item.words.length : 0;
+                    const bookKey = encodeURIComponent(item.title);
+
+                    return `
+                        <div class="list-card">
+                            <div>
+                                <h3 class="card-title">${item.title}</h3>
+                                <div class="card-author">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                    <span>By ${item.author_name || 'Unknown'}</span>
+                                </div>
+                                <span class="card-badge">${wordCount} Words</span>
+                            </div>
+                            <a href="/pages/personal/practice.html?book=${bookKey}&unit=1" class="practice-link">
+                                <i class="fa-solid fa-layer-group"></i>
+                                Practice Flashcards
+                            </a>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                console.error("Error loading community lists:", err);
+                communityGrid.innerHTML = `<div class="empty-state">Failed to load lists.</div>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
