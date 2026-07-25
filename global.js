@@ -1,121 +1,135 @@
-
 let currentLang = 'en';
+let translations = { en: {}, fa: {} };
 
-// تابع اصلی تغییر زبان (فایل global.js)
+/**
+ * تشخیص زبان پیش‌فرض (بر اساس مرورگر یا ذخیره قبلی)
+ */
+function detectInitialLanguage() {
+    const savedLang = localStorage.getItem('siteLanguage');
+    if (savedLang) {
+        return savedLang;
+    }
+    // اگر بار اول است، زبان سیستم/مرورگر کاربر را چک کن
+    const browserLang = navigator.language || navigator.userLanguage || '';
+    return browserLang.startsWith('fa') ? 'fa' : 'en';
+}
+
+/**
+ * دریافت ترجمه‌ها از Supabase (با پشتیبانی از کش LocalStorage)
+ */
+async function loadTranslations(pageName = 'common') {
+    // تعیین زبان فعلی (از localStorage یا سیستم کاربر)
+    const activeLang = detectInitialLanguage();
+    currentLang = activeLang;
+
+    const cacheKey_FA = `translations_${pageName}_fa`;
+    const cacheKey_EN = `translations_${pageName}_en`;
+
+    // ۱. خواندن از کش LocalStorage برای سرعت بالا
+    const cachedFA = localStorage.getItem(cacheKey_FA);
+    const cachedEN = localStorage.getItem(cacheKey_EN);
+
+    if (cachedFA) {
+        try { translations.fa = JSON.parse(cachedFA); } catch (e) { }
+    }
+    if (cachedEN) {
+        try { translations.en = JSON.parse(cachedEN); } catch (e) { }
+    }
+
+    // اگر ترجمه‌ها در کش بودند، بلافاصله اعمال کن تا صفحه معطل نماند
+    if (translations[activeLang] && Object.keys(translations[activeLang]).length > 0) {
+        applyLanguage(activeLang);
+    }
+
+    // ۲. دریافت آخرین اطلاعات از Supabase
+    if (window.supabase) {
+        try {
+            const { data, error } = await window.supabase
+                .from('translations')
+                .select('language, content')
+                .in('page_name', ['common', pageName]);
+
+            if (error) throw error;
+
+            if (data && data.length > 0) {
+                // ریست و بازسازی آبجکت ترجمه‌ها
+                data.forEach(item => {
+                    const lang = item.language;
+                    if (!translations[lang]) translations[lang] = {};
+                    translations[lang] = { ...translations[lang], ...item.content };
+                });
+
+                // بروزرسانی کش مرورگر
+                localStorage.setItem(cacheKey_FA, JSON.stringify(translations.fa));
+                localStorage.setItem(cacheKey_EN, JSON.stringify(translations.en));
+
+                // اعمال نهایی زبان
+                applyLanguage(activeLang);
+            }
+        } catch (err) {
+            console.error("خطا در دریافت ترجمه‌ها از Supabase:", err);
+            // در صورت خطا هم زبان اولیه اعمال می‌شود
+            applyLanguage(activeLang);
+        }
+    } else {
+        // اگر Supabase هنوز لود نشده بود
+        applyLanguage(activeLang);
+    }
+}
+
+/**
+ * تابع اصلی تغییر و اعمال زبان در DOM
+ */
 function applyLanguage(lang) {
-    // ۱. ذخیره در مرورگر
     localStorage.setItem('siteLanguage', lang);
 
-    // ۲. تغییر جهت صفحه (RTL/LTR)
     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
 
-    // ۳. به‌روزرسانی متغیر عمومی
     currentLang = lang;
 
-    // ۴. ترجمه المان‌های ثابتی که data-i18n دارند
+    // جایگذاری متن‌ها در المان‌های دارای data-i18n
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
+        if (translations[lang] && translations[lang][key] !== undefined) {
             element.innerHTML = translations[lang][key];
         }
     });
 
-    // ۵. 📢 خبر دادن به تمام صفحات که زبان تغییر کرده است!
+    // اطلاع‌رسانی تغییر زبان به سایر بخش‌های برنامه
     window.dispatchEvent(new CustomEvent('languageChanged', {
         detail: { language: lang }
     }));
 }
 
-
-// تابع اصلی تغییر زبان
-/*
-function applyLanguage(lang) {
-    // ذخیره در مرورگر
-    localStorage.setItem('siteLanguage', lang);
-
-    // تغییر جهت صفحه (RTL/LTR)
-     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-     document.documentElement.lang = lang;
-
-    // اگر نمیخواهیم استایل به کل صفحه اعمال شود و فقط به یک المنت اعمال شود از کد زیر استفاده کنیم
-    currentLang = lang;
-
-    // پیدا کردن تمام تگ‌هایی که کلاس [data-i18n] دارند و ترجمه آن‌ها
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (translations[lang][key]) {
-            element.innerHTML = translations[lang][key];
-        }
-    });
-    // ۲. بررسی اینکه آیا در صفحه فلش‌کارت هستیم یا خیر
-    if (typeof renderCard === 'function') {
-        renderCard(); // فراخوانی مجدد برای رندر مجدد کارت‌ها
-    }
-
-    //  در صفحه منو یونیت های هر درس. فراخوانی مجدد تابع رندر برای بازسازی درس‌ها با زبان جدید
-    // ۳. رندر مجدد یونیت‌ها به صورت تفکیک‌شده و مستقل (بدون وابستگی AND)
-    if (typeof renderBookUnits === 'function') {
-
-        // اگر دیتای انگلیسی وجود دارد
-        if (typeof prospectData !== 'undefined') {
-            renderBookUnits("prospect1", "prospect1-list", prospectData);
-            renderBookUnits("prospect2", "prospect2-list", prospectData);
-            renderBookUnits("prospect3", "prospect3-list", prospectData);
-        }
-
-        // اگر دیتای دبیرستان وجود دارد
-        if (typeof visionData !== 'undefined') {
-            renderBookUnits("vision1", "vision1-list", visionData);
-            renderBookUnits("vision2", "vision2-list", visionData);
-            renderBookUnits("vision3", "vision3-list", visionData);
-        }
-
-        // اگر دیتای افعال چینی وجود دارد
-        if (typeof ch200verbsData !== 'undefined') {
-            renderBookUnits("ch200verbs", "ch200verbs_list", ch200verbsData);
-        }
-    }
-}
-*/
-
-// تشخیص زبان سیستم هنگام ورود
+// مقداردهی اولیه پس از بارگذاری کامل صفحه
 document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('siteLanguage');
-    if (savedLang) {
-        applyLanguage(savedLang);
-    } else {
-        // اگر کاربر اولین بار است می‌آید، زبان مرورگرش را چک کن
-        const browserLang = navigator.language.startsWith('fa') ? 'fa' : 'en';
-        applyLanguage(browserLang);
-    }
+    const pageName = window.PAGE_NAME || 'common';
+    loadTranslations(pageName);
 });
 
-
-
-
-
-
-
-// تابع های منو همبرگری
+/* ==========================================
+   توابع منوی همبرگری و آکاردئون UI
+   ========================================== */
 function toggleMenu() {
     const menu = document.getElementById('sideMenu');
     const icon = document.getElementById('menuIcon');
     const btn = document.getElementById('menuBtn');
 
-    menu.classList.toggle('active');
-    btn.classList.toggle('menu-open-rotate');
+    if (!menu) return;
 
-    // تغییر آیکون
+    menu.classList.toggle('active');
+    if (btn) btn.classList.toggle('menu-open-rotate');
+
     setTimeout(() => {
-        if (menu.classList.contains('active')) {
-            icon.classList.replace('fa-bars', 'fa-xmark');
-        } else {
-            icon.classList.replace('fa-xmark', 'fa-bars');
+        if (icon) {
+            if (menu.classList.contains('active')) {
+                icon.classList.replace('fa-bars', 'fa-xmark');
+            } else {
+                icon.classList.replace('fa-xmark', 'fa-bars');
+            }
         }
     }, 150);
-
-    // مدیریت Overlay تیره
 
     let overlay = document.getElementById('menu-overlay');
     if (!overlay) {
@@ -128,26 +142,24 @@ function toggleMenu() {
     overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
 }
 
-// تایع مربوط به باز شدن منو زبان و منو لیست کتابها
 function toggleAccordion(element) {
-    // پیدا کردن والدِ اصلیِ آکاردئون (چه در درس‌ها باشد چه در منوی زبان)
     const item = element.closest('.accordion-item');
+    if (!item) return;
+
     const content = item.querySelector('.accordion-content');
     const isOpen = item.classList.contains('is-open');
 
     if (isOpen) {
         item.classList.remove('is-open');
-        content.style.maxHeight = null;
+        if (content) content.style.maxHeight = null;
     } else {
-        // بستن بقیه آکاردئون‌های باز (اختیاری برای زیبایی بیشتر)
         document.querySelectorAll('.accordion-item').forEach(el => {
             el.classList.remove('is-open');
-            el.querySelector('.accordion-content').style.maxHeight = null;
+            const c = el.querySelector('.accordion-content');
+            if (c) c.style.maxHeight = null;
         });
 
         item.classList.add('is-open');
-        content.style.maxHeight = content.scrollHeight + "px";
+        if (content) content.style.maxHeight = content.scrollHeight + "px";
     }
 }
-
-

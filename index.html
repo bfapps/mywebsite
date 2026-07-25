@@ -92,9 +92,9 @@
                     <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar </span></a>
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
                     <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span data-i18n="titleExtras"> Extras </span></a>
-                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titlecontact"> Contact
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titleContact"> Contact
                             me </span></a>
-                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me </span></a>
+                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleAbout"> About me </span></a>
                 </div>
             </div>
         </header>
@@ -201,8 +201,8 @@
                         <i class="fa-solid fa-headset"></i>
                     </div>
                     <div class="title-box">
-                        <h3><span data-i18n="titlecontact"> Contact me </span></h3>
-                        <p data-i18n="desccontact">Sending private or public messages</p>
+                        <h3><span data-i18n="titleContact"> Contact me </span></h3>
+                        <p data-i18n="descContact">Sending private or public messages</p>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
@@ -214,7 +214,7 @@
                         <i class="fa-solid fa-user"></i>
                     </div>
                     <div class="title-box">
-                        <h3><span data-i18n="titleabout"> About me </span></h3>
+                        <h3><span data-i18n="titleAbout"> About me </span></h3>
                         <p data-i18n="descAbout">Who created ESL Island?</p>
                     </div>
                 </div>
@@ -233,75 +233,16 @@
             </div>
         </footer>
     </div>
+    <script>
+        window.PAGE_NAME = 'home'; // تعیین نام صفحه برای دریافت ترجمه‌های اختصاصی
+    </script>
     <script src="/global.js"></script>
     <!-- اضافه کردن SDK گوگل در <head> فایل HTML -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script type="module" src="/assets/JS/auth-guard.js"></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script> <!--برای چک کردن وضعیت ورود استفاده میشود و همینطور قفل کردن لینک ها-->
     
     
-    <script>
 
-        const translations = {
-                en: {
-                    signinBtn: "Sign In",
-                    home: "Home",
-                    about: "About Me",
-                    langTitle: "Language",
-                    persian: "Persian",
-                    english: "English",
-                    titleVocabulary: "Vocabulary",
-                    descVocabulary: "Explore new words and phrases.",
-                    titleGrammar: "Grammar",
-                    descGrammar: "Master the rules of English.",
-                    titleTests: "Tests",
-                    descTests: "Test your English proficiency.",
-                    titleExtras: "Extra",
-                    descExtras: "Cultural insights, and downloadable tools.",
-                    titlecontact: "Contact me",
-                    desccontact:"Sending private or public messages",
-                    titleabout: "About me",
-                    descAbout: "Who created ESL Island?",
-
-                    //title section
-                    WelcomeBadge:"Welcome To ESL Island",
-                    heroTitle: "Learn & <br> Master English", 
-                    heroSubtitle: "A website designed specially <br> for all passionate Language Learners."
-
-                    
-                },
-                fa: {
-                    signinBtn: "ورود",
-                    home: "خانه",
-                    about: "درباره من",
-                    langTitle: "زبان",
-                    persian: "فارسی",
-                    english: "انگلیسی",
-                    titleVocabulary: "واژگان",
-                    descVocabulary: "کلمات و عبارات جدید را یاد بگیرید.",
-                    titleGrammar: "دستور زبان",
-                    descGrammar: "قواعد و دستور زبان انگلیسی را یاد بگیرید.",
-                    titleTests: "آزمون‌ها",
-                    descTests: "مهارت‌های زبان خود را بسنجید.",
-                    titleExtras: "سایر",
-                    descExtras: "نکات فرهنگی و ابزارهای قابل دانلود",
-                    titlecontact: "تماس با من",
-                    desccontact: "فرستادن پیام به صورت خصوصی یا عمومی",
-                    titleabout: "درباره من",
-                    descAbout: "با سازنده ESL Island آشنا شوید.",
-
-                    //title section
-                    WelcomeBadge:"به ESL Island خوش آمدید",
-                    heroTitle: "انگلیسی را بیاموزید <br> و در آن استاد شوید",
-                    heroSubtitle: "وب‌سایتی که به‌طور ویژه برای <br> تمامی مشتاقان یادگیری زبان طراحی شده است."
-
-                    
-                }
-        };
-
-
-        
-
-    </script>
     
 
 </body>

@@ -465,7 +465,7 @@
                 <!-- لینک جدید My Dictionary -->
                 <a href="/pages/personal/personal.html" class="my-dictionary-btn">
                     <i class="fa-solid fa-book"></i>
-                    <span data-i18n="myDict">My Dictionary</span>
+                    <span data-i18n="titleMyDict">My Dictionary</span>
                 </a>
                 <!-- دکمه جدید ریست کل پیشرفت -->
                 <button id="resetAllDataBtn" class="reset-progress-btn" type="button">
@@ -584,80 +584,14 @@
         </footer>
     </div>
 
+    <script>
+        window.PAGE_NAME = 'auth'; // تعیین نام صفحه برای دریافت ترجمه‌های اختصاصی
+    </script>
     <script src="/global.js"></script>
 
 
     <script>
 
-        // تابع جدید برای سوئیچ کردن (Toggle)
-        const translations = {
-            en: {
-                signinBtn: "Sign In",
-                home: "Home",
-                about: "About Me",
-                langTitle: "Language",
-                persian: "Persian",
-                english: "English",
-                titleVocabulary: "Vocabulary",
-                titleGrammar: "Grammar",
-                titleTests: "Tests",
-                titleExtras: "Extra",
-                titleabout: "About me",
-                titlecontact:"Contact me",
-                myDict: "My Dictionary",
-
-                //title section
-                WelcomeBadge: "",
-                heroTitle: "The Vision Behind <br> ESL Island",
-                heroSubtitle: "An English teacher passionate about linguistics, dedicated to making language learning an insightful and enjoyable journey for everyone.",
-
-                // Translation keys for Auth Form
-                vpnNotice: "Notice: Due to Google's service restrictions on Iranian IP addresses, using a VPN/Proxy might be required to log in or sign up via Google Account.",
-                tabLogin: "Log In",
-                tabSignup: "Sign Up",
-                btnGoogle: "Continue with Google",
-                orDivider: "or continue with email",
-                labelEmail: "Email Address",
-                labelPassword: "Password",
-                forgotPass: "Forgot Password?",
-                rstAllBtn: "Reset All Flashcard Progress",
-                logoutBtn: "Log Out"
-
-            },
-            fa: {
-                signinBtn: "ورود",
-                home: "خانه",
-                about: "درباره من",
-                langTitle: "زبان",
-                persian: "فارسی",
-                english: "انگلیسی",
-                titleVocabulary: "واژگان",
-                titleGrammar: "دستور زبان",
-                titleTests: "آزمون‌ها",
-                titleExtras: "سایر",
-                titleabout: "درباره من",
-                titlecontact: "تماس با من",
-                myDict: "واژه‌نامه من",
-
-                //title section
-                WelcomeBadge: "",
-                heroTitle: "چشم‌انداز <br> ESL Island",
-                heroSubtitle: "یک معلم زبان انگلیسی، شیفته‌ی زبان‌شناسی، که متعهد شده یادگیری زبان را به سفری آموزنده و لذت‌بخش برای همه تبدیل کند.",
-
-                // ترجمه‌های فرم ورود و ثبت‌نام
-                vpnNotice: "توجه: به دلیل محدودیت‌های سرویس‌دهی گوگل برای آی‌پی‌های ایران، ممکن است جهت ورود یا ثبت‌نام از طریق حساب گوگل به فیلترشکن / پروکسی نیاز داشته باشید.",
-                tabLogin: "ورود به حساب",
-                tabSignup: "ثبت‌نام",
-                btnGoogle: "ادامه با حساب گوگل",
-                orDivider: "یا ادامه با ایمیل",
-                labelEmail: "آدرس ایمیل",
-                labelPassword: "رمز عبور",
-                forgotPass: "رمز عبور را فراموش کرده‌اید؟",
-                rstAllBtn: "بازنشانی پیشرفت تمامی فلش‌کارت‌ها",
-                logoutBtn: "خروج از حساب کاربری"
-
-            }
-        };
 
         function switchAuthTab(tab) {
             const loginForm = document.getElementById('loginForm');
@@ -707,7 +641,7 @@
                 } else {
                     console.error("خطا در خروج:", error.message);
                 }
-            }
+        }
 
 
 
