@@ -92,7 +92,7 @@
                     <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests </span></a>
                     <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
                             data-i18n="titleExtras"> Extras </span></a>
-                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titlecontact"> Contact
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titleContact"> Contact
                             me </span></a>
                     <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About me
                         </span></a>
@@ -305,62 +305,22 @@
         <footer>
             <p>© 2026 ESL Island. All rights reserved.</p>
             <div class="social-row">
-                <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
-                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="social-link"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-link tg"><i class="fa-brands fa-telegram"></i></a>
+                <a href="mailto:amirsardar9930@gmail.com" class="social-link tw"><i class="fas fa-envelope"></i></a>
+                <a href="#" class="social-link ig"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link yt"><i class="fa-brands fa-youtube"></i></a>
             </div>
         </footer>
     </div>
     <script src="/pages/vocabulary/iranianschool/prospect_list.js"></script>
     <script src="/pages/vocabulary/iranianschool/vision_list.js"></script>
+    <script>
+        window.PAGE_NAME = 'iranschvocab';
+    </script>
     <script src="/global.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>
     <script>
-        
-        // تابع جدید برای سوئیچ کردن (Toggle)
-        const translations = {
-                en: {
-                    signinBtn: "Sign In",
-                    home: "Home",
-                    about: "About Me",
-                    langTitle: "Language",
-                    persian: "Persian",
-                    english: "English",
-                    titleVocabulary: "Vocabulary",
-                    titleGrammar: "Grammar",
-                    titleTests: "Tests",
-                    titleExtras: "Extra",
-                    titleabout: "About me",
-                    titlecontact: "Contact me",
-
-                    //title section
-                    WelcomeBadge: "Vocabulary",
-                    heroTitle: "School Books",
-                    heroSubtitle: "Master your school English vocabulary, unit by unit, with fun and interactive flashcards."
-                },
-                fa: {
-                    signinBtn: "ورود",
-                    home: "خانه",
-                    about: "درباره من",
-                    langTitle: "زبان",
-                    persian: "فارسی",
-                    english: "انگلیسی",
-                    titleVocabulary: "واژگان",
-                    titleGrammar: "دستور زبان",
-                    titleTests: "آزمون‌ها",
-                    titleExtras: "سایر",
-                    titleabout: "درباره من",
-                    titlecontact: "تماس با من",
-                    
-                    //title section
-                    WelcomeBadge: "واژگان",
-                    heroTitle: "کتاب‌های مدرسه",
-                    heroSubtitle: "واژگان انگلیسی کتاب‌های درسی خود را درس به درس، همراه با فلش‌کارت‌های جذاب و تعاملی مسلط شوید."
-                }
-        };
-
 
         // تابع برای تکمیل کردن لیست یونیت های هر کتاب
         function renderBookUnits(bookKey, containerId, sourceDatabase) {
