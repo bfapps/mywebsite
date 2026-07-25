@@ -909,7 +909,9 @@
         </footer>
     </div>
     <audio id="globalAudioPlayer" style="display: none;"></audio>
-
+        <script>
+            window.PAGE_NAME = 'flashcard';
+        </script>
         <script src="/global.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script type="module" src="/assets/JS/auth.js"></script>
@@ -930,148 +932,6 @@
 <script>
 
 
-
-    /* --- ۲. دیکشنری ترجمه قالب سیستم --- */
-    const translations = {
-        en: {
-            signinBtn: "Sign In",
-            home: "Home",
-            titleVocabulary: "Vocabulary",
-            titleGrammar: "Grammar",
-            titleTests: "Tests",
-            titleExtras: "Extra",
-            titleabout: "About me",
-            titlecontact: "Contact me",
-            about: "About Me",
-            langTitle: "Language",
-            persian: "Persian",
-            english: "English",
-            shuffle: "Shuffle Order",
-            autoPlay: "Auto Play",
-            starredOnly: "Starred Only",
-            weakWords: "Weak Words",
-            analytics: "Analytics",
-            meaningQuiz: "Meaning Quiz",
-            listeningQuiz: "Listening Quiz",
-            analyticsTitle: "Leitner Analytics Dashboard",
-            total: "Total",
-            resetAll: "Reset All",
-            mastered: "Mastered (Knew It)",
-            learning: "Learning (Not Sure)",
-            struggling: "Struggling (Forgot)",
-            unreviewed: "Unreviewed",
-            forgotText: "Forgot ❌",
-            notSureText: "Not Sure 😐",
-            knewItText: "Knew It 😊",
-            prev: "Previous",
-            next: "Next",
-            footer: "© 2026 ESL Island. All rights reserved.",
-            noMatches: "No Matches Found",
-            noMatchesSub: "Try changing your active filters above.",
-            tapClues: "Tap clues below to flip",
-            goodJob: "Good Job!",
-            reviewedAll: "You have reviewed all cards in this list.",
-            reviewAgain: "Review Cards Again",
-            exitQuiz: "Exit Quiz",
-            listenAgain: "Listen Again",
-            quizFinished: "Quiz Finished!",
-            score: "Score",
-            backToFlashcards: "Back to Flashcards",
-            meaningQuizTitle: "MEANING QUIZ",
-            listeningQuizTitle: "LISTENING QUIZ",
-            whatIsMeaning: "What is the Persian meaning?",
-            whichWordHear: "Which word did you hear?",
-            confirmReset: "Are you sure you want to reset all card statistics, categories, and levels for this unit? (Your personal helper notes will be saved)",
-            featMeaning: "Meaning",
-            featSounds: "Sounds",
-            featType: "Type",
-            featImage: "Image",
-            badgeForgot: "Forgot",
-            badgeNotSure: "Not Sure",
-            badgeKnew: "Knew It",
-            personalNotes: "My Personal Notes",
-            notesPlaceholder: "Type your personal helper notes here...",
-
-            // ... ترجمه‌های قبلی شما
-            spellingQuiz: "Spelling Quiz",
-            spellingQuizTitle: "SPELLING QUIZ",
-            typeWhatYouHear: "Listen to the audio and see the Persian meaning, then type the correct English spelling:",
-            checkSpelling: "Check Answer",
-            correctSpelling: "Correct! 🎉",
-            wrongSpelling: "Wrong! ❌ The correct spelling was: ",
-            placeholderSpelling: "Type the English word here...",
-            chooseQuizType: "Choose Quiz Type"
-        },
-        fa: {
-            signinBtn: "ورود",
-            home: "خانه",
-            titleVocabulary: "واژگان",
-            titleGrammar: "دستور زبان",
-            titleTests: "آزمون‌ها",
-            titleExtras: "سایر",
-            titleabout: "درباره من",
-            titlecontact: "تماس با من",
-            about: "درباره من",
-            langTitle: "زبان",
-            persian: "فارسی",
-            english: "انگلیسی",
-            shuffle: "برهم‌زدن ترتیب",
-            autoPlay: "تلفظ خودکار",
-            starredOnly: "فقط ستاره‌دارها",
-            weakWords: "کلمات دشوار",
-            analytics: "آمار و ارزیابی",
-            meaningQuiz: "آزمون معنی",
-            listeningQuiz: "آزمون شنیداری",
-            analyticsTitle: "داشبورد تحلیلی لایتنر",
-            total: "کل کلمات",
-            resetAll: "پاک کردن همه",
-            mastered: "بلد بودم (مسلط)",
-            learning: "مطمئن نیستم (یادگیری)",
-            struggling: "فراموش کردم (دشوار)",
-            unreviewed: "مرور نشده",
-            forgotText: "فراموش کردم ❌",
-            notSureText: "مطمئن نیستم 😐",
-            knewItText: "بلد بودم 😊",
-            prev: "قبلی",
-            next: "بعدی",
-            
-            noMatches: "هیچ کلمه‌ای یافت نشد",
-            noMatchesSub: "فیلترهای فعال خود را در بالا تغییر دهید.",
-            tapClues: "برای مشاهده پاسخ، روی گزینه‌های زیر کلیک کنید",
-            goodJob: "آفرین! کارتان عالی بود",
-            reviewedAll: "همه کلمات این لیست را مرور کردید.",
-            reviewAgain: "مرور مجدد کلمات",
-            exitQuiz: "خروج از آزمون",
-            listenAgain: "پخش مجدد صدا",
-            quizFinished: "آزمون به پایان رسید!",
-            score: "امتیاز شما",
-            backToFlashcards: "بازگشت به فلش‌کارت‌ها",
-            meaningQuizTitle: "آزمون معنی کلمات",
-            listeningQuizTitle: "آزمون شنیداری",
-            whatIsMeaning: "معنی فارسی این کلمه چیست؟",
-            whichWordHear: "کدام کلمه را شنیدید؟",
-            confirmReset: "آیا مطمئن هستید که می‌خواهید دسته‌بندی‌ها، فیلترها و مراحل لایتنر را کاملاً صفر کنید؟ (یادداشت‌های شخصی شما حذف نخواهند شد)",
-            featMeaning: "معنی",
-            featSounds: "تلفظ",
-            featType: "نوع کلمه",
-            featImage: "تصویر",
-            badgeForgot: "فراموش شده",
-            badgeNotSure: "نامطمئن",
-            badgeKnew: "بلد بودم",
-            personalNotes: "یادداشت‌های من",
-            notesPlaceholder: "نکات کمکی یا جملات نمونه خود را اینجا بنویسید...",
-
-            // ... ترجمه‌های قبلی شما
-            spellingQuiz: "آزمون املا",
-            spellingQuizTitle: "آزمون املا و نوشتار",
-            typeWhatYouHear: "به معنی فارسی و صوت کلمه دقت کرده و املای انگلیسی صحیح آن را بنویسید:",
-            checkSpelling: "بررسی پاسخ",
-            correctSpelling: "املای کلمه کاملاً صحیح است! 🎉",
-            wrongSpelling: "نادرست! ❌ املای درست این بود: ",
-            placeholderSpelling: "املای انگلیسی کلمه را اینجا بنویسید...",
-            chooseQuizType: "نوع آزمون را مشخص کنید"
-        }
-    };
 
     
 
