@@ -1,3 +1,100 @@
+// نوشتن کد لینک های داخل هدر برای همه صفحات
+document.addEventListener('DOMContentLoaded', () => {
+    const headerTag = document.getElementById("header");
+    const footerTag = document.getElementById("footer");
+    headerTag.innerHTML = `
+            <div class="logo-container">
+                <!--
+                                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                            -->
+                <img src="/logo.png" alt="ESL Logo" class="header-logo-icon">
+                <div class="logo-text">
+                    <h1>ESL Island</h1>
+                    <p>Let's Learn English</p>
+                </div>
+            </div>
+
+            <!-- ۲. بخش وضعیت کاربر (کنار منوی همبرگری) -->
+            <div class="header-user-status">
+                <!-- حالت ۱: فقط دکمه Sign In برای مهمان -->
+                <div class="guest-only">
+                    <a href="/pages/auth.html" class="nav-login-btn">
+
+                        <span class="nav-login-btn-span" data-i18n="signinBtn">Sign In</span>
+                    </a>
+                </div>
+
+                <!-- حالت ۲: فقط عکس پروفایل و دکمه خروج برای کاربر واردشده -->
+                <div class="user-only" style="display: none;">
+                    <a href="/pages/auth.html"> <img id="navUserAvatar"
+                            src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar" class="nav-avatar">
+                    </a>
+                    <!-- کلاس کلید پایین رو در کلاس کلی نامرئی کردم. میشه تغییر داد  -->
+                    <button id="navLogoutBtn" class="nav-logout-btn" type="button" title="Log Out">
+                        <i class="fa-solid fa-right-from-bracket navLogoutIcn"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button class="hamburger" onclick="toggleMenu()" id="menuBtn" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+            <div id="sideMenu" class="side-menu">
+                <div class="menu-items">
+                    <a href="/index.html"><i class="fa-solid fa-house"></i> <span data-i18n="home"> Home </span></a>
+
+                    <div class="accordion-item lang-accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="header-left">
+                                <span><i class="fa-solid fa-globe"></i> <span
+                                        data-i18n="langTitle">Language</span></span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                        </div>
+
+                        <div class="accordion-content">
+                            <div class="lang-options">
+                                <button class="lang-btn" onclick="applyLanguage('fa')">
+                                    فارسی (Persian)
+                                </button>
+                                <button class="lang-btn" onclick="applyLanguage('en')">
+                                    English
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="/pages/vocabulary/iranianschool/vocabulary.html"><i
+                            class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
+                            Vocabulary </span></a>
+                    <a href="/pages/personal/wordlist.html"><i class="fa-solid fa-book"></i> <span data-i18n="titleMyWordList"> My wordlists </span></a>
+                    <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar
+                        </span></a>
+                    <a href="#tests"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests
+                        </span></a>
+                    <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
+                            data-i18n="titleExtras"> Extras </span></a>
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titleContact"> Contact
+                            me </span></a>
+                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleAbout"> About
+                            me </span></a>
+                </div>
+            </div>
+        `;
+    footerTag.innerHTML = `
+            <p>© 2026 ESL Island. All rights reserved.</p>
+            <div class="social-row">
+                <a href="#" class="social-link tg"><i class="fa-brands fa-telegram"></i></a>
+                <a href="mailto:amirsardar9930@gmail.com" class="social-link tw"><i class="fas fa-envelope"></i></a>
+                <a href="#" class="social-link ig"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-link yt"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        `;
+});
+
+
+
+
+
 let currentLang = 'en';
 let translations = { en: {}, fa: {} };
 
@@ -141,6 +238,8 @@ function toggleMenu() {
     }
     overlay.style.display = menu.classList.contains('active') ? 'block' : 'none';
 }
+
+
 
 function toggleAccordion(element) {
     const item = element.closest('.accordion-item');

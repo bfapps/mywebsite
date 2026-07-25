@@ -20,7 +20,10 @@
                 height: auto;
             }
         }
-        
+        input,
+        textarea {
+            direction: ltr !important;
+        }
 
         /* ==========================================
        1. Base & Layout Elements
@@ -544,9 +547,9 @@
                         </span></a>
                     <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
                             data-i18n="titleExtras"> Extras </span></a>
-                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titlecontact">
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titleContact">
                             Contact me </span></a>
-                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleabout"> About
+                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleAbout"> About
                             me </span></a>
                 </div>
             </div>
@@ -554,7 +557,7 @@
 
         <section class="hero">
             <div class="hero-content">
-                <span class="welcome-badge" data-i18n="titlePersonalList">My List</span>
+                <span class="welcome-badge" data-i18n="WelcomeBadge">My Worldlists</span>
                 <h2 data-i18n="heroTitle">My Words, My Way, <br> My Success</h2>
                 <p data-i18n="heroSubtitle">Import your personal vocabulary list and master English at your own pace.
                 </p>
@@ -624,8 +627,8 @@
 
         <section class="custom-vocab-container">
             <div class="custom-vocab-header">
-                <h1 class="hero-tagline" data-i18n="customHeroTitle">My Lists</h1>
-                <p class="hero-subtext" data-i18n="customSubtext">Build your own vocabulary list with up to 30 custom
+                <h1 class="hero-tagline" data-i18n="titleMyWordList">My Worldlists</h1>
+                <p class="hero-subtext" data-i18n="descMyWordList">Build your own vocabulary list with up to 30 custom
                     words.</p>
             </div>
 
@@ -797,7 +800,9 @@
             </div>
         </footer>
     </div>
-
+    <script>
+        window.PAGE_NAME = 'mywordlist'; // تعیین نام صفحه برای دریافت ترجمه‌های اختصاصی
+    </script>
     <script src="/global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -806,96 +811,6 @@
     <script type="module" src="/assets/JS/auth-lock.js"></script>
     <script>
 
-
-        // ترجمه‌ها
-            const translations = {
-                en: {
-                    signinBtn: "Sign In",
-                    home: "Home",
-                    about: "About Me",
-                    langTitle: "Language",
-                    persian: "Persian",
-                    english: "English",
-                    titleVocabulary: "Vocabulary",
-                    titleGrammar: "Grammar",
-                    titleTests: "Tests",
-                    titleExtras: "Extra",
-                    titleabout: "About me",
-                    titlecontact: "Contact me",
-                    titlePersonalList: "My list",
-                    WelcomeBadge: "",
-                    heroTitle: "My Words, My Way, <br> My Success",
-                    heroSubtitle: "Import your personal vocabulary list and master English at your own pace.",
-                    customHeroTitle: "My Lists",
-                    customSubtext: "Building your own vocabulary list with up to 30 custom words",
-                    lblSelectWordlist: "Select Wordlist:",
-                    optCreateNewList: "Create New List",
-                    btnPracticeFlashcards: "Practice Flashcards",
-                    lblListTitle: "List Title:",
-                    phListTitle: "e.g. Unit 1 Vocabulary",
-                    lblListCapacity: "Capacity:",
-                    lblEnglishWord: "English Word",
-                    phEnglishWord: "e.g. Apple",
-                    lblMeaning: "Meaning",
-                    phMeaning: "e.g. سیب",
-                    lblIpa: "Phonetic / IPA",
-                    phIpa: "e.g. /ˈæp.əl/",
-                    lblOptional: "(Optional)",
-                    lblImage: "Image Code or URL",
-                    phImage: "ARASAAC ID or image URL",
-                    lblExample: "Sample Sentence / Example",
-                    phExample: "e.g. I ate a delicious red apple.",
-                    btnAddWord: "Add to List",
-                    titleAddedWords: "Words added to this list:",
-                    msgNoWordsYet: "No words added to this list yet.",
-                    btnSaveList: "Save Entire List",
-                    lblType: "Word Type",
-                    optSelectType: "-- Select Type --"
-                },
-                fa: {
-                    signinBtn: "ورود",
-                    home: "خانه",
-                    about: "درباره من",
-                    langTitle: "زبان",
-                    persian: "فارسی",
-                    english: "انگلیسی",
-                    titleVocabulary: "واژگان",
-                    titleGrammar: "دستور زبان",
-                    titleTests: "آزمون‌ها",
-                    titleExtras: "سایر",
-                    titleabout: "درباره من",
-                    titlecontact: "تماس با من",
-                    titlePersonalList: "لیست من",
-                    WelcomeBadge: "",
-                    heroTitle: "واژگان من، مسیرِ من، <br> موفقیتِ من",
-                    heroSubtitle: "لیست کلمات اختصاصی خودت رو وارد کن و انگلیسی رو با سرعت و روش خودت یاد بگیر.",
-                    customHeroTitle: "لیست‌های من",
-                    customSubtext: "ایحاد لیست واژگان خودتان  تا ۳۰ واژه در هر لیست",
-                    lblSelectWordlist: "انتخاب لیست واژگان:",
-                    optCreateNewList: "ساختن لیست جدید",
-                    btnPracticeFlashcards: "تمرین فلش کارت‌ها",
-                    lblListTitle: "عنوان لیست:",
-                    phListTitle: "مثلاً: کلمات درس اول",
-                    lblListCapacity: "ظرفیت:",
-                    lblEnglishWord: "کلمه انگلیسی",
-                    phEnglishWord: "مثلاً: Apple",
-                    lblMeaning: "معنای فارسی",
-                    phMeaning: "مثلاً: سیب",
-                    lblIpa: "تلفظ متنی / IPA",
-                    phIpa: "مثلاً: /ˈæp.əl/",
-                    lblOptional: "(اختیاری)",
-                    lblImage: "کد یا لینک تصویر",
-                    phImage: "کد عددی ARASAAC یا لینک تصویر",
-                    lblExample: "جمله نمونه / مثال",
-                    phExample: "مثلاً: I ate a delicious red apple.",
-                    btnAddWord: "افزودن به لیست",
-                    titleAddedWords: "کلمات افزوده شده به این لیست:",
-                    msgNoWordsYet: "هنوز کلمه‌ای به این لیست اضافه نشده است.",
-                    btnSaveList: "ذخیره نهایی لیست",
-                    lblType: "نوع کلمه",
-                    optSelectType: "-- انتخاب نوع کلمه --"
-                }
-            };
 
             document.addEventListener('DOMContentLoaded', async () => {
                     const _supabase = window.supabase;
