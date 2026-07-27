@@ -11,8 +11,8 @@ async function checkAuthStatus() {
     // به‌روزرسانی UI
     updateHeaderAndAccess(currentUser);
 
-    // بررسی دسترسی مستقیم از طریق آدرس URL به صورت async
-    await checkDirectUrlAccess(currentUser);
+    // بررسی دسترسی مستقیم از طریق آدرس URL
+    checkDirectUrlAccess(currentUser);
 }
 
 // ۲. به‌روزرسانی هدر و وضعیت ظاهری لینک‌های قفل‌شده
@@ -42,7 +42,7 @@ function updateHeaderAndAccess(user) {
 }
 
 // ۳. اعمال کلاس auth-disabled به لینک‌های محافظت‌شده
-window.updateLinksStyle = function updateLinksStyle() {
+window.updateLinksStyle = function () {
     const protectedLinks = document.querySelectorAll('[data-require-auth]');
     protectedLinks.forEach(link => {
         if (!currentUser) {
@@ -53,47 +53,30 @@ window.updateLinksStyle = function updateLinksStyle() {
     });
 };
 
-// ۴. بررسی دسترسی مستقیم به یونیت‌های قفل‌شده از طریق آدرس URL (بر اساس جدول books_data در Supabase)
-async function checkDirectUrlAccess(user) {
+// ۴. بررسی دسترسی مستقیم به یونیت‌های قفل‌شده از طریق آدرس URL (بر اساس دیتابیس اختصاصی صفحه)
+function checkDirectUrlAccess(user) {
     const urlParams = new URLSearchParams(window.location.search);
     const bookKey = urlParams.get('book');
     const unitVal = urlParams.get('unit');
 
-    // اگر پارامترها موجود نباشند، اجرا نشود
-    if (!bookKey || !unitVal) return;
+    // اگر پارامترها موجود نباشند یا دیتابیسی برای این صفحه معرفی نشده باشد، اجرا نشود
+    if (!bookKey || !unitVal || !window.pageBooksData) return;
 
-    const parsedUnit = parseFloat(unitVal);
+    // خواندن دیتابیس کتاب از لیست معرفی‌شده در همان صفحه
+    const sourceData = window.pageBooksData[bookKey];
 
-    try {
-        // خواندن units_data از جدول books_data دیتابیس
-        const { data: bookRow, error } = await supabase
-            .from('books_data')
-            .select('units_data')
-            .eq('book_key', bookKey)
-            .maybeSingle();
+    if (sourceData) {
+        const currentUnit = sourceData.find(u => u.unit == unitVal);
 
-        if (error) {
-            console.error("Error fetching security rules from books_data:", error);
-            return;
+        // اگر یونیت نیاز به لاگین داشته باشد و کاربر لاگین نباشد
+        if (currentUnit && currentUnit.requireAuth && !user) {
+            alert("🔒 Please sign in to your account to access this content.");
+
+            // ذخیره آدرس فعلی جهت بازگشت بعد از لاگین
+            sessionStorage.setItem('redirectAfterLogin', window.location.href);
+
+            window.location.href = '/pages/auth.html';
         }
-
-        if (bookRow && Array.isArray(bookRow.units_data)) {
-            // پیدا کردن یونیت فعلی از داخل آرایه units_data
-            const currentUnit = bookRow.units_data.find(u => parseFloat(u.unit) === parsedUnit);
-
-            // اگر یونیت نیاز به لاگین داشته باشد (requireAuth) و کاربر لاگین نباشد
-            if (currentUnit && currentUnit.requireAuth && !user) {
-                alert("🔒 Please sign in to your account to access this content.");
-
-                // ذخیره آدرس فعلی جهت بازگشت خودکار بعد از لاگین
-                sessionStorage.setItem('redirectAfterLogin', window.location.href);
-
-                // هدایت کاربر به صفحه لاگین
-                window.location.href = '/pages/auth.html';
-            }
-        }
-    } catch (err) {
-        console.error("Access restriction check failed:", err);
     }
 }
 
@@ -125,10 +108,10 @@ export async function enforcePageAccess(requiresAuth = true) {
 }
 
 // ۷. گوش دادن به تغییرات وضعیت لاگین / خروج (Supabase Listener)
-supabase.auth.onAuthStateChange(async (event, session) => {
+supabase.auth.onAuthStateChange((event, session) => {
     const user = session ? session.user : null;
     updateHeaderAndAccess(user);
-    await checkDirectUrlAccess(user);
+    checkDirectUrlAccess(user);
 });
 
 // ۸. اجرا هنگام بارگذاری کامل DOM
@@ -143,3 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+

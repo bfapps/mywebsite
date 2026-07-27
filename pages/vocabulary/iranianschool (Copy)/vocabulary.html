@@ -85,7 +85,7 @@
                 </div>
                 <div class="accordion-content">
                     <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="prospect1"></div>
+                    <div class="unit-list" id="prospect1-list"></div>
                 </div>
             </div>
             <!-- Prospect 2 -->
@@ -104,7 +104,7 @@
                 </div>
                 <div class="accordion-content">
                     <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="prospect2"></div>
+                    <div class="unit-list" id="prospect2-list"></div>
                 </div>
             </div>
             <!-- Prospect 3 -->
@@ -123,7 +123,7 @@
                 </div>
                 <div class="accordion-content">
                     <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="prospect3"></div>
+                    <div class="unit-list" id="prospect3-list"></div>
                 </div>
             </div>
 
@@ -143,7 +143,7 @@
                 </div>
                 <div class="accordion-content">
                     <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="vision1"></div>
+                    <div class="unit-list" id="vision1-list"></div>
                 </div>
             </div>
 
@@ -163,7 +163,7 @@
                 </div>
                 <div class="accordion-content">
                     <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="vision2"></div>
+                    <div class="unit-list" id="vision2-list"></div>
                 </div>
             </div>
 
@@ -183,7 +183,7 @@
                 </div>
                 <div class="accordion-content">
                     <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="vision3"></div>
+                    <div class="unit-list" id="vision3-list"></div>
                 </div>
             </div>
 
@@ -235,100 +235,109 @@
             <!--injected by JS from global JS-->
         </footer>
     </div>
+    <script src="/pages/vocabulary/iranianschool/prospect_list.js"></script>
+    <script src="/pages/vocabulary/iranianschool/vision_list.js"></script>
     <script>
         window.PAGE_NAME = 'iranschvocab';
     </script>
     <script src="/global.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
     <script>
-        // دریافت تمامی یونیت‌های کتاب‌ها از جدول books_data
-        async function loadBooksAndRenderUnits() {
-            try {
-                // ۱. بررسی و دریافت کلاینت سوپابیس از window یا متغیر عمومی
-                const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
 
-                // اگر کلاینت هنوز آماده نشده بود، ۱۰۰ میلی‌ثانیه صبر کرده و دوباره تلاش می‌کند
-                if (!client) {
-                    console.warn("Supabase client is not ready yet. Retrying in 100ms...");
-                    setTimeout(loadBooksAndRenderUnits, 100);
-                    return;
-                }
+        // تابع برای تکمیل کردن لیست یونیت های هر کتاب
+        function renderBookUnits(bookKey, containerId, sourceDatabase) {
+                const container = document.getElementById(containerId);
+                const units = sourceDatabase[bookKey];
 
-                console.log("در حال دریافت اطلاعات از Supabase...");
+                if (!container || !units) return;
 
-                const { data: books, error } = await client
-                    .from('books_data')
-                    .select('*');
+                container.innerHTML = "";
 
-                if (error) {
-                    console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
-                    return;
-                }
-
-                console.log("داده‌های دریافت شده از دیتابیس:", books);
-
+                // تشخیص زبان فعلی سایت (اگر تعریف نشده باشد، پیش‌فرض انگلیسی در نظر گرفته می‌شود)
                 const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
 
-                books.forEach(book => {
-                    // دریافت کانتینر مربوط به کتاب بر اساس book_key (مثلا vision1)
-                    const targetContainer = document.getElementById(book.book_key) || document.getElementById(`${book.book_key}-list`);
+                units.forEach(item => {
+                    const url = `enflashcards.html?book=${bookKey}&unit=${item.unit}`;
 
-                    if (targetContainer && book.units_data) {
-                        targetContainer.innerHTML = ""; // پاک‌سازی محتوای قبلی
+                    // انتخاب داینامیک متن بر اساس زبان سیستم
+                    const title = (lang === 'fa') ? item.titleFa : item.titleEn;
+                    const desc = (lang === 'fa') ? item.descFa : item.descEn;
 
-                        book.units_data.forEach(item => {
-                            const url = `/pages/vocabulary/flashcard.html?book=${book.book_key}&unit=${item.unit}`;
-                            const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
-                            const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
-                            const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
+                    // تنظیم راست‌چین یا چپ‌چین بودن متن بر اساس زبان
+                    const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
 
-                            const anchor = document.createElement("a");
-                            anchor.href = url;
-                            anchor.className = "unit-row-item unit-link";
+                    const anchor = document.createElement("a");
+                    anchor.href = url;
+                    anchor.className = "unit-row-item unit-link";
 
-                            if (item.requireAuth) {
-                                anchor.setAttribute("data-require-auth", "true");
-                            }
+                    // 👈 بررسی نیازمندی به لاگین و اضافه کردن attribute به تگ a
+                    if (item.requireAuth) {
+                        anchor.setAttribute("data-require-auth", "true");
+                    }
 
-                            anchor.innerHTML = `
-                                    <div class="unit-left" ${textDirection}>
-                                        <div class="unit-number-badge">${item.unit}</div>
-                                        <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
-                                        <div class="unit-details">
-                                            <h4>${title}</h4>
-                                            <p>${desc}</p>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-chevron-right unit-arrow"></i>
-                                `;
+                    anchor.innerHTML = `
+            <div class="unit-left" ${textDirection}>
+                <div class="unit-number-badge">${item.unit}</div>
+                <i class="${item.icon} unit-icon"></i>
+                <div class="unit-details">
+                    <h4>${title}</h4>
+                    <p>${desc}</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+        `;
 
-                            targetContainer.appendChild(anchor);
-                        });
+                    container.appendChild(anchor);
+                });
+
+                // 👈 فراخوانی مجدد سیستم محافظت از لینک‌ها بعد از ساخت کامل عناصر داینامیک
+            if (typeof updateLinksStyle === 'function') {
+                updateLinksStyle();
+            }
+            }
+
+
+            /* ----------------------------------------------------
+            مشخص کردن مکان لیست یونیت ها و زبان در دو تابع پایین. این دو تابع با توجه به کتاب های صفحه تغییر میکنند.
+            ----------------------------------------------------------*/
+
+            // مشخص کردن مکان یونیت های هر کتاب
+            document.addEventListener("DOMContentLoaded", () => {
+                    // کتاب‌های پراسپکت از دیتابیس prospectData می‌خوانند
+                    renderBookUnits("prospect1", "prospect1-list", prospectData);
+                    renderBookUnits("prospect2", "prospect2-list", prospectData);
+                    renderBookUnits("prospect3", "prospect3-list", prospectData);
+
+                    // کتاب‌های ویژن از دیتابیس visionData می‌خوانند
+                    renderBookUnits("vision1", "vision1-list", visionData);
+                    renderBookUnits("vision2", "vision2-list", visionData);
+                    renderBookUnits("vision3", "vision3-list", visionData);
+                });
+            
+            window.addEventListener('languageChanged', function (e) {
+                    // اگر تابع رندر در صفحه موجود است
+                    if (typeof renderBookUnits === 'function') {
+
+                        // ۱. رندر مجدد سری کتاب‌های Prospect (اگر دیتایش بارگذاری شده)
+                        if (typeof prospectData !== 'undefined') {
+                            renderBookUnits("prospect1", "prospect1-list", prospectData);
+                            renderBookUnits("prospect2", "prospect2-list", prospectData);
+                            renderBookUnits("prospect3", "prospect3-list", prospectData);
+                        }
+
+                        // ۲. رندر مجدد سری کتاب‌های Vision (اگر دیتایش بارگذاری شده)
+                        if (typeof visionData !== 'undefined') {
+                            renderBookUnits("vision1", "vision1-list", visionData);
+                            renderBookUnits("vision2", "vision2-list", visionData);
+                            renderBookUnits("vision3", "vision3-list", visionData);
+                        }
+
                     }
                 });
 
-                if (typeof updateLinksStyle === 'function') {
-                    updateLinksStyle();
-                }
-            } catch (err) {
-                console.error("خطای غیرمنتظره:", err);
-            }
-        }
 
-        // اجرا پس از لود کامل صفحه
-        document.addEventListener("DOMContentLoaded", () => {
-            loadBooksAndRenderUnits();
-        });
-
-        // اجرا در صورت تغییر زبان
-        window.addEventListener('languageChanged', function (e) {
-            loadBooksAndRenderUnits();
-        });
     </script>
-    <script type="module" src="/assets/JS/auth.js"></script>
-    <script type="module" src="/assets/JS/auth-guard.js"></script>
 </body>
 
 </html>

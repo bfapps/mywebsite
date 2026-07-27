@@ -843,8 +843,18 @@
         </script>
         <script src="/global.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script type="module" src="/assets/JS/auth.js"></script>
         <script type="module" src="/assets/JS/auth-guard.js"></script>
 
+
+        <script src="/pages/vocabulary/iranianschool/prospect_list.js"></script>
+        <script src="/pages/vocabulary/iranianschool/vision_list.js"></script>
+        <script>
+            window.pageBooksData = {
+                ...prospectData,
+                ...visionData
+            };
+        </script>
         
         <script type="module" src="/assets/JS/save-progress.js"></script>
 
@@ -890,87 +900,82 @@
 
     
 
-    async function fetchFlashcardsFromSupabase(book, unit) {
-            try {
-                // تبدیل به عدد اعشاری جهت پشتیبانی از یونیت‌های مانند 3.1
-                const parsedUnit = parseFloat(unit);
+    /* --- ۳. تابع بارگذاری دینامیک فایل جاوااسکریپت از پوشه Books --- */
+    function loadDynamicDataset(bookName, callback) {
+        const script = document.createElement('script');
+        script.src = `${bookName}_data.js`;
+        script.type = 'text/javascript';
 
-                const { data, error } = await supabaseClient
-                    .from('flashcards')
-                    .select('words_data')
-                    .eq('book_key', book)
-                    .eq('unit_number', parsedUnit) // ✅ اصلاح شد
-                    .single();
+        script.onload = () => {
+            console.log(`Database for ${bookName} loaded successfully.`);
+            callback();
+        };
 
-                if (error || !data || !data.words_data) {
-                    console.error("خطا یا عدم وجود کلمات در دیتابیس:", error);
-                    return [{ id: 0, name: "No Data Available", pronunciation: "-", example: "Please check your database.", type: "-", meaning: "کلماتی برای این یونیت یافت نشد", audio: "", image: "" }];
-                }
+        script.onerror = () => {
+            console.error(`Failed to load database for ${bookName}`);
+            masterDataset = [{ id: 0, name: "Error Loading", pronunciation: "-", example: "-", type: "-", meaning: "خطا در بارگذاری فایل دیتا از پوشه Books", audio: "", image: "" }];
+            callback();
+        };
 
-                return data.words_data;
-            } catch (err) {
-                console.error("خطا در ارتباط با دیتابیس:", err);
-                return [{ id: 0, name: "Error Loading", pronunciation: "-", example: "-", type: "-", meaning: "خطا در برقراری ارتباط با دیتابیس", audio: "", image: "" }];
-            }
-        }
+        document.head.appendChild(script);
+    }
 
-    /* --- راه‌اندازی و لود اولیه برنامه --- */
-    window.onload = async function () {
+    /* --- ۴. راه‌اندازی و لود اولیه برنامه --- */
+    window.onload = function () {
+
         initSwipeGestures();
 
-        if (!window.supabaseClient && window.supabase) {
-            window.supabaseClient = window.supabase;
-        }
+        loadDynamicDataset(selectedBook, function () {
 
-        if (!window.supabaseClient) {
-            console.error("Supabase client is not initialized yet.");
-            return;
-        }
+            if (typeof currentBookDatabase !== 'undefined' && currentBookDatabase[`u${selectedUnit}`]) {
+                masterDataset = currentBookDatabase[`u${selectedUnit}`];
+            } else {
+                masterDataset = [{ id: 0, name: "No Data Available", pronunciation: "-", example: "Please check your data file.", type: "-", meaning: "کلماتی برای این یونیت یافت نشد", audio: "", image: "" }];
+            }
 
-        // ۱. دریافت کلمات از Supabase
-        masterDataset = await fetchFlashcardsFromSupabase(selectedBook, selectedUnit);
-        workingDataset = [...masterDataset];
+            workingDataset = [...masterDataset];
 
-        // ۲. بازیابی Progress (بدون تغییر در منطق قبلی ذخیره‌سازی)
-        const savedIndex = localStorage.getItem(`saved_progress_${selectedUnitKey}`);
-        if (savedIndex && parseInt(savedIndex) < workingDataset.length) {
-            currentIndex = parseInt(savedIndex);
-        } else {
-            currentIndex = 0;
-        }
+            const savedIndex = localStorage.getItem(`saved_progress_${selectedUnitKey}`);
+            if (savedIndex && parseInt(savedIndex) < workingDataset.length) {
+                currentIndex = parseInt(savedIndex);
+            } else {
+                currentIndex = 0;
+            }
 
-        isAutoPlayActive = localStorage.getItem(`autoplay_${selectedUnitKey}`) === 'true';
+            // مقداردهی اولیه isAutoPlay از LocalStorage
+            isAutoPlayActive = localStorage.getItem(`autoplay_${selectedUnitKey}`) === 'true';
 
-        // ۳. بازیابی لایتنر و پروگرس کاربر از تابع پیش‌فرض سیستم (save-progress.js)
-        if (window.getUnitProgress) {
-            window.getUnitProgress(selectedBook, selectedUnit).then(dbData => {
-                if (dbData) {
-                    if (dbData.starred_words) localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(dbData.starred_words));
-                    if (dbData.words_status) localStorage.setItem(`words_status_${selectedUnitKey}`, JSON.stringify(dbData.words_status));
-                    if (dbData.word_notes) localStorage.setItem(`word_notes_${selectedUnitKey}`, JSON.stringify(dbData.word_notes));
+            if (window.getUnitProgress) {
+                window.getUnitProgress(selectedBook, selectedUnit).then(dbData => {
+                    if (dbData) {
+                        if (dbData.starred_words) localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(dbData.starred_words));
+                        if (dbData.words_status) localStorage.setItem(`words_status_${selectedUnitKey}`, JSON.stringify(dbData.words_status));
+                        if (dbData.word_notes) localStorage.setItem(`word_notes_${selectedUnitKey}`, JSON.stringify(dbData.word_notes));
 
-                    if (dbData.last_card_index !== undefined && dbData.last_card_index < workingDataset.length) {
-                        currentIndex = dbData.last_card_index;
-                        localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
+                        if (dbData.last_card_index !== undefined && dbData.last_card_index < workingDataset.length) {
+                            currentIndex = dbData.last_card_index;
+                            localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
+                        }
+
+                        // دریافت isAutoPlay از Supabase
+                        if (dbData.is_autoplay !== undefined && dbData.is_autoplay !== null) {
+                            isAutoPlayActive = dbData.is_autoplay;
+                            localStorage.setItem(`autoplay_${selectedUnitKey}`, isAutoPlayActive);
+                        }
                     }
 
-                    if (dbData.is_autoplay !== undefined && dbData.is_autoplay !== null) {
-                        isAutoPlayActive = dbData.is_autoplay;
-                        localStorage.setItem(`autoplay_${selectedUnitKey}`, isAutoPlayActive);
-                    }
-                }
-
+                    updateAutoPlayUI();
+                    renderCard();
+                }).catch(err => {
+                    console.error("خطا در دریافت اطلاعات از Supabase:", err);
+                    updateAutoPlayUI();
+                    renderCard();
+                });
+            } else {
                 updateAutoPlayUI();
                 renderCard();
-            }).catch(err => {
-                console.error("خطا در دریافت پروگرس کاربر از Supabase:", err);
-                updateAutoPlayUI();
-                renderCard();
-            });
-        } else {
-            updateAutoPlayUI();
-            renderCard();
-        }
+            }
+        });
     };
 
     // تابع کمکی برای بروزرسانی ظاهر دکمه Auto Play
