@@ -866,6 +866,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const selectedBook = urlParams.get('book') || 'vision1'; // نام کتاب (مثلا vision1)
         const selectedUnit = urlParams.get('unit') || '1';       // شماره یونیت (مثلا 1)
+        const listSource = urlParams.get('source');
 
         // کلید منحصربه‌فرد برای ذخیره‌سازی اطلاعات در LocalStorage مربوط به هر یونیت و کتاب
         const selectedUnitKey = `${selectedBook}_u${selectedUnit}`;
@@ -899,7 +900,7 @@
                 const parsedUnit = parseFloat(unit);
 
                 const { data, error } = await supabaseClient
-                    .from('flashcards')
+                    .from(listSource)
                     .select('words_data')
                     .eq('book_key', book)
                     .eq('unit_number', parsedUnit) // ✅ اصلاح شد

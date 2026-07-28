@@ -107,43 +107,82 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <script>
-        // دریافت تمامی یونیت‌های کتاب‌ها از جدول books_data
-        async function loadBooksAndRenderUnits() {
-            try {
-                // ۱. بررسی و دریافت کلاینت سوپابیس از window یا متغیر عمومی
-                const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+        // ذخیره داده‌های دریافتی در حافظه برای جلوگیری از درخواست مجدد به Supabase
+            let cachedBooksData = null;
+            let isFetchingBooks = false;
+            // منبع دریافت لیست لفات از جداول supabase
+            const tableSource = "chinese_words";
 
-                // اگر کلاینت هنوز آماده نشده بود، ۱۰۰ میلی‌ثانیه صبر کرده و دوباره تلاش می‌کند
-                if (!client) {
-                    console.warn("Supabase client is not ready yet. Retrying in 100ms...");
-                    setTimeout(loadBooksAndRenderUnits, 100);
+            async function loadBooksAndRenderUnits() {
+                // ۱. اگر داده‌ها قبلاً دریافت شده‌اند، فقط مجدداً آن‌ها را رندر کن (مثلاً برای تغییر زبان)
+                if (cachedBooksData) {
+                    renderUnits(cachedBooksData);
                     return;
                 }
 
-                console.log("در حال دریافت اطلاعات از Supabase...");
+                // اگر در همین لحظه در حال دریافت داده هستیم، از اجرای مجدد جلوگیری کن
+                if (isFetchingBooks) return;
 
-                const { data: books, error } = await client
-                    .from('books_data')
-                    .select('*');
+                try {
+                    const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
 
-                if (error) {
-                    console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
-                    return;
+                    if (!client) {
+                        console.warn("Supabase client is not ready yet. Retrying in 100ms...");
+                        setTimeout(loadBooksAndRenderUnits, 100);
+                        return;
+                    }
+
+                    // پیدا کردن IDهای موجود در صفحه
+                    const unitContainers = document.querySelectorAll('.unit-list[id]');
+                    const bookKeys = Array.from(unitContainers)
+                        .map(container => container.id)
+                        .filter(id => id.trim() !== '');
+
+                    if (bookKeys.length === 0) return;
+
+                    isFetchingBooks = true;
+
+                    console.log("در حال دریافت اطلاعات از Supabase...");
+                    console.log("کتاب‌های شناسایی‌شده در صفحه:", bookKeys);
+
+                    const { data: books, error } = await client
+                        .from('books_data')
+                        .select('*')
+                        .in('book_key', bookKeys);
+
+                    if (error) {
+                        console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
+                        return;
+                    }
+
+                    // ذخیره در Cache
+                    cachedBooksData = books;
+                    console.log("داده‌های دریافت شده از دیتابیس:", books);
+
+                    // رندر عناصر در صفحه
+                    renderUnits(cachedBooksData);
+
+                } catch (err) {
+                    console.error("خطای غیرمنتظره:", err);
+                } finally {
+                    isFetchingBooks = false;
                 }
+            }
 
-                console.log("داده‌های دریافت شده از دیتابیس:", books);
+            // تابع مجزا برای رندر کردن HTML (بدون نیاز به درخواست مجدد به شبکه)
+            function renderUnits(books) {
+                if (!books || books.length === 0) return;
 
                 const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
 
                 books.forEach(book => {
-                    // دریافت کانتینر مربوط به کتاب بر اساس book_key (مثلا vision1)
-                    const targetContainer = document.getElementById(book.book_key) || document.getElementById(`${book.book_key}-list`);
+                    const targetContainer = document.getElementById(book.book_key);
 
                     if (targetContainer && book.units_data) {
-                        targetContainer.innerHTML = ""; // پاک‌سازی محتوای قبلی
+                        targetContainer.innerHTML = "";
 
                         book.units_data.forEach(item => {
-                            const url = `/pages/vocabulary/flashcard.html?book=${book.book_key}&unit=${item.unit}`;
+                            const url = `/pages/vocabulary/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
                             const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
                             const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
                             const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
@@ -157,16 +196,16 @@
                             }
 
                             anchor.innerHTML = `
-                                        <div class="unit-left" ${textDirection}>
-                                            <div class="unit-number-badge">${item.unit}</div>
-                                            <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
-                                            <div class="unit-details">
-                                                <h4>${title}</h4>
-                                                <p>${desc}</p>
-                                            </div>
-                                        </div>
-                                        <i class="fa-solid fa-chevron-right unit-arrow"></i>
-                                    `;
+                    <div class="unit-left" ${textDirection}>
+                        <div class="unit-number-badge">${item.unit}</div>
+                        <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
+                        <div class="unit-details">
+                            <h4>${title}</h4>
+                            <p>${desc}</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                `;
 
                             targetContainer.appendChild(anchor);
                         });
@@ -176,20 +215,17 @@
                 if (typeof updateLinksStyle === 'function') {
                     updateLinksStyle();
                 }
-            } catch (err) {
-                console.error("خطای غیرمنتظره:", err);
             }
-        }
 
-        // اجرا پس از لود کامل صفحه
-        document.addEventListener("DOMContentLoaded", () => {
-            loadBooksAndRenderUnits();
-        });
+            // اجرا پس از لود کامل صفحه
+            document.addEventListener("DOMContentLoaded", () => {
+                loadBooksAndRenderUnits();
+            });
 
-        // اجرا در صورت تغییر زبان
-        window.addEventListener('languageChanged', function (e) {
-            loadBooksAndRenderUnits();
-        });
+            // اجرا در صورت تغییر زبان (بدون fetch مجدد، فقط rerender سریع)
+            window.addEventListener('languageChanged', function (e) {
+                loadBooksAndRenderUnits();
+            });
     </script>
     <script type="module" src="/assets/JS/auth.js"></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>

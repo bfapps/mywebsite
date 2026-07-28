@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Wordlists - ESL Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/global.css">
+    <style>
+        .community-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header-title h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-dark, #1f2937);
+        }
+
+        /* --- Search Bar Styles --- */
+        .search-section {
+            max-width: 560px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            color: #9ca3af;
+            font-size: 15px;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 42px 12px 44px;
+            font-size: 15px;
+            font-family: inherit;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
+
+        .search-input:focus+.search-icon {
+            color: #2563eb;
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 12px;
+            background: #f3f4f6;
+            border: none;
+            color: #6b7280;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .clear-btn:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .results-counter {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 500;
+            text-align: right;
+            padding: 0 4px;
+        }
+
+        /* --- Cards Grid & Highlight Styles --- */
+        .lists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .list-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .list-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1d4ed8;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-author {
+            font-size: 13px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .practice-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .practice-link:hover {
+            background: #1d4ed8;
+        }
+
+        .empty-state {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px 20px;
+            color: #6b7280;
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            color: #d1d5db;
+            margin-bottom: 12px;
+        }
+
+        mark.search-highlight {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 1px 3px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header id="header"></header>
+
+        <main class="community-container">
+            <div class="header-title">
+                <h1>Community Wordlists</h1>
+                <p>Explore vocabulary lists created and shared by learners from around the world.</p>
+            </div>
+
+            <!-- Search Section -->
+            <div class="search-section">
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" class="search-input"
+                        placeholder="Search by title or author name..." autocomplete="off">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <button id="clearSearchBtn" class="clear-btn" title="Clear search"><i
+                            class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="resultsCounter" class="results-counter"></div>
+            </div>
+
+            <div id="communityGrid" class="lists-grid">
+                <div class="empty-state">Loading community lists...</div>
+            </div>
+        </main>
+
+        <footer id="footer"></footer>
+    </div>
+
+    <script src="/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
+    <script type="module" src="/assets/JS/auth.js"></script>
+    <script>
+        let allCommunityLists = []; // ذخیره‌سازی داده‌ها در حافظه
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const _supabase = window.supabase;
+            const communityGrid = document.getElementById('communityGrid');
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearchBtn');
+            const resultsCounter = document.getElementById('resultsCounter');
+
+            try {
+                // ۱. دریافت لیست‌های تاییدشده از Supabase
+                const { data, error } = await _supabase
+                    .from('community_lists')
+                    .select('*')
+                    .eq('is_approved', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    communityGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <p>No approved community lists available yet.</p>
+                        </div>`;
+                    resultsCounter.textContent = '';
+                    return;
+                }
+
+                allCommunityLists = data;
+                renderLists(allCommunityLists, '');
+
+                // ۲. رویداد جستجوی حرف‌به‌حرف (Live Input)
+                searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value;
+                    clearSearchBtn.style.display = query.length > 0 ? 'flex' : 'none';
+                    filterAndRender(query);
+                });
+
+                // ۳. کلیک روی دکمه پاک کردن (Clear)
+                clearSearchBtn.addEventListener('click', () => {
+                    searchInput.value = '';
+                    clearSearchBtn.style.display = 'none';
+                    searchInput.focus();
+                    filterAndRender('');
+                });
+
+            } catch (err) {
+                console.error("Error loading community lists:", err);
+                communityGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p>Failed to load lists. Please try again later.</p>
+                    </div>`;
+            }
+        });
+
+        // ==========================================
+        // توابع کمکی سراسری (خارج از DOMContentLoaded)
+        // ==========================================
+
+        // ۱. امن‌سازی کاراکترهای HTML برای جلوگیری از XSS
+        function escapeHtml(string) {
+            if (!string) return '';
+            const div = document.createElement('div');
+            div.innerText = string;
+            return div.innerHTML;
+        }
+
+        // ۲. ایمن‌سازی عبارات برای استفاده در کاراکترهای رزرو شده Regex
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        // ۳. تابع اصلی هایلایت کردن کلمات با پشتیبانی از فاصله‌ها
+        function highlightText(text, query) {
+            if (!text) return '';
+            const escapedText = escapeHtml(text);
+
+            if (!query) return escapedText;
+
+            const cleanQuery = query.trim();
+            if (!cleanQuery) return escapedText;
+
+            const regex = new RegExp(`(${escapeRegExp(cleanQuery)})`, 'gi');
+            return escapedText.replace(regex, '<mark class="search-highlight">$1</mark>');
+        }
+
+        // ۴. تابع فیلتر کردن هوشمند
+        function filterAndRender(query) {
+            const cleanQuery = query.replace(/\s+/g, ' ').trim().toLowerCase();
+
+            if (!cleanQuery) {
+                renderLists(allCommunityLists, '');
+                return;
+            }
+
+            const filtered = allCommunityLists.filter(item => {
+                const titleText = (item.title || '').replace(/\s+/g, ' ').toLowerCase();
+                const authorText = (item.author_name || '').replace(/\s+/g, ' ').toLowerCase();
+
+                return titleText.includes(cleanQuery) || authorText.includes(cleanQuery);
+            });
+
+            renderLists(filtered, cleanQuery);
+        }
+
+        // ۵. تابع رندر کردن لیست‌ها و بروزرسانی DOM
+        function renderLists(lists, query) {
+            const communityGrid = document.getElementById('communityGrid');
+            const resultsCounter = document.getElementById('resultsCounter');
+
+            if (!communityGrid || !resultsCounter) return;
+
+            resultsCounter.textContent = `Showing ${lists.length} of ${allCommunityLists.length} lists`;
+
+            if (lists.length === 0) {
+                communityGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <p>No wordlists found matching "<strong>${escapeHtml(query)}</strong>"</p>
+                    </div>`;
+                return;
+            }
+
+            communityGrid.innerHTML = lists.map(item => {
+                const wordCount = Array.isArray(item.words) ? item.words.length : 0;
+                const bookKey = encodeURIComponent(item.title);
+
+                const highlightedTitle = highlightText(item.title || '', query);
+                const highlightedAuthor = highlightText(item.author_name || 'Unknown', query);
+
+                return `
+                    <div class="list-card">
+                        <div>
+                            <h3 class="card-title">${highlightedTitle}</h3>
+                            <div class="card-author">
+                                <i class="fa-solid fa-user-pen"></i>
+                                <span>By ${highlightedAuthor}</span>
+                            </div>
+                            <span class="card-badge">${wordCount} Words</span>
+                        </div>
+                        <a href="/pages/wordlists/practice.html?book=${bookKey}&unit=1&source=community_lists" class="practice-link">
+                            <i class="fa-solid fa-layer-group"></i>
+                            Practice Flashcards
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+
+</html>

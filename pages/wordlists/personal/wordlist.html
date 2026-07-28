@@ -590,7 +590,7 @@
                         <option value="new" data-i18n="">+ Create New List</option>
                     </select>
                 </div>
-                <a id="practiceListBtn" href="`/pages/personal/practice.html?book=${encodeURIComponent(listTitle)}&unit=1`" class="practice-btn hidden" title="Practice this list">
+                <a id="practiceListBtn" href="`/pages/worldlists/practice.html?book=${encodeURIComponent(listTitle)}&unit=1&source=user_lists`" class="practice-btn hidden" title="Practice this list">
                     <i class="fa-solid fa-layer-group"></i>
                     <span data-i18n="btnPracticeFlashcards">Practice Flashcards</span>
                 </a>
@@ -1094,7 +1094,7 @@
 
                             if (practiceListBtn) {
                                 const bookKey = encodeURIComponent(targetList.title || '');
-                                practiceListBtn.href = `/pages/personal/practice.html?book=${bookKey}&unit=1`;
+                                practiceListBtn.href = `/pages/wordlists/practice.html?book=${bookKey}&unit=1&source=user_lists`;
                                 practiceListBtn.classList.remove('hidden');
                             }
                             if (deleteListBtn) deleteListBtn.classList.remove('hidden');
