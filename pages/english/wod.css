@@ -33,9 +33,9 @@
     border-radius: 20px;
     padding: 20px;
     margin: 0 auto 1.5rem auto;
-    max-width: 500px;
+    max-width: 100%;
     /* حداکثر عرض در دسکتاپ */
-    width: calc(100% - 20px);
+   /* width: calc(100% - 20px); */
     /* بالانس پدینگ در موبایل */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(0, 0, 0, 0.06);
