@@ -63,20 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                     </div>
-                    <a href="/pages/vocabulary/iranianschool/vocabulary.html"><i
-                            class="fa-solid fa-book-open-reader"></i> <span data-i18n="titleVocabulary">
-                            Vocabulary </span></a>
-                    <a href="/pages/wordlists/personal/wordlist.html"><i class="fa-solid fa-book"></i> <span data-i18n="titleMyWordList"> My wordlists </span></a>
-                    <a href="#grammar"><i class="fa-solid fa-spell-check"></i> <span data-i18n="titleGrammar"> Grammar
-                        </span></a>
-                    <a href="/pages/wordlists/community/shared.html"><i class="fa-solid fa-list-check"></i> <span data-i18n="titleTests"> Tests
-                        </span></a>
-                    <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html"><i class="fa-solid fa-star"></i> <span
-                            data-i18n="titleExtras"> Extras </span></a>
-                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titleContact"> Contact
-                            me </span></a>
-                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleAbout"> About
-                            me </span></a>
+                    <a href="/pages/english/english.html"><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="titleEnglish"> Learning English </span></a>
+                    <a href="/pages/wordlists/community/shared.html"><i class="fa-solid fa-users-rectangle"></i> <span data-i18n="titleComWordLists"> Community Word Lists </span></a>
+                    <a href="/pages/chinese/vocabulary/200verbs/vocabulary.html"><i class="fa-solid fa-language"></i> <span data-i18n="titleChinese"> Learning Chinese </span></a>
+                    <a href="#"><i class="fa-solid fa-beer-mug-empty"></i> <span data-i18n="titleGerman"> Learning German </span></a>
+                    <a href="/pages/contact.html"><i class="fa-solid fa-headset"></i> <span data-i18n="titleContact"> Contact me </span></a>
+                    <a href="/pages/aboutme.html"><i class="fa-solid fa-user"></i> <span data-i18n="titleAbout"> About me </span></a>
                 </div>
             </div>
         `;

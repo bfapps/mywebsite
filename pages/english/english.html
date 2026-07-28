@@ -16,26 +16,23 @@
 </head>
 <style>
     .menu-list {
-    /*  direction: ltr !important; */
+        /*  direction: ltr !important; */
     }
-
-
-    
-    
 </style>
+
 <body>
 
     <div class="container">
-        
+
         <header id="header">
             <!--injected by JS from global JS-->
         </header>
 
         <section class="hero">
             <div class="hero-content">
-                <span class="welcome-badge" data-i18n="WelcomeBadge">Welcome To ESL Island</span>
-                <h2 data-i18n="heroTitle">Connect, Learn &<br>Grow Together</h2>
-                <p data-i18n="heroSubtitle">Discover English and multilingual vocabulary sets, custom flashcards, and community-created resources.</p>
+                <span class="welcome-badge" data-i18n="WelcomeBadge">Learning English</span>
+                <h2 data-i18n="heroTitle">Master English<br>Step by Step</h2>
+                <p data-i18n="heroSubtitle">--------------</p>
             </div>
             <div class="hero-graphics">
                 <svg width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -72,83 +69,53 @@
         </section>
 
         <div class="menu-list">
-            <!-- ۱. English -->
-            <a href="/pages/english/english.html" class="menu-link-card green-theme">
+            <a href="/pages/english/vocabulary/iranianschool/vocabulary.html" class="menu-link-card green-theme">
                 <div class="card-left">
                     <div class="icon-box green-bg">
-                        <i class="fa-solid fa-graduation-cap"></i>
+                        <i class="fa-solid fa-book-open-reader"></i>
                     </div>
                     <div class="title-box">
-                        <h3><span data-i18n="titleEnglish">Learning English</span></h3>
-                        <p data-i18n="descEnglish">Master English with interactive lessons and practical tools.</p>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-right arrow-action"></i>
-            </a>
-            
-            <!-- ۲. Community Word Lists -->
-            <a href="/pages/wordlists/community/shared.html" class="menu-link-card blue-theme" data-require-auth>
-                <div class="card-left">
-                    <div class="icon-box blue-bg">
-                        <i class="fa-solid fa-users-rectangle"></i>
-                    </div>
-                    <div class="title-box">
-                        <h3><span data-i18n="titleComWordLists">Community Word Lists</span></h3>
-                        <p data-i18n="descComWordList">Explore vocabulary sets shared by learners worldwide.</p>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-right arrow-action"></i>
-            </a>
-            
-            <!-- ۳. Chinese -->
-            <a href="/pages/chinese/vocabulary/200verbs/vocabulary.html" class="menu-link-card crimson-theme" data-require-auth>
-                <div class="card-left">
-                    <div class="icon-box crimson-bg">
-                        <i class="fa-solid fa-language"></i>
-                    </div>
-                    <div class="title-box">
-                        <h3><span data-i18n="titleChinese">Learning Chinese</span></h3>
-                        <p data-i18n="descChinese">Discover essential Chinese vocabulary and characters.</p>
-                    </div>
-                </div>
-                <i class="fa-solid fa-chevron-right arrow-action"></i>
-            </a>
-            
-            <!-- ۴. German -->
-            <a href="#" class="menu-link-card orange-theme">
-                <div class="card-left">
-                    <div class="icon-box orange-bg">
-                        <i class="fa-solid fa-beer-mug-empty"></i>
-                    </div>
-                    <div class="title-box">
-                        <h3><span data-i18n="titleGerman">Learning German</span></h3>
-                        <p data-i18n="descGerman">Build a solid foundation in German words and grammar.</p>
+                        <h3><span data-i18n="titleVocabulary"> Vocabulary </span></h3>
+                        <p data-i18n="descVocabulary">Explore new words and phrases.</p>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
             </a>
 
-            <a href="/pages/contact.html" class="menu-link-card blue-theme">
+            <a href="#" class="menu-link-card" data-require-auth>
                 <div class="card-left">
                     <div class="icon-box blue-bg">
-                        <i class="fa-solid fa-headset"></i>
+                        <i class="fa-solid fa-spell-check"></i>
                     </div>
                     <div class="title-box">
-                        <h3><span data-i18n="titleContact"> Contact me </span></h3>
-                        <p data-i18n="descContact">Sending private or public messages</p>
+                        <h3><span data-i18n="titleGrammar"> Grammar </span></h3>
+                        <p data-i18n="descGrammar">Master the rules of English.</p>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
             </a>
-            
-            <a href="/pages/aboutme.html" class="menu-link-card pink-theme">
+
+            <a href="#" class="menu-link-card orange-theme" data-require-auth>
                 <div class="card-left">
-                    <div class="icon-box pink-bg">
-                        <i class="fa-solid fa-user"></i>
+                    <div class="icon-box orange-bg">
+                        <i class="fa-solid fa-list-check"></i>
                     </div>
                     <div class="title-box">
-                        <h3><span data-i18n="titleAbout"> About me </span></h3>
-                        <p data-i18n="descAbout">Who created ESL Island?</p>
+                        <h3><span data-i18n="titleTests"> Tests </span></h3>
+                        <p data-i18n="descTests">Test your English proficiency.</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow-action"></i>
+            </a>
+
+            <a href="/pages/vocabulary/chinese/200vebs/vocabulary.html" class="menu-link-card purple-theme">
+                <div class="card-left">
+                    <div class="icon-box purple-bg">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="title-box">
+                        <h3><span data-i18n="titleExtras"> English for Kids </span></h3>
+                        <p data-i18n="descExtras">-------------</p>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
@@ -161,16 +128,15 @@
         </footer>
     </div>
     <script>
-        window.PAGE_NAME = 'home'; // تعیین نام صفحه برای دریافت ترجمه‌های اختصاصی
+        window.PAGE_NAME = 'english'; // تعیین نام صفحه برای دریافت ترجمه‌های اختصاصی
     </script>
     <script src="/global.js"></script>
-    <!-- اضافه کردن SDK گوگل در <head> فایل HTML -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script type="module" src="/assets/JS/auth-guard.js"></script> <!--برای چک کردن وضعیت ورود استفاده میشود و همینطور قفل کردن لینک ها-->
-    
-    
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
+    <!--برای چک کردن وضعیت ورود استفاده میشود و همینطور قفل کردن لینک ها-->
 
-    
+
+
+
 
 </body>
 

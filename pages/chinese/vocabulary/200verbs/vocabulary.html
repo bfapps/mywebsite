@@ -13,15 +13,15 @@
         type="text/css" />
     <link rel="stylesheet" href="/global.css">
 
-
-    <style>
-        .accordion-wrapper {
-                    
-                    /* این گزینه رو در هر فایل خودش تغییر میدهیم */
-                    /* direction: ltr !important; */
-        }
-    </style>
 </head>
+<style>
+    .accordion-wrapper {
+
+        /* این گزینه رو در هر فایل خودش تغییر میدهیم */
+        /* direction: ltr !important; */
+    }
+</style>
+
 <body>
 
     <div class="container">
@@ -32,8 +32,9 @@
         <section class="hero">
             <div class="hero-content">
                 <span class="welcome-badge" data-i18n="WelcomeBadge">Vocabulary</span>
-                <h2 data-i18n="heroTitle">School Books</h2>
-                <p data-i18n="heroSubtitle">Master your school English vocabulary, unit by unit, with fun and interactive flashcards.</p>
+                <h2 data-i18n="heroTitle">Learning Chinese</h2>
+                <p data-i18n="heroSubtitle">Master your Chinese vocabulary, unit by unit, with fun and
+                    interactive flashcards.</p>
             </div>
             <div class="hero-graphics">
                 <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,14 +52,13 @@
                     </g>
                     <g transform="translate(50, 45) rotate(-12)">
                         <rect width="80" height="50" rx="10" fill="#10B981" />
-                        <text x="40" y="30" fill="white" font-size="12" font-weight="700" text-anchor="middle">A B
-                            C</text>
+                        <text x="40" y="30" fill="white" font-size="12" font-weight="700" text-anchor="middle">没有</text>
                         <path d="M35 43L40 49L45 43H35Z" fill="#10B981" />
                     </g>
                     <g transform="translate(145, 25)">
                         <rect width="52" height="24" rx="12" fill="#EFF6FF" stroke="#93C5FD" />
                         <text x="26" y="16" fill="#1D4ED8" font-size="10" font-weight="700"
-                            text-anchor="middle">Word</text>
+                            text-anchor="middle">吃</text>
                     </g>
                     <circle cx="280" cy="120" r="4" fill="#F59E0B" />
                     <circle cx="50" cy="140" r="5" fill="#6366F1" />
@@ -69,105 +69,9 @@
         <div class="accordion-wrapper">
 
 
-            <!-- Prospect 1 -->
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <div class="header-icon-box blue-theme">
-                            <i class="fa-solid fa-cubes"></i>
-                        </div>
-                        <div class="header-info">
-                            <h3>Prospect 1 – Beginner English</h3>
-                            <p>8 Units available</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="prospect1"></div>
-                </div>
-            </div>
-            <!-- Prospect 2 -->
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <div class="header-icon-box green-theme">
-                            <i class="fa-solid fa-book-atlas"></i>
-                        </div>
-                        <div class="header-info">
-                            <h3>Prospect 2 – Beginner English</h3>
-                            <p>7 Units available</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="prospect2"></div>
-                </div>
-            </div>
-            <!-- Prospect 3 -->
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <div class="header-icon-box orange-theme">
-                            <i class="fa-solid fa-book-journal-whills"></i>
-                        </div>
-                        <div class="header-info">
-                            <h3>Prospect 3 – Beginner English</h3>
-                            <p>6 Units available</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="prospect3"></div>
-                </div>
-            </div>
+            
 
-            <!-- Vision 1 -->
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <div class="header-icon-box blue-theme">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-                        <div class="header-info">
-                            <h3>Vision 1 – Beginner English</h3>
-                            <p>4 Units available</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="vision1"></div>
-                </div>
-            </div>
-
-            <!-- Vision 2 -->
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <div class="header-icon-box green-theme">
-                            <i class="fa-solid fa-comments"></i>
-                        </div>
-                        <div class="header-info">
-                            <h3>Vision 2 – Elementary English</h3>
-                            <p>3 Units available</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="vision2"></div>
-                </div>
-            </div>
-
-            <!-- Vision 3 -->
+            <!-- 200 Verbs -->
             <div class="accordion-item">
                 <div class="accordion-header" onclick="toggleAccordion(this)">
                     <div class="header-left">
@@ -175,59 +79,19 @@
                             <i class="fa-solid fa-graduation-cap"></i>
                         </div>
                         <div class="header-info">
-                            <h3>Vision 3 – Advanced English</h3>
-                            <p>3 Units available</p>
+                            <h3>200 Chinese Verbs – Advanced Chinese</h3>
+                            <p>7 Units available</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
                 </div>
                 <div class="accordion-content">
                     <!-- این خط مشخص میکند مکان یونیت ها را -->
-                    <div class="unit-list" id="vision3"></div>
+                    <div class="unit-list" id="ch200verbs"></div>
                 </div>
             </div>
 
-            <!-- BBC Learning English -->
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    <div class="header-left">
-                        <div class="header-icon-box purple-theme">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
-                        <div class="header-info">
-                            <h3>BBC Learning English</h3>
-                            <p>Improve your English with external verified resources</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                </div>
-                <div class="accordion-content">
-                    <div class="unit-list purple-theme-text">
-                        <a href="#" class="unit-row-item">
-                            <div class="unit-left">
-                                <div class="unit-number-badge">1</div>
-                                <i class="fa-solid fa-stopwatch unit-icon"></i>
-                                <div class="unit-details">
-                                    <h4>5 Minutes English</h4>
-                                    <p>Short micro-lessons to improve your English every single day.</p>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
-                        </a>
-                        <a href="#" class="unit-row-item">
-                            <div class="unit-left">
-                                <div class="unit-number-badge">2</div>
-                                <i class="fa-solid fa-newspaper unit-icon"></i>
-                                <div class="unit-details">
-                                    <h4>News Review</h4>
-                                    <p>Learn standard English with the latest trending news stories.</p>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            
 
         </div>
 
@@ -236,7 +100,7 @@
         </footer>
     </div>
     <script>
-        window.PAGE_NAME = 'iranschvocab';
+        window.PAGE_NAME = 'chvocab';
     </script>
     <script src="/global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -247,7 +111,7 @@
             let cachedBooksData = null;
             let isFetchingBooks = false;
             // منبع دریافت لیست لفات از جداول supabase
-            const tableSource = "ir_highschool";
+            const tableSource = "chinese_words";
 
             async function loadBooksAndRenderUnits() {
                 // ۱. اگر داده‌ها قبلاً دریافت شده‌اند، فقط مجدداً آن‌ها را رندر کن (مثلاً برای تغییر زبان)
@@ -318,7 +182,7 @@
                         targetContainer.innerHTML = "";
 
                         book.units_data.forEach(item => {
-                            const url = `/pages/vocabulary/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
+                            const url = `/pages/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
                             const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
                             const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
                             const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';

@@ -15,6 +15,7 @@
             --green-light-flashcard: #d1fae5;
             --red: #ef4444;
             --red-light: #fee2e2;
+            --crimson: #dc2626;
             --orange: #f59e0b;
             --orange-light: #fffbeb;
             --star-color: #eab308;
@@ -368,6 +369,9 @@
 
         .icon-box.purple-bg {
             background-color: var(--purple);
+        }
+        .icon-box.crimson-bg {
+            background-color: var(--crimson);
         }
 
         .icon-box.pink-bg {
@@ -794,6 +798,9 @@
     
             .header-icon-box.purple-theme {
                 background-color: var(--purple);
+            }
+            .header-icon-box.crimson-theme {
+                background-color: var(--crimson);
             }
     
             .header-info h3 {
