@@ -26,6 +26,27 @@
             --yellow-light: #fef9c3;
             --yellow-dark: #854d0e;
 
+            --teal: #0d9488;
+            --teal-light: #ccfbf1;
+        
+            --indigo: #4338ca;
+            --indigo-light: #e0e7ff;
+        
+            --violet: #7c3aed;
+            --violet-light: #f3e8ff;
+        
+            --rose: #e11d48;
+            --rose-light: #ffe4e6;
+        
+            --amber: #d97706;
+            --amber-light: #fef3c7;
+        
+            --emerald: #059669;
+            --emerald-light: #d1fae5;
+        
+            --cyan: #0284c7;
+            --cyan-light: #e0f2fe;
+
             --main-font: 'Inter', sans-serif;
             --main-size: 16px;
         }
@@ -373,6 +394,9 @@
         .icon-box.crimson-bg {
             background-color: var(--crimson);
         }
+        .icon-box.red-bg {
+            background-color: var(--red);
+        }
 
         .icon-box.pink-bg {
             background-color: var(--pink);
@@ -428,6 +452,18 @@
             transform: translateX(5px);
             color: var(--text-dark);
         }
+
+        [dir="rtl"] .arrow-action {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+            /* برای نرم‌تر شدن انیمیشن هنگام تغییر زبان */
+        }
+        [dir="rtl"] .menu-link-card:hover .arrow-action {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+            /* برای نرم‌تر شدن انیمیشن هنگام تغییر زبان */
+        }
+
 
         /* ==========================================================================
             FOOTER
@@ -630,10 +666,7 @@
                 direction: rtl !important;
                 text-align: right !important;
             }
-
             
-
-
     
             @media (max-width: 768px) {
                 .side-menu {
@@ -799,9 +832,28 @@
             .header-icon-box.purple-theme {
                 background-color: var(--purple);
             }
+            .header-icon-box.violet-theme {
+                background-color: var(--violet);
+            }
             .header-icon-box.crimson-theme {
                 background-color: var(--crimson);
             }
+            .header-icon-box.red-theme {
+                background-color: var(--red);
+            }
+            .header-icon-box.pink-theme {
+                background-color: var(--pink);
+            }
+            .header-icon-box.rose-theme {
+                background-color: var(--rose);
+            }
+            .header-icon-box.cyan-theme {
+                background-color: var(--cyan);
+            }
+            .header-icon-box.yellow-light-theme {
+                background-color: var(--yellow-light);
+            }
+
     
             .header-info h3 {
                 font-size: 18px;
@@ -920,6 +972,18 @@
     
             .unit-row-item:hover .unit-details h4 {
                 color: var(--blue);
+            }
+
+            [dir="rtl"] .unit-arrow {
+                transform: rotate(180deg);
+                transition: transform 0.3s ease;
+                /* برای نرم‌تر شدن انیمیشن هنگام تغییر زبان */
+            }
+
+            [dir="rtl"] .unit-list:hover .unit-arrow {
+                transform: rotate(180deg);
+                transition: transform 0.3s ease;
+                /* برای نرم‌تر شدن انیمیشن هنگام تغییر زبان */
             }
     
             /* Active State Classes via JS */
