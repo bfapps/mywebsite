@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
 
+            
+
             <!-- وضعیت کاربر -->
             <div class="header-user-status">
                 <div class="guest-only">
@@ -22,6 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div class="user-only" style="display: none;">
+                    <div class="streak-bar-container navStreak-bar-container">
+                        <div class="streak-badge" id="navStreakBadgeContainer">
+                            <i class="fa-solid fa-fire"></i>
+                            <span id="navStreakCountText" class="navStreakCountText">0</span>
+                        </div>
+                    </div>
                     <a href="/pages/auth.html"> 
                         <img id="navUserAvatar" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Avatar" class="nav-avatar">
                     </a>
@@ -233,3 +241,77 @@ function toggleAccordion(element) {
         if (content) content.style.maxHeight = content.scrollHeight + "px";
     }
 }
+
+/* ==========================================================================
+   GLOBAL STREAK SYSTEM (Fetch & Render Badge Count by Class)
+   ========================================================================== */
+
+/**
+ * دریافت تعداد استریک کاربر و نمایش آن در تمام المان‌های دارای کلاس navStreakCountText (فقط عدد)
+ */
+async function updateGlobalNavStreak() {
+    // ۱. انتخاب تمام المان‌هایی که این کلاس را دارند
+    const streakElements = document.querySelectorAll('.navStreakCountText');
+    if (streakElements.length === 0) return;
+
+    // تابع کمکی برای مقداردهی به همه المان‌ها
+    const setStreakValue = (val) => {
+        streakElements.forEach(el => {
+            el.textContent = val;
+        });
+    };
+
+    const client = window.supabase || window.supabaseClient;
+
+    // ۲. اگر Supabase مقداردهی نشده بود، مقدار را 0 بگذار
+    if (!client) {
+        setStreakValue('0');
+        return;
+    }
+
+    try {
+        // ۳. دریافت نشست فعلی کاربر
+        const { data: { session }, error: sessionError } = await client.auth.getSession();
+
+        if (sessionError || !session) {
+            setStreakValue('0');
+            return;
+        }
+
+        // ۴. کوئری به جدول profiles برای گرفتن streak_count
+        const { data, error } = await client
+            .from('profiles')
+            .select('streak_count')
+            .eq('id', session.user.id)
+            .maybeSingle();
+
+        if (error) {
+            console.error("خطا در دریافت استریک از دیتابیس:", error.message);
+            setStreakValue('0');
+            return;
+        }
+
+        // ۵. قرار دادن فقط و فقط عدد استریک در تمام المان‌های دارای این کلاس
+        const count = (data && data.streak_count) ? data.streak_count : 0;
+        setStreakValue(count);
+
+    } catch (err) {
+        console.error("خطا در اجرای updateGlobalNavStreak:", err);
+        setStreakValue('0');
+    }
+}
+
+// ۶. اجرای تابع هنگام لود کامل DOM و گوش دادن به تغییرات Auth
+document.addEventListener('DOMContentLoaded', () => {
+    updateGlobalNavStreak();
+
+    const client = window.supabase || window.supabaseClient;
+    if (client && client.auth) {
+        // اگر کاربر ورود یا خروج کرد، عدد استریک نوبار به‌روزرسانی شود
+        client.auth.onAuthStateChange((event) => {
+            if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+                updateGlobalNavStreak();
+            }
+        });
+    }
+});

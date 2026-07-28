@@ -1,0 +1,234 @@
+/* 1. ویجت استریک (Streak Bar) */
+.streak-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto;
+    padding: 0 10px;
+}
+
+.streak-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 142, 83, 0.15));
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #ff5252;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(255, 82, 82, 0.1);
+}
+
+.streak-badge i {
+    font-size: 1.1rem;
+    color: #ff5252;
+    animation: flamePulse 1.8s infinite ease-in-out;
+}
+
+/* 2. کارت اصلی کلمه روز (WOTD Card) */
+.wotd-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 0 auto 1.5rem auto;
+    max-width: 500px;
+    /* حداکثر عرض در دسکتاپ */
+    width: calc(100% - 20px);
+    /* بالانس پدینگ در موبایل */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 3. هدر کارت (تگ عنوان + دکمه تلفظ) */
+.wotd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.wotd-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #f1f3f9;
+    color: #4f46e5;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wotd-audio-btn {
+    background: #4f46e5;
+    color: #ffffff;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    /* حذف افکت آبی لمس در موبایل */
+}
+
+.wotd-audio-btn:active {
+    transform: scale(0.92);
+    background-color: #4338ca;
+}
+
+/* 4. ردیف کلمه و فونتیک */
+.wotd-word-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 12px;
+    margin-bottom: 16px;
+}
+
+.wotd-word {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.wotd-phonetic {
+    font-size: 0.95rem;
+    color: #64748b;
+    font-family: monospace, sans-serif;
+}
+
+/* 5. باکس معنی و دکمه نمایش */
+.wotd-meaning-box {
+    margin-top: 10px;
+}
+
+.wotd-reveal-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: #ffffff;
+    border: none;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.wotd-reveal-btn:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+/* 6. محتوای معنی بعد از کلیک (مخفی در حالت اولیه) */
+.wotd-meaning-content {
+    display: none;
+    /* توسط JS روی block تنظیم می‌شود */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.wotd-meaning-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    padding: 12px 14px;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    border-right: 4px solid #4f46e5;
+    /* خط تزیینی سمت راست برای حالت RTL/فارسی */
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+/* 7. باکس مثال‌ها */
+.wotd-example-box {
+    background-color: #f1f5f9;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.6;
+}
+
+.wotd-example-box strong {
+    color: #4f46e5;
+    margin-right: 4px;
+    direction: ltr !important;
+}
+.wotd-example-box span {
+    direction: ltr !important;
+}
+
+
+.wotd-example-translation {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 0.88rem;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 6px;
+}
+
+/* 8. انیمیشن‌ها */
+@keyframes flamePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 0.85;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+    تنظیمات مخصوص گوشی‌های خیلی کوچک (زیر 380 پیکسل)
+    ========================================================================== */
+@media (max-width: 400px) {
+    .wotd-card {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .wotd-word {
+        font-size: 1.4rem;
+    }
+
+    .wotd-reveal-btn {
+        font-size: 0.85rem;
+        padding: 12px;
+    }
+}

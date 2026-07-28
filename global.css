@@ -97,6 +97,25 @@
             min-height: 100vh;
         }
 
+        
+        /* ==========================================================================
+            STREAK & WORD OF THE DAY (WOTD) MOBILE-FRIENDLY STYLES
+        ========================================================================== */
+
+        
+
+        @media (max-width:400px) {
+            .navStreak-bar-container {
+                margin-top: 10px;
+            }
+
+            #navStreakCountText,
+            #streakCountText {
+                font-size: .75rem;
+            }
+        }
+        
+
         /* Top Navbar Header */
         header {
             display: flex;

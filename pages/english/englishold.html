@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESL Island</title>
-    <!-- این بخش referrer برای پخش صوت گوگل لازم هست-->
-    <meta name="referrer" content="no-referrer">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
@@ -14,7 +12,6 @@
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
         type="text/css" />
     <link rel="stylesheet" href="/global.css">
-    <link rel="stylesheet" href="wod.css">
 
 </head>
 <style>
@@ -31,13 +28,12 @@
             <!--injected by JS from global JS-->
         </header>
 
-        
-
         <section class="hero">
             <div class="hero-content">
                 <span class="welcome-badge" data-i18n="WelcomeBadge">Learning English</span>
                 <h2 data-i18n="heroTitle">Master English<br>Step by Step</h2>
-                <p data-i18n="heroSubtitle">Build vocabulary, practice grammar, and speak with confidence through interactive, structured lessons.</p>
+                <p data-i18n="heroSubtitle">Build vocabulary, practice grammar, and speak with confidence through
+                    interactive, structured lessons.</p>
             </div>
             <div class="hero-graphics">
                 <svg width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -60,27 +56,27 @@
                             <stop offset="0%" stop-color="#EC4899" />
                             <stop offset="100%" stop-color="#8B5CF6" />
                         </linearGradient>
-                
+
                         <!-- سایه نرم -->
                         <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
                             <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#1E293B" flood-opacity="0.12" />
                         </filter>
                     </defs>
-                
+
                     <!-- سایه پایه زمین -->
                     <ellipse cx="180" cy="215" rx="140" ry="10" fill="#E2E8F0" />
-                
+
                     <!-- پس‌زمینه کارت گواهینامه / پنجره یادگیری -->
-                    <rect x="45" y="35" width="270" height="155" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"
-                        filter="url(#softShadow)" />
-                
+                    <rect x="45" y="35" width="270" height="155" rx="16" fill="#FFFFFF" stroke="#E2E8F0"
+                        stroke-width="2" filter="url(#softShadow)" />
+
                     <!-- خطوط تزئینی نوار بالای پنجره -->
-                    <path d="M45 55 C45 44 54 35 65 35 H295 C306 35 315 44 315 55 V60 H45 V55 Z" fill="#F8FAFC" stroke="#E2E8F0"
-                        stroke-width="1" />
+                    <path d="M45 55 C45 44 54 35 65 35 H295 C306 35 315 44 315 55 V60 H45 V55 Z" fill="#F8FAFC"
+                        stroke="#E2E8F0" stroke-width="1" />
                     <circle cx="65" cy="48" r="4" fill="#EF4444" />
                     <circle cx="78" cy="48" r="4" fill="#F59E0B" />
                     <circle cx="91" cy="48" r="4" fill="#10B981" />
-                
+
                     <!-- لایه‌های کتاب باز شده (پایین) -->
                     <g stroke="#CBD5E1" stroke-width="2" stroke-linecap="round">
                         <path
@@ -88,30 +84,35 @@
                             fill="#EFF6FF" stroke="#93C5FD" />
                         <path d="M180 140 V180" stroke="#3B82F6" stroke-width="2" />
                     </g>
-                
+
                     <!-- پله‌ها / مراحل رشد انگلیسی (Step by Step) -->
                     <g transform="translate(70, 75)">
                         <!-- پله ۱ -->
                         <rect x="10" y="65" width="30" height="20" rx="4" fill="#E0E7FF" />
-                        <text x="25" y="79" fill="#4338CA" font-size="10" font-weight="700" text-anchor="middle">A1</text>
-                
+                        <text x="25" y="79" fill="#4338CA" font-size="10" font-weight="700"
+                            text-anchor="middle">A1</text>
+
                         <!-- پله ۲ -->
                         <rect x="45" y="50" width="30" height="35" rx="4" fill="#C7D2FE" />
-                        <text x="60" y="64" fill="#3730A3" font-size="10" font-weight="700" text-anchor="middle">A2</text>
-                
+                        <text x="60" y="64" fill="#3730A3" font-size="10" font-weight="700"
+                            text-anchor="middle">A2</text>
+
                         <!-- پله ۳ -->
                         <rect x="80" y="35" width="30" height="50" rx="4" fill="#93C5FD" />
-                        <text x="95" y="49" fill="#1E40AF" font-size="10" font-weight="700" text-anchor="middle">B1</text>
-                
+                        <text x="95" y="49" fill="#1E40AF" font-size="10" font-weight="700"
+                            text-anchor="middle">B1</text>
+
                         <!-- پله ۴ -->
                         <rect x="115" y="20" width="30" height="65" rx="4" fill="#60A5FA" />
-                        <text x="130" y="34" fill="#1E3A8A" font-size="10" font-weight="700" text-anchor="middle">B2</text>
-                
+                        <text x="130" y="34" fill="#1E3A8A" font-size="10" font-weight="700"
+                            text-anchor="middle">B2</text>
+
                         <!-- پله ۵ (ارتقاء / هدف) -->
                         <rect x="150" y="5" width="35" height="80" rx="4" fill="url(#gradPrimary)" />
-                        <text x="167" y="20" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle">C1</text>
+                        <text x="167" y="20" fill="#FFFFFF" font-size="11" font-weight="800"
+                            text-anchor="middle">C1</text>
                     </g>
-                
+
                     <!-- کلاه فارغ‌التحصیلی / پرچم موفقیت (Graduation Cap) -->
                     <g transform="translate(222, 50)" filter="url(#softShadow)">
                         <polygon points="25,5 50,16 25,27 0,16" fill="url(#gradPurple)" />
@@ -119,67 +120,31 @@
                         <path d="M42 18 V32" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" />
                         <circle cx="42" cy="33" r="2" fill="#F59E0B" />
                     </g>
-                
+
                     <!-- مدال تایید و لایک -->
                     <g transform="translate(62, 85)" filter="url(#softShadow)">
                         <circle cx="16" cy="16" r="16" fill="url(#gradAccent)" />
-                        <path d="M10 16 L14 20 L22 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M10 16 L14 20 L22 12" stroke="white" stroke-width="3" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </g>
-                
+
                     <!-- آیکون‌های شناور -->
-                    <path d="M305 70 L307 75 L312 76 L308 80 L309 85 L305 82 L301 85 L302 80 L298 76 L303 75 Z" fill="url(#gradGold)" />
-                    <path d="M50 145 L51.5 148.5 L55 149 L52.5 152 L53 155.5 L50 153.5 L47 155.5 L47.5 152 L45 149 L48.5 148.5 Z"
+                    <path d="M305 70 L307 75 L312 76 L308 80 L309 85 L305 82 L301 85 L302 80 L298 76 L303 75 Z"
+                        fill="url(#gradGold)" />
+                    <path
+                        d="M50 145 L51.5 148.5 L55 149 L52.5 152 L53 155.5 L50 153.5 L47 155.5 L47.5 152 L45 149 L48.5 148.5 Z"
                         fill="#F59E0B" />
-                
+
                     <!-- حباب مکالمه (ABC) -->
                     <g transform="translate(245, 115)" filter="url(#softShadow)">
                         <rect x="0" y="0" width="45" height="26" rx="8" fill="url(#gradGold)" />
-                        <text x="22.5" y="17" fill="white" font-size="11" font-weight="800" text-anchor="middle">ABC</text>
+                        <text x="22.5" y="17" fill="white" font-size="11" font-weight="800"
+                            text-anchor="middle">ABC</text>
                     </g>
                 </svg>
 
             </div>
         </section>
-
-        <!-- ویجت نمایش تعداد روزهای متوالی (Streak) -->
-        <div class="streak-bar-container">
-            <div class="streak-badge" id="streakBadgeContainer">
-                <i class="fa-solid fa-fire"></i>
-                <span id="streakCountText">0 <span class="streakText">Days Streak</span></span>
-            </div>
-        </div>
-        
-        <!-- 🌟 کارت مدرن کلمه روز (Word of the Day) -->
-        <div class="wotd-card" id="wotdCard">
-            <div class="wotd-header">
-                <span class="wotd-tag"><i class="fa-solid fa-star"></i> <span data-i18n="wotdTitle">Word of the
-                        Day</span></span>
-                <button class="wotd-audio-btn" id="wotdAudioBtn" title="Listen pronunciation">
-                    <i class="fa-solid fa-volume-high"></i>
-                </button>
-            </div>
-        
-            <div class="wotd-word-row">
-                <span class="wotd-word" id="wotdWord">Perseverance</span>
-                <span class="wotd-phonetic" id="wotdPhonetic">/ˌpɜːsɪˈvɪərəns/</span>
-            </div>
-        
-            <div class="wotd-meaning-box">
-                <button class="wotd-reveal-btn" id="wotdRevealBtn">
-                    <i class="fa-solid fa-eye"></i>
-                    <span data-i18n="revealMeaning">Reveal Meaning</span>
-                </button>
-        
-                <div class="wotd-meaning-content" id="wotdMeaningContent">
-                    <div class="wotd-meaning-text" id="wotdMeaningText">پشتکار، مداومت</div>
-                    <div class="wotd-example-box">
-                        <strong>Example:</strong> <span class="wotdExample" id="wotdExample">Success requires hard work and
-                            perseverance.</span>
-                        <div class="wotd-example-translation" id="wotdExampleFa">موفقیت نیازمند کار سخت و پشتکار است.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="menu-list">
             <a href="/pages/english/vocabulary/iranianschool/vocabulary.html" class="menu-link-card green-theme">
@@ -220,7 +185,7 @@
                 </div>
                 <i class="fa-solid fa-chevron-right arrow-action"></i>
             </a>
-            
+
             <a href="" class="menu-link-card pink-theme">
                 <div class="card-left">
                     <div class="icon-box pink-bg">
@@ -253,14 +218,11 @@
             <!--injected by JS from global JS-->
         </footer>
     </div>
-    <audio id="globalAudioPlayer" style="display: none;"></audio>
     <script>
         window.PAGE_NAME = 'english'; // تعیین نام صفحه برای دریافت ترجمه‌های اختصاصی
     </script>
     <script src="/global.js"></script>
-    <script type="module" src="/assets/JS/auth.js"></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>
-    <script src="wod.js"></script>
     <!--برای چک کردن وضعیت ورود استفاده میشود و همینطور قفل کردن لینک ها-->
 
 
