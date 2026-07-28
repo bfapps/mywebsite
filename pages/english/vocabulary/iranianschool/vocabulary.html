@@ -76,9 +76,10 @@
                         <div class="header-icon-box blue-theme">
                             <i class="fa-solid fa-cubes"></i>
                         </div>
-                        <div class="header-info">
-                            <h3>Prospect 1 – Beginner English</h3>
-                            <p>8 Units available</p>
+                        <!-- این خط مشخص میکند اسم کتاب ها را -->
+                        <div class="header-info" data-header-key="prospect1">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -95,9 +96,10 @@
                         <div class="header-icon-box green-theme">
                             <i class="fa-solid fa-book-atlas"></i>
                         </div>
-                        <div class="header-info">
-                            <h3>Prospect 2 – Beginner English</h3>
-                            <p>7 Units available</p>
+                        <!-- این خط مشخص میکند اسم کتاب ها را -->
+                        <div class="header-info" data-header-key="prospect2">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -114,9 +116,10 @@
                         <div class="header-icon-box orange-theme">
                             <i class="fa-solid fa-book-journal-whills"></i>
                         </div>
-                        <div class="header-info">
-                            <h3>Prospect 3 – Beginner English</h3>
-                            <p>6 Units available</p>
+                        <!-- این خط مشخص میکند اسم کتاب ها را -->
+                        <div class="header-info" data-header-key="prospect3">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -134,9 +137,10 @@
                         <div class="header-icon-box blue-theme">
                             <i class="fa-solid fa-globe"></i>
                         </div>
-                        <div class="header-info">
-                            <h3>Vision 1 – Beginner English</h3>
-                            <p>4 Units available</p>
+                        <!-- این خط مشخص میکند اسم کتاب ها را -->
+                        <div class="header-info" data-header-key="vision1">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -154,9 +158,10 @@
                         <div class="header-icon-box green-theme">
                             <i class="fa-solid fa-comments"></i>
                         </div>
-                        <div class="header-info">
-                            <h3>Vision 2 – Elementary English</h3>
-                            <p>3 Units available</p>
+                        <!-- این خط مشخص میکند اسم کتاب ها را -->
+                        <div class="header-info" data-header-key="vision2">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -174,9 +179,10 @@
                         <div class="header-icon-box orange-theme">
                             <i class="fa-solid fa-graduation-cap"></i>
                         </div>
-                        <div class="header-info">
-                            <h3>Vision 3 – Advanced English</h3>
-                            <p>3 Units available</p>
+                        <!-- این خط مشخص میکند اسم کتاب ها را -->
+                        <div class="header-info" data-header-key="vision3">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -243,125 +249,131 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <script>
-        // ذخیره داده‌های دریافتی در حافظه برای جلوگیری از درخواست مجدد به Supabase
-            let cachedBooksData = null;
-            let isFetchingBooks = false;
-            // منبع دریافت لیست لفات از جداول supabase
-            const tableSource = "ir_highschool";
+        // ذخیره داده‌های دریافتی در حافظه برای جلوگیری از درخواست مکرر به Supabase
+        let cachedBooksData = null;
+        let isFetchingBooks = false;
+        const tableSource = "ir_highschool";
 
-            async function loadBooksAndRenderUnits() {
-                // ۱. اگر داده‌ها قبلاً دریافت شده‌اند، فقط مجدداً آن‌ها را رندر کن (مثلاً برای تغییر زبان)
-                if (cachedBooksData) {
-                    renderUnits(cachedBooksData);
+        async function loadBooksAndRenderUnits() {
+            if (cachedBooksData) {
+                renderBooksAndUnits(cachedBooksData);
+                return;
+            }
+
+            if (isFetchingBooks) return;
+
+            try {
+                const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+
+                if (!client) {
+                    console.warn("Supabase client is not ready yet. Retrying in 100ms...");
+                    setTimeout(loadBooksAndRenderUnits, 100);
                     return;
                 }
 
-                // اگر در همین لحظه در حال دریافت داده هستیم، از اجرای مجدد جلوگیری کن
-                if (isFetchingBooks) return;
+                // پیدا کردن IDهای موجود در صفحه
+                const unitContainers = document.querySelectorAll('.unit-list[id]');
+                const bookKeys = Array.from(unitContainers)
+                    .map(container => container.id)
+                    .filter(id => id.trim() !== '');
 
-                try {
-                    const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+                if (bookKeys.length === 0) return;
 
-                    if (!client) {
-                        console.warn("Supabase client is not ready yet. Retrying in 100ms...");
-                        setTimeout(loadBooksAndRenderUnits, 100);
-                        return;
-                    }
+                isFetchingBooks = true;
 
-                    // پیدا کردن IDهای موجود در صفحه
-                    const unitContainers = document.querySelectorAll('.unit-list[id]');
-                    const bookKeys = Array.from(unitContainers)
-                        .map(container => container.id)
-                        .filter(id => id.trim() !== '');
+                const { data: books, error } = await client
+                    .from('books_data')
+                    .select('*')
+                    .in('book_key', bookKeys);
 
-                    if (bookKeys.length === 0) return;
-
-                    isFetchingBooks = true;
-
-                    console.log("در حال دریافت اطلاعات از Supabase...");
-                    console.log("کتاب‌های شناسایی‌شده در صفحه:", bookKeys);
-
-                    const { data: books, error } = await client
-                        .from('books_data')
-                        .select('*')
-                        .in('book_key', bookKeys);
-
-                    if (error) {
-                        console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
-                        return;
-                    }
-
-                    // ذخیره در Cache
-                    cachedBooksData = books;
-                    console.log("داده‌های دریافت شده از دیتابیس:", books);
-
-                    // رندر عناصر در صفحه
-                    renderUnits(cachedBooksData);
-
-                } catch (err) {
-                    console.error("خطای غیرمنتظره:", err);
-                } finally {
-                    isFetchingBooks = false;
+                if (error) {
+                    console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
+                    return;
                 }
+
+                cachedBooksData = books;
+                renderBooksAndUnits(cachedBooksData);
+
+            } catch (err) {
+                console.error("خطای غیرمنتظره:", err);
+            } finally {
+                isFetchingBooks = false;
             }
+        }
 
-            // تابع مجزا برای رندر کردن HTML (بدون نیاز به درخواست مجدد به شبکه)
-            function renderUnits(books) {
-                if (!books || books.length === 0) return;
+        // تابع جامع برای رندر کردن هدر کتاب‌ها و یونیت‌ها بر اساس زبان سایت
+        function renderBooksAndUnits(books) {
+            if (!books || books.length === 0) return;
 
-                const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
+            const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
 
-                books.forEach(book => {
-                    const targetContainer = document.getElementById(book.book_key);
+            books.forEach(book => {
+                // ۱. به‌روزرسانی اطلاعات هدر کارت (h3 و p) بر اساس زبان
+                const headerInfoBox = document.querySelector(`.header-info[data-header-key="${book.book_key}"]`);
+                if (headerInfoBox) {
+                    const titleH3 = headerInfoBox.querySelector('h3');
+                    const descP = headerInfoBox.querySelector('p');
 
-                    if (targetContainer && book.units_data) {
-                        targetContainer.innerHTML = "";
+                    // انتخاب فیلد مناسب بر اساس زبان فعال سایت
+                    const bookTitle = (lang === 'fa') ? (book.title_fa || book.titleFa || book.title_en) : (book.title_en || book.titleFa);
+                    const bookDesc = (lang === 'fa') ? (book.desc_fa || book.descFa || book.desc_en) : (book.desc_en || book.descFa);
 
-                        book.units_data.forEach(item => {
-                            const url = `/pages/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
-                            const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
-                            const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
-                            const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
-
-                            const anchor = document.createElement("a");
-                            anchor.href = url;
-                            anchor.className = "unit-row-item unit-link";
-
-                            if (item.requireAuth) {
-                                anchor.setAttribute("data-require-auth", "true");
-                            }
-
-                            anchor.innerHTML = `
-                    <div class="unit-left" ${textDirection}>
-                        <div class="unit-number-badge">${item.unit}</div>
-                        <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
-                        <div class="unit-details">
-                            <h4>${title}</h4>
-                            <p>${desc}</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right unit-arrow"></i>
-                `;
-
-                            targetContainer.appendChild(anchor);
-                        });
-                    }
-                });
-
-                if (typeof updateLinksStyle === 'function') {
-                    updateLinksStyle();
+                    if (titleH3 && bookTitle) titleH3.textContent = bookTitle;
+                    if (descP && bookDesc) descP.textContent = bookDesc;
                 }
-            }
 
-            // اجرا پس از لود کامل صفحه
-            document.addEventListener("DOMContentLoaded", () => {
-                loadBooksAndRenderUnits();
+                // ۲. به‌روزرسانی لیست یونیت‌های داخل آکاردئون
+                const targetContainer = document.getElementById(book.book_key);
+                if (targetContainer && book.units_data) {
+                    targetContainer.innerHTML = "";
+
+                    book.units_data.forEach(item => {
+                        const url = `/pages/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
+                        const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
+                        const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
+                        const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
+
+                        const anchor = document.createElement("a");
+                        anchor.href = url;
+                        anchor.className = "unit-row-item unit-link";
+
+                        if (item.requireAuth) {
+                            anchor.setAttribute("data-require-auth", "true");
+                        }
+
+                        anchor.innerHTML = `
+                            <div class="unit-left" ${textDirection}>
+                                <div class="unit-number-badge">${item.unit}</div>
+                                <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>${title}</h4>
+                                    <p>${desc}</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                        `;
+
+                        targetContainer.appendChild(anchor);
+                    });
+                }
             });
 
-            // اجرا در صورت تغییر زبان (بدون fetch مجدد، فقط rerender سریع)
-            window.addEventListener('languageChanged', function (e) {
-                loadBooksAndRenderUnits();
-            });
+            if (typeof updateLinksStyle === 'function') {
+                updateLinksStyle();
+            }
+        }
+
+        // اجرا پس از لود کامل صفحه
+        document.addEventListener("DOMContentLoaded", () => {
+            loadBooksAndRenderUnits();
+        });
+
+        // اجرا در صورت تغییر زبان سایت (بدون دریافت مجدد از سرور، اعمالی فوری روی DOM)
+        window.addEventListener('languageChanged', function (e) {
+            if (cachedBooksData) {
+                renderBooksAndUnits(cachedBooksData);
+            }
+        });
     </script>
     <script type="module" src="/assets/JS/auth.js"></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>

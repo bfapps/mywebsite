@@ -78,9 +78,9 @@
                         <div class="header-icon-box orange-theme">
                             <i class="fa-solid fa-graduation-cap"></i>
                         </div>
-                        <div class="header-info">
-                            <h3>200 Chinese Verbs – Advanced Chinese</h3>
-                            <p>7 Units available</p>
+                        <div class="header-info" data-header-key="ch200verbs">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -114,118 +114,125 @@
             const tableSource = "chinese_words";
 
             async function loadBooksAndRenderUnits() {
-                // ۱. اگر داده‌ها قبلاً دریافت شده‌اند، فقط مجدداً آن‌ها را رندر کن (مثلاً برای تغییر زبان)
-                if (cachedBooksData) {
-                    renderUnits(cachedBooksData);
-                    return;
-                }
-
-                // اگر در همین لحظه در حال دریافت داده هستیم، از اجرای مجدد جلوگیری کن
-                if (isFetchingBooks) return;
-
-                try {
-                    const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
-
-                    if (!client) {
-                        console.warn("Supabase client is not ready yet. Retrying in 100ms...");
-                        setTimeout(loadBooksAndRenderUnits, 100);
+                    if (cachedBooksData) {
+                        renderBooksAndUnits(cachedBooksData);
                         return;
                     }
 
-                    // پیدا کردن IDهای موجود در صفحه
-                    const unitContainers = document.querySelectorAll('.unit-list[id]');
-                    const bookKeys = Array.from(unitContainers)
-                        .map(container => container.id)
-                        .filter(id => id.trim() !== '');
+                    if (isFetchingBooks) return;
 
-                    if (bookKeys.length === 0) return;
+                    try {
+                        const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
 
-                    isFetchingBooks = true;
+                        if (!client) {
+                            console.warn("Supabase client is not ready yet. Retrying in 100ms...");
+                            setTimeout(loadBooksAndRenderUnits, 100);
+                            return;
+                        }
 
-                    console.log("در حال دریافت اطلاعات از Supabase...");
-                    console.log("کتاب‌های شناسایی‌شده در صفحه:", bookKeys);
+                        // پیدا کردن IDهای موجود در صفحه
+                        const unitContainers = document.querySelectorAll('.unit-list[id]');
+                        const bookKeys = Array.from(unitContainers)
+                            .map(container => container.id)
+                            .filter(id => id.trim() !== '');
 
-                    const { data: books, error } = await client
-                        .from('books_data')
-                        .select('*')
-                        .in('book_key', bookKeys);
+                        if (bookKeys.length === 0) return;
 
-                    if (error) {
-                        console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
-                        return;
+                        isFetchingBooks = true;
+
+                        const { data: books, error } = await client
+                            .from('books_data')
+                            .select('*')
+                            .in('book_key', bookKeys);
+
+                        if (error) {
+                            console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
+                            return;
+                        }
+
+                        cachedBooksData = books;
+                        renderBooksAndUnits(cachedBooksData);
+
+                    } catch (err) {
+                        console.error("خطای غیرمنتظره:", err);
+                    } finally {
+                        isFetchingBooks = false;
                     }
-
-                    // ذخیره در Cache
-                    cachedBooksData = books;
-                    console.log("داده‌های دریافت شده از دیتابیس:", books);
-
-                    // رندر عناصر در صفحه
-                    renderUnits(cachedBooksData);
-
-                } catch (err) {
-                    console.error("خطای غیرمنتظره:", err);
-                } finally {
-                    isFetchingBooks = false;
                 }
-            }
 
-            // تابع مجزا برای رندر کردن HTML (بدون نیاز به درخواست مجدد به شبکه)
-            function renderUnits(books) {
-                if (!books || books.length === 0) return;
+                // تابع جامع برای رندر کردن هدر کتاب‌ها و یونیت‌ها بر اساس زبان سایت
+                function renderBooksAndUnits(books) {
+                    if (!books || books.length === 0) return;
 
-                const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
+                    const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
 
-                books.forEach(book => {
-                    const targetContainer = document.getElementById(book.book_key);
+                    books.forEach(book => {
+                        // ۱. به‌روزرسانی اطلاعات هدر کارت (h3 و p) بر اساس زبان
+                        const headerInfoBox = document.querySelector(`.header-info[data-header-key="${book.book_key}"]`);
+                        if (headerInfoBox) {
+                            const titleH3 = headerInfoBox.querySelector('h3');
+                            const descP = headerInfoBox.querySelector('p');
 
-                    if (targetContainer && book.units_data) {
-                        targetContainer.innerHTML = "";
+                            // انتخاب فیلد مناسب بر اساس زبان فعال سایت
+                            const bookTitle = (lang === 'fa') ? (book.title_fa || book.titleFa || book.title_en) : (book.title_en || book.titleFa);
+                            const bookDesc = (lang === 'fa') ? (book.desc_fa || book.descFa || book.desc_en) : (book.desc_en || book.descFa);
 
-                        book.units_data.forEach(item => {
-                            const url = `/pages/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
-                            const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
-                            const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
-                            const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
+                            if (titleH3 && bookTitle) titleH3.textContent = bookTitle;
+                            if (descP && bookDesc) descP.textContent = bookDesc;
+                        }
 
-                            const anchor = document.createElement("a");
-                            anchor.href = url;
-                            anchor.className = "unit-row-item unit-link";
+                        // ۲. به‌روزرسانی لیست یونیت‌های داخل آکاردئون
+                        const targetContainer = document.getElementById(book.book_key);
+                        if (targetContainer && book.units_data) {
+                            targetContainer.innerHTML = "";
 
-                            if (item.requireAuth) {
-                                anchor.setAttribute("data-require-auth", "true");
-                            }
+                            book.units_data.forEach(item => {
+                                const url = `/pages/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
+                                const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
+                                const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
+                                const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
 
-                            anchor.innerHTML = `
-                    <div class="unit-left" ${textDirection}>
-                        <div class="unit-number-badge">${item.unit}</div>
-                        <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
-                        <div class="unit-details">
-                            <h4>${title}</h4>
-                            <p>${desc}</p>
+                                const anchor = document.createElement("a");
+                                anchor.href = url;
+                                anchor.className = "unit-row-item unit-link";
+
+                                if (item.requireAuth) {
+                                    anchor.setAttribute("data-require-auth", "true");
+                                }
+
+                                anchor.innerHTML = `
+                        <div class="unit-left" ${textDirection}>
+                            <div class="unit-number-badge">${item.unit}</div>
+                            <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
+                            <div class="unit-details">
+                                <h4>${title}</h4>
+                                <p>${desc}</p>
+                            </div>
                         </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right unit-arrow"></i>
-                `;
+                        <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                    `;
 
-                            targetContainer.appendChild(anchor);
-                        });
+                                targetContainer.appendChild(anchor);
+                            });
+                        }
+                    });
+
+                    if (typeof updateLinksStyle === 'function') {
+                        updateLinksStyle();
                     }
+                }
+
+                // اجرا پس از لود کامل صفحه
+                document.addEventListener("DOMContentLoaded", () => {
+                    loadBooksAndRenderUnits();
                 });
 
-                if (typeof updateLinksStyle === 'function') {
-                    updateLinksStyle();
-                }
-            }
-
-            // اجرا پس از لود کامل صفحه
-            document.addEventListener("DOMContentLoaded", () => {
-                loadBooksAndRenderUnits();
-            });
-
-            // اجرا در صورت تغییر زبان (بدون fetch مجدد، فقط rerender سریع)
-            window.addEventListener('languageChanged', function (e) {
-                loadBooksAndRenderUnits();
-            });
+                // اجرا در صورت تغییر زبان سایت (بدون دریافت مجدد از سرور، اعمالی فوری روی DOM)
+                window.addEventListener('languageChanged', function (e) {
+                    if (cachedBooksData) {
+                        renderBooksAndUnits(cachedBooksData);
+                    }
+                });
     </script>
     <script type="module" src="/assets/JS/auth.js"></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>
