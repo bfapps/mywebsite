@@ -4,15 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community Wordlists - ESL Island</title>
+    <title>ESL Island</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+        type="text/css" />
     <link rel="stylesheet" href="/global.css">
+
     <style>
         .community-container {
             max-width: 1100px;
             margin: 40px auto;
             padding: 0 20px;
+            
         }
 
         .header-title {
@@ -119,6 +125,7 @@
             flex-direction: column;
             justify-content: space-between;
             transition: transform 0.2s, box-shadow 0.2s;
+            
         }
 
         .list-card:hover {
@@ -132,6 +139,7 @@
             color: #1d4ed8;
             margin-bottom: 8px;
             line-height: 1.4;
+            
         }
 
         .card-author {
@@ -195,22 +203,21 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <header id="header"></header>
 
         <main class="community-container">
             <div class="header-title">
-                <h1>Community Wordlists</h1>
-                <p>Explore vocabulary lists created and shared by learners from around the world.</p>
+                <h1 data-i18n="heroTitle">Community Wordlists</h1>
+                <p data-i18n="heroSubtitle">Explore vocabulary lists created and shared by learners from around the world.</p>
             </div>
 
             <!-- Search Section -->
             <div class="search-section">
                 <div class="search-wrapper">
                     <input type="text" id="searchInput" class="search-input"
-                        placeholder="Search by title or author name..." autocomplete="off">
+                        placeholder="Search by title or author name..." autocomplete="off" data-i18n-placeholder="searchBox">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                     <button id="clearSearchBtn" class="clear-btn" title="Clear search"><i
                             class="fa-solid fa-xmark"></i></button>
@@ -219,12 +226,15 @@
             </div>
 
             <div id="communityGrid" class="lists-grid">
-                <div class="empty-state">Loading community lists...</div>
+                <div class="empty-state" data-i18n="loadingMsg">Loading community lists...</div>
             </div>
         </main>
 
         <footer id="footer"></footer>
     </div>
+    <script>
+        window.PAGE_NAME = 'communityLists';
+    </script>
 
     <script src="/global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -252,10 +262,10 @@
 
                 if (!data || data.length === 0) {
                     communityGrid.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fa-solid fa-folder-open"></i>
-                            <p>No approved community lists available yet.</p>
-                        </div>`;
+                            <div class="empty-state">
+                                <i class="fa-solid fa-folder-open"></i>
+                                <p>${t('noApprovedLists', 'No approved community lists available yet.')}</p>
+                            </div>`;
                     resultsCounter.textContent = '';
                     return;
                 }
@@ -278,21 +288,36 @@
                     filterAndRender('');
                 });
 
+                // ۴. به‌روزرسانی کارت‌ها در صورت تغییر زبان توسط کاربر
+                window.addEventListener('languageChanged', () => {
+                    filterAndRender(searchInput.value);
+                });
+
             } catch (err) {
                 console.error("Error loading community lists:", err);
                 communityGrid.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        <p>Failed to load lists. Please try again later.</p>
-                    </div>`;
+                        <div class="empty-state">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <p>${t('failedToLoad', 'Failed to load lists. Please try again later.')}</p>
+                        </div>`;
             }
         });
 
         // ==========================================
-        // توابع کمکی سراسری (خارج از DOMContentLoaded)
+        // توابع کمکی و ترجمه (خارج از DOMContentLoaded)
         // ==========================================
 
-        // ۱. امن‌سازی کاراکترهای HTML برای جلوگیری از XSS
+        // دریافت ترجمه از ساختار global.js
+        function t(key, fallback = '') {
+            if (typeof translations !== 'undefined' && typeof currentLang !== 'undefined') {
+                if (translations[currentLang] && translations[currentLang][key] !== undefined) {
+                    return translations[currentLang][key];
+                }
+            }
+            return fallback;
+        }
+
+        // امن‌سازی کاراکترهای HTML برای جلوگیری از XSS
         function escapeHtml(string) {
             if (!string) return '';
             const div = document.createElement('div');
@@ -300,12 +325,12 @@
             return div.innerHTML;
         }
 
-        // ۲. ایمن‌سازی عبارات برای استفاده در کاراکترهای رزرو شده Regex
+        // ایمن‌سازی عبارات برای استفاده در کاراکترهای رزرو شده Regex
         function escapeRegExp(string) {
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
-        // ۳. تابع اصلی هایلایت کردن کلمات با پشتیبانی از فاصله‌ها
+        // تابع اصلی هایلایت کردن کلمات با پشتیبانی از فاصله‌ها
         function highlightText(text, query) {
             if (!text) return '';
             const escapedText = escapeHtml(text);
@@ -319,7 +344,7 @@
             return escapedText.replace(regex, '<mark class="search-highlight">$1</mark>');
         }
 
-        // ۴. تابع فیلتر کردن هوشمند
+        // تابع فیلتر کردن هوشمند
         function filterAndRender(query) {
             const cleanQuery = query.replace(/\s+/g, ' ').trim().toLowerCase();
 
@@ -338,47 +363,58 @@
             renderLists(filtered, cleanQuery);
         }
 
-        // ۵. تابع رندر کردن لیست‌ها و بروزرسانی DOM
+        // تابع رندر کردن لیست‌ها و بروزرسانی DOM
         function renderLists(lists, query) {
             const communityGrid = document.getElementById('communityGrid');
             const resultsCounter = document.getElementById('resultsCounter');
 
             if (!communityGrid || !resultsCounter) return;
 
-            resultsCounter.textContent = `Showing ${lists.length} of ${allCommunityLists.length} lists`;
+            // متن شمارنده (مثلاً: Showing 3 of 10 lists)
+            const showingTxt = t('showing', 'Showing');
+            const ofTxt = t('of', 'of');
+            const listsTxt = t('lists', 'lists');
+            resultsCounter.textContent = `${showingTxt} ${lists.length} ${ofTxt} ${allCommunityLists.length} ${listsTxt}`;
 
             if (lists.length === 0) {
+                const noMatchTxt = t('noListsFound', 'No wordlists found matching');
                 communityGrid.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <p>No wordlists found matching "<strong>${escapeHtml(query)}</strong>"</p>
-                    </div>`;
+                        <div class="empty-state">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <p>${noMatchTxt} "<strong>${escapeHtml(query)}</strong>"</p>
+                        </div>`;
                 return;
             }
+
+            const unknownAuthorTxt = t('unknownAuthor', 'Unknown');
+            const byTxt = t('byAuthor', 'By');
+            const wordsTxt = t('wordsCount', 'Words');
+            const practiceBtnTxt = t('practiceBtn', 'Practice Flashcards');
 
             communityGrid.innerHTML = lists.map(item => {
                 const wordCount = Array.isArray(item.words) ? item.words.length : 0;
                 const bookKey = encodeURIComponent(item.title);
 
                 const highlightedTitle = highlightText(item.title || '', query);
-                const highlightedAuthor = highlightText(item.author_name || 'Unknown', query);
+                const authorName = item.author_name || unknownAuthorTxt;
+                const highlightedAuthor = highlightText(authorName, query);
 
                 return `
-                    <div class="list-card">
-                        <div>
-                            <h3 class="card-title">${highlightedTitle}</h3>
-                            <div class="card-author">
-                                <i class="fa-solid fa-user-pen"></i>
-                                <span>By ${highlightedAuthor}</span>
+                        <div class="list-card">
+                            <div>
+                                <h3 class="card-title">${highlightedTitle}</h3>
+                                <div class="card-author">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                    <span>${byTxt} ${highlightedAuthor}</span>
+                                </div>
+                                <span class="card-badge">${wordCount} ${wordsTxt}</span>
                             </div>
-                            <span class="card-badge">${wordCount} Words</span>
+                            <a href="/pages/wordlists/practice.html?book=${bookKey}&unit=1&source=community_lists" class="practice-link">
+                                <i class="fa-solid fa-layer-group"></i>
+                                ${practiceBtnTxt}
+                            </a>
                         </div>
-                        <a href="/pages/wordlists/practice.html?book=${bookKey}&unit=1&source=community_lists" class="practice-link">
-                            <i class="fa-solid fa-layer-group"></i>
-                            Practice Flashcards
-                        </a>
-                    </div>
-                `;
+                    `;
             }).join('');
         }
     </script>

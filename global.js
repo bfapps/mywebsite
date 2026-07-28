@@ -185,11 +185,19 @@ function applyLanguage(lang) {
 
     currentLang = lang;
 
-    // جایگذاری متن‌ها در المان‌های دارای data-i18n
+    // ۱. جایگذاری متن‌های داخلی (inner HTML)
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key] !== undefined) {
             element.innerHTML = translations[lang][key];
+        }
+    });
+
+    // ۲. جایگذاری Placeholder ورودی‌ها (جدید)
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (translations[lang] && translations[lang][key] !== undefined) {
+            element.setAttribute('placeholder', translations[lang][key]);
         }
     });
 
