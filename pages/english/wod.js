@@ -119,11 +119,13 @@ async function initWordOfTheDay() {
     phoneticEl.textContent = activeWordData.phonetic || '';
 
     if (meaningTextEl) {
-        let fullMeaning = activeWordData.meaning_fa || '';
+        let faMeaning = activeWordData.meaning_fa || '';
+        let enMeaning = '';
         if (activeWordData.definition_en) {
-            fullMeaning += ` (${activeWordData.definition_en})`;
+          /* fullMeaning += ` (${activeWordData.definition_en})`; */
+            enMeaning = activeWordData.definition_en
         }
-        meaningTextEl.textContent = fullMeaning;
+        meaningTextEl.innerHTML = `<span id="faMeaning">${faMeaning}</span><br><span id="enMeaning">${enMeaning}</span>`;
     }
 
     if (exampleEl) {
@@ -215,7 +217,10 @@ async function updateStreakUI() {
 
     const lang = document.documentElement.lang || 'en';
     if (lang === 'fa') {
-        streakText.textContent = `${currentStreak} روز زنجیره فعال`;
+        streakText.innerHTML = `${currentStreak} <span class="streakText" data-i18n="streakText">روز زنجییره فعال</span>`;
+    }
+    else if (lang ==='en'){
+        streakText.innerHTML = `${currentStreak} <span class="streakText" data-i18n="streakText"> Days Streak </span>`;
     } else {
         streakText.textContent = `${currentStreak} Day${currentStreak === 1 ? '' : 's'} Streak`;
     }
