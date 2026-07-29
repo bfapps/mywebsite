@@ -1,5 +1,5 @@
 /**
- * Speed Match Game Logic - Multilingual Supported
+ * Speed Match Game Logic - Multilingual & Audio Supported
  */
 
 let wordsData = [];
@@ -9,6 +9,25 @@ let score = 0;
 let matchedPairsCount = 0;
 let timer = 45;
 let timerInterval = null;
+
+// تعریف صداهای بازی (می‌توانید لینک‌ها را با مسیر فایل‌های پروژه خود جایگزین کنید)
+const sounds = {
+    correct: new Audio('/assets/audio/quiz/correct.mp3'),
+    wrong: new Audio('/assets/audio/quiz/wrong.mp3'),
+    cheer: new Audio('/assets/audio/quiz/cheer.mp3'),
+    fail: new Audio('/assets/audio/quiz/fail.mp3')
+};
+
+// تابع کمکی برای پخش مجدد صدا از ابتدا بدون تداخل
+function playSound(audioKey) {
+    if (sounds[audioKey]) {
+        sounds[audioKey].currentTime = 0;
+        sounds[audioKey].play().catch(err => {
+            // جلوگیری از خطای مرورگر در صورتی که تعامل قبلی کاربر وجود نداشته باشد
+            console.warn("پخش صدا متوقف شد:", err);
+        });
+    }
+}
 
 const urlParams = new URLSearchParams(window.location.search);
 const bookParam = urlParams.get('book');
@@ -80,12 +99,11 @@ function prepareCards() {
     const board = document.getElementById('gameBoard');
     board.innerHTML = '';
 
-    // تشخیص زبان فعلی سایت (fa یا en)
     const lang = (typeof currentLang !== 'undefined') ? currentLang : 'fa';
 
     let selectedWords = [...wordsData];
-    if (selectedWords.length > 8) {
-        selectedWords = selectedWords.sort(() => 0.5 - Math.random()).slice(0, 8);
+    if (selectedWords.length > 10) {
+        selectedWords = selectedWords.sort(() => 0.5 - Math.random()).slice(0, 10);
     }
 
     cardItems = [];
@@ -98,7 +116,7 @@ function prepareCards() {
             text: word.name || word.en || word.word
         });
 
-        // ۲. کارت معنی (انتخاب بین معنی فارسی یا انگلیسی بر اساس زبان فعال)
+        // ۲. کارت معنی
         const meaningText = (lang === 'fa')
             ? (word.meaning || word.meaning_fa || word.fa)
             : (word.meaning_en || word.definition || word.meaning);
@@ -113,7 +131,7 @@ function prepareCards() {
     // شفل کردن کارت‌ها
     cardItems.sort(() => 0.5 - Math.random());
 
-    // رندر کارت‌ها در صفحه
+    // رندر کارت‌ها
     cardItems.forEach((item, index) => {
         const cardEl = document.createElement('div');
         cardEl.className = 'match-card';
@@ -122,7 +140,6 @@ function prepareCards() {
         cardEl.dataset.index = index;
         cardEl.textContent = item.text;
 
-        // اعمال فونت شبنم و راست‌به‌چپ اگر متن فارسی باشد
         if (lang === 'fa' && item.type === 'meaning') {
             cardEl.classList.add('fa-card');
         } else {
@@ -157,6 +174,9 @@ function checkMatch() {
     const type2 = card2.dataset.type;
 
     if (id1 === id2 && type1 !== type2) {
+        // پاسخ درست
+        playSound('correct');
+
         card1.classList.remove('selected');
         card2.classList.remove('selected');
 
@@ -173,6 +193,9 @@ function checkMatch() {
             setTimeout(endGame, 500);
         }
     } else {
+        // پاسخ اشتباه
+        playSound('wrong');
+
         card1.classList.add('wrong');
         card2.classList.add('wrong');
 
@@ -218,6 +241,13 @@ function endGame() {
 
     if (finalScoreEl) finalScoreEl.textContent = score;
     if (matchedCountEl) matchedCountEl.textContent = matchedPairsCount;
+
+    // پخش صدای پایان بازی بر اساس میزان امتیاز
+    if (score >= 60) {
+        playSound('cheer');
+    } else {
+        playSound('fail');
+    }
 
     showState('gameover');
 }
