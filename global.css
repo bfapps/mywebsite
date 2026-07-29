@@ -554,15 +554,14 @@
                 padding: 16px 0;
             }
 
-            .logo-icon {
-                font-size: 28px;
-            }
 
             .logo-text h1 {
-                font-size: 1rem;
+                font-size: .75rem;
+                align-items: left;
             }
 
             .logo-text p {
+                display:none;
                 font-size: .5rem;
             }
 
@@ -956,6 +955,41 @@
                 display: flex;
                 align-items: center;
                 gap: 16px;
+            }
+            /* برای آیکون بازی لازم هستند */
+            .unit-left-link {
+                text-decoration: none;
+                color: inherit;
+                flex-grow: 1;
+                display: flex;
+                align-items: center;
+            }
+
+            .unit-actions {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .game-btn-icon {
+                width: 30px;
+                height: 30px;
+                border-radius: 10px;
+              /*  background: #e0e7ff; */
+              background: var(--rose-light);
+                color: var(--pink);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+            }
+
+            .game-btn-icon:hover {
+                background: #4f46e5;
+                color: #ffffff;
+                transform: scale(1.08);
             }
     
             .unit-number-badge {

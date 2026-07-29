@@ -1,0 +1,338 @@
+/* ==========================================================================
+   SPEED MATCH GAME STYLES
+   ========================================================================== */
+
+.game-header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 18px 24px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+}
+
+.game-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.back-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--gray-btn);
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+    background: var(--gray-btn-hover);
+    transform: translateY(-1px);
+}
+
+.game-title {
+    font-size: 22px;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.game-title i {
+    color: var(--orange);
+}
+
+.game-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Stats (Timer & Score) */
+.game-stats {
+    display: flex;
+    gap: 12px;
+}
+
+.stat-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.timer-box {
+    background: var(--orange-light);
+    color: var(--amber);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.timer-box.warning {
+    background: var(--red-light);
+    color: var(--red);
+    animation: pulse 0.8s infinite alternate;
+}
+
+.score-box {
+    background: var(--green-light);
+    color: var(--green);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Board Layout */
+.game-state-container {
+    min-height: 380px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+    width: 100%;
+}
+
+/* Card Item */
+.match-card {
+    background: #ffffff;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2px 2px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 65px;
+    word-break: break-word;
+}
+.match-card.fa-card {
+    font-family: 'Shabnam', Vazirmatn, sans-serif !important;
+    direction: rtl !important;
+}
+.match-card.en-card {
+    direction: ltr !important;
+}
+
+.match-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--blue);
+    box-shadow: 0 8px 20px rgba(29, 78, 216, 0.12);
+}
+
+.match-card.selected {
+    background: var(--blue-light);
+    border-color: var(--blue);
+    color: var(--blue);
+    transform: scale(1.03);
+}
+
+.match-card.matched {
+    background: var(--green-light);
+    border-color: var(--green);
+    color: var(--green);
+    opacity: 0.25;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+.match-card.wrong {
+    background: var(--red-light);
+    border-color: var(--red);
+    color: var(--red);
+    animation: shake 0.4s ease-in-out;
+}
+
+/* Spinner */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top: 4px solid var(--blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 12px;
+}
+
+/* Result Card */
+.result-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-align: center;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.result-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--orange-light);
+    color: var(--orange);
+    font-size: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+}
+
+.result-card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.final-stats {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg-page);
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+}
+
+.final-stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.final-stat-item .label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.final-stat-item .value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.result-actions {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+
+.btn {
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--blue);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--blue-hover);
+}
+
+.btn-secondary {
+    background: var(--gray-btn);
+    color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+    background: var(--gray-btn-hover);
+}
+
+/* Animations */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-6px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(6px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+@media (max-width: 600px) {
+    .game-board {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .game-header-card {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .game-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+@media (max-width:400px) {
+    .match-card {
+            border-radius: 16px;
+            padding: 2px 2px;
+            text-align: center;
+            font-size: .8rem;
+            font-weight: 700;
+            min-height: 65px;
+    }
+}

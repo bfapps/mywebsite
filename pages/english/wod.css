@@ -38,6 +38,7 @@
     letter-spacing: 0.5px;
 }
 
+
 .wotd-audio-btn {
     background: #4f46e5;
     color: #ffffff;
@@ -77,6 +78,7 @@
     color: #1e293b;
     word-break: break-word;
 }
+
 
 .wotd-phonetic {
     font-size: 0.95rem;
@@ -209,7 +211,7 @@
 /* ==========================================================================
     تنظیمات مخصوص گوشی‌های خیلی کوچک (زیر 380 پیکسل)
     ========================================================================== */
-@media (max-width: 400px) {
+@media (max-width: 420px) {
     .wotd-card {
         padding: 16px;
         border-radius: 16px;
@@ -222,6 +224,15 @@
     .wotd-reveal-btn {
         font-size: 0.85rem;
         padding: 12px;
+    }
+    html[lang="en"] .wotd-word {
+        font-size: 1.2rem;
+    }
+    html[lang="en"] .wotd-phonetic {
+        font-size: 1rem;
+    }
+    html[lang="en"] .wotd-tag span {
+        font-size: 0.8rem;
     }
 }
 

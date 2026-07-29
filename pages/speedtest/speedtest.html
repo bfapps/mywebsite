@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Match Game | ESL Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+        type="text/css" />
+
+    <link rel="stylesheet" href="/global.css">
+    <link rel="stylesheet" href="speedtest.css">
+</head>
+
+<body>
+    <div class="container">
+        <header id="header">
+            <!-- Injected by global.js -->
+        </header>
+
+        <!-- بخش هدر بازی -->
+        <div class="game-header-card">
+            <div class="game-info">
+                <a href="javascript:history.back()" class="back-btn" title="Return">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h2 class="game-title"><i class="fa-solid fa-bolt"></i> <span data-i18n="speedMatchTitle">Speed
+                            Match</span></h2>
+                    <p class="game-subtitle" id="gameSubtitle" data-i18n="speedMatchSubtitle">Match English words with
+                        their meanings as fast as you can!</p>
+                </div>
+            </div>
+
+            <!-- نوار آمار بازی (زمان و امتیاز) -->
+            <div class="game-stats">
+                <div class="stat-box timer-box">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span id="timerDisplay">45s</span>
+                </div>
+                <div class="stat-box score-box">
+                    <i class="fa-solid fa-star"></i>
+                    <span id="scoreDisplay">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- صفحه بارگذاری -->
+        <div id="loadingState" class="game-state-container">
+            <div class="spinner"></div>
+            <p data-i18n="loadingWords">Loading words...</p>
+        </div>
+
+        <!-- صفحه اصلی بازی -->
+        <div id="gamePlayState" class="game-state-container hidden">
+            <div class="game-board" id="gameBoard">
+                <!-- کارت‌های بازی به‌صورت پویا توسط JS رندر می‌شوند -->
+            </div>
+        </div>
+
+        <!-- صفحه نتیجه پایانی -->
+        <div id="gameOverState" class="game-state-container hidden">
+            <div class="result-card">
+                <div class="result-icon">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 data-i18n="gameFinished">Time's Up!</h3>
+                <div class="final-stats">
+                    <div class="final-stat-item">
+                        <span class="label" data-i18n="finalScore">Score</span>
+                        <span class="value" id="finalScoreVal">0</span>
+                    </div>
+                    <div class="final-stat-item">
+                        <span class="label" data-i18n="matchedPairs">Matched Pairs</span>
+                        <span class="value" id="matchedCountVal">0</span>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="restartGame()">
+                        <i class="fa-solid fa-rotate-right"></i> <span data-i18n="playAgain">Play Again</span>
+                    </button>
+                    <a href="javascript:history.back()" class="btn btn-secondary">
+                        <i class="fa-solid fa-list"></i> <span data-i18n="backToUnits">Back to Units</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer id="footer">
+            <!-- Injected by global.js -->
+        </footer>
+    </div>
+
+    <script>
+        window.PAGE_NAME = 'speedtest';
+    </script>
+    <script src="/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="/assets/JS/auth.js"></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
+    <script src="speedtest.js"></script>
+</body>
+
+</html>
