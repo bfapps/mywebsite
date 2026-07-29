@@ -101,7 +101,34 @@
         /* ==========================================================================
             STREAK & WORD OF THE DAY (WOTD) MOBILE-FRIENDLY STYLES
         ========================================================================== */
+        /* 1. ویجت استریک (Streak Bar) */
+        .streak-bar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem auto;
+            padding: 0 10px;
+        }
 
+        .streak-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 142, 83, 0.15));
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #ff5252;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(255, 82, 82, 0.1);
+        }
+
+        .streak-badge i {
+            font-size: 1.1rem;
+            color: #ff5252;
+            animation: flamePulse 1.8s infinite ease-in-out;
+        }
         
 
         @media (max-width:400px) {
