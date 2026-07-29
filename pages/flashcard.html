@@ -25,16 +25,12 @@
             flex-direction: column;
         }
 
-
-
         /* Force fontawesome to keep its own font family in Persian mode */
         html[lang="fa"] .fa-solid,
         html[lang="fa"] .fa-regular,
         html[lang="fa"] i {
             font-family: "Font Awesome 6 Free" !important;
         }
-
-
 
         html[lang="fa"] .util-btn {
             font-size: 11px;
@@ -118,13 +114,9 @@
             color: var(--text-muted);
         }
 
-
-
         /* ==========================================================================
             FLASHCARDS
             ========================================================================== */
-
-
 
         .flashcard-wrapper {
             background: #ffffff;
@@ -287,7 +279,6 @@
             min-height: 290px;
             position: relative;
             touch-action: pan-y;
-            /* Allows scrolling but captures swipes */
         }
 
         .display-box.flashcard-perspective {
@@ -620,8 +611,6 @@
             pointer-events: none;
         }
 
-
-
         @media (max-width: 480px) {
             .flashcard-wrapper {
                 padding: 16px;
@@ -670,8 +659,6 @@
 
         <main class="flashcard-wrapper">
 
-
-
             <!-- Utilities Bar -->
             <div class="utilities-bar" id="utilitiesBar">
                 <button class="util-btn" id="shuffleBtn" onclick="toggleShuffle()">
@@ -690,7 +677,7 @@
                     <i class="fa-solid fa-chart-pie"></i> <span data-i18n="analytics">Analytics</span>
                 </button>
 
-                <!-- دکمه آزمون استاندارد و هم‌شکل با بقیه -->
+                <!-- دکمه آزمون استاندارد -->
                 <button class="util-btn" id="quizMenuBtn" onclick="showQuizSelectionInCard()">
                     <i class="fa-solid fa-list-check"></i> <span data-i18n="quizzes">Quizzes</span>
                 </button>
@@ -792,7 +779,6 @@
                 <div class="progress-text" id="progressText">0 / 0</div>
             </div>
 
-
             <!-- Context Hint Grid -->
             <div class="features-grid" id="featuresGrid">
                 <button class="feature-btn" onclick="toggleHint('meaning', this)">
@@ -826,11 +812,9 @@
             <div class="navigation-row" id="navigationRow">
                 <button class="nav-btn prev" id="prevBtn" onclick="navigateCard(-1)"> <span data-i18n="prev"> Previous
                     </span>
-                    <!-- Icon & text injected by dynamic language setup -->
                 </button>
                 <button class="nav-btn next" id="nextBtn" onclick="navigateCard(1)"> <span data-i18n="next"> Next
                     </span>
-                    <!-- Icon & text injected by dynamic language setup -->
                 </button>
             </div>
 
@@ -847,35 +831,42 @@
     <script src="/global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>
-
-
     <script type="module" src="/assets/JS/save-progress.js"></script>
 
     <script>
-
-
-
-
-
         /* ==========================================================================
-                         انتخاب لود اولیه کدام مخزن کلمات 
-                ========================================================================== */
+           تنظیم افکت‌های صوتی سیستم
+           ========================================================================== */
+        const sounds = {
+            correct: new Audio('/assets/audio/quiz/correct.mp3'),
+            wrong: new Audio('/assets/audio/quiz/wrong.mp3'),
+            cheer: new Audio('/assets/audio/quiz/cheer.mp3'),
+            fail: new Audio('/assets/audio/quiz/fail.mp3'),
+            cardSlide: new Audio('/assets/audio/quiz/swipe.mp3') // افکت تعویض کارت
+        };
 
+        // تابع کمکی برای پخش صداها بدون تداخل
+        function playSfx(soundKey) {
+            if (sounds[soundKey]) {
+                sounds[soundKey].currentTime = 0;
+                sounds[soundKey].play().catch(err => {
+                    console.warn("پخش افکت صوتی متوقف شد:", err);
+                });
+            }
+        }
 
         /* --- ۱. تنظیمات و متغیرهای سراسری سیستم --- */
         const urlParams = new URLSearchParams(window.location.search);
-        const selectedBook = urlParams.get('book') || 'vision1'; // نام کتاب (مثلا vision1)
-        const selectedUnit = urlParams.get('unit') || '1';       // شماره یونیت (مثلا 1)
+        const selectedBook = urlParams.get('book') || 'vision1';
+        const selectedUnit = urlParams.get('unit') || '1';
         const listSource = urlParams.get('source');
 
-        // کلید منحصربه‌فرد برای ذخیره‌سازی اطلاعات در LocalStorage مربوط به هر یونیت و کتاب
         const selectedUnitKey = `${selectedBook}_u${selectedUnit}`;
 
         let masterDataset = [];
         let workingDataset = [];
         let currentIndex = 0;
         let currentAudioObject = null;
-        // let currentLang = 'en';
 
         let isShuffleActive = false;
         let isAutoPlayActive = false;
@@ -888,22 +879,16 @@
         let quizScore = 0;
         let quizStep = 0;
         let quizQuestions = [];
-        let isAutoPlay = false;
-
-
-
-
 
         async function fetchFlashcardsFromSupabase(book, unit) {
             try {
-                // تبدیل به عدد اعشاری جهت پشتیبانی از یونیت‌های مانند 3.1
                 const parsedUnit = parseFloat(unit);
 
                 const { data, error } = await supabaseClient
                     .from(listSource)
                     .select('words_data')
                     .eq('book_key', book)
-                    .eq('unit_number', parsedUnit) // ✅ اصلاح شد
+                    .eq('unit_number', parsedUnit)
                     .single();
 
                 if (error || !data || !data.words_data) {
@@ -931,11 +916,9 @@
                 return;
             }
 
-            // ۱. دریافت کلمات از Supabase
             masterDataset = await fetchFlashcardsFromSupabase(selectedBook, selectedUnit);
             workingDataset = [...masterDataset];
 
-            // ۲. بازیابی Progress (بدون تغییر در منطق قبلی ذخیره‌سازی)
             const savedIndex = localStorage.getItem(`saved_progress_${selectedUnitKey}`);
             if (savedIndex && parseInt(savedIndex) < workingDataset.length) {
                 currentIndex = parseInt(savedIndex);
@@ -945,7 +928,6 @@
 
             isAutoPlayActive = localStorage.getItem(`autoplay_${selectedUnitKey}`) === 'true';
 
-            // ۳. بازیابی لایتنر و پروگرس کاربر از تابع پیش‌فرض سیستم (save-progress.js)
             if (window.getUnitProgress) {
                 window.getUnitProgress(selectedBook, selectedUnit).then(dbData => {
                     if (dbData) {
@@ -977,7 +959,6 @@
             }
         };
 
-        // تابع کمکی برای بروزرسانی ظاهر دکمه Auto Play
         function updateAutoPlayUI() {
             const autoPlayBtn = document.getElementById('autoPlayBtn');
             if (autoPlayBtn) {
@@ -985,12 +966,6 @@
             }
         }
 
-        /* ==========================================================================
-                       جعبه لایتنر
-            ========================================================================== */
-
-
-        /* --- ۷. مدیریت کلیدهای حافظه و وضعیت لایتنر کلمات --- */
         function getStarredList() {
             return JSON.parse(localStorage.getItem(`starred_words_${selectedUnitKey}`)) || [];
         }
@@ -1007,7 +982,6 @@
                 statusList[wordId] = status;
             }
             localStorage.setItem(`words_status_${selectedUnitKey}`, JSON.stringify(statusList));
-            // ✅ اضافه شد: ارسال به دیتابیس Supabase
             if (window.updateWordStatus) {
                 window.updateWordStatus(selectedBook, selectedUnit, wordId, status);
             }
@@ -1030,7 +1004,6 @@
                 notes[wordId] = value;
             }
             localStorage.setItem(`word_notes_${selectedUnitKey}`, JSON.stringify(notes));
-            // ✅ اضافه شد: ارسال یادداشت به Supabase
             if (window.updateWordNote) {
                 window.updateWordNote(selectedBook, selectedUnit, wordId, value);
             }
@@ -1043,7 +1016,6 @@
                 localStorage.removeItem(`saved_progress_${selectedUnitKey}`);
                 localStorage.removeItem(`autoplay_${selectedUnitKey}`);
 
-                // ۲. ارسال درخواست حذف/ریست به Supabase (در صورت وجود تابع)
                 if (window.resetUnitDataInSupabase) {
                     window.resetUnitDataInSupabase(selectedBook, selectedUnit);
                 }
@@ -1064,27 +1036,20 @@
         }
 
         function toggleAutoPlay() {
-            // ۱. معکوس کردن مقدار متغیر اصلی پخش خودکار
             isAutoPlayActive = !isAutoPlayActive;
-
-            // ۲. ذخیره وضعیت جدید در LocalStorage
             localStorage.setItem(`autoplay_${selectedUnitKey}`, isAutoPlayActive);
 
-            // ۳. ارسال و ذخیره در Supabase (در صورت وجود)
             if (window.updateAutoPlayStatus) {
                 window.updateAutoPlayStatus(selectedBook, selectedUnit, isAutoPlayActive);
             }
 
-            // ۴. تغییر ظاهر دکمه
             updateAutoPlayUI();
 
-            // ۵. اگر همین حالا روشن شد و کارتی در حال نمایش است، صدا را پخش کن
             if (isAutoPlayActive && workingDataset[currentIndex] && workingDataset[currentIndex].audio) {
                 playRealAudio(workingDataset[currentIndex].audio);
             }
         }
 
-        /* --- ۸. داشبورد آمار تحلیلی لایتنر --- */
         function toggleAnalytics() {
             const panel = document.getElementById('analyticsPanel');
             isAnalyticsOpen = !isAnalyticsOpen;
@@ -1129,14 +1094,11 @@
             document.getElementById(`${idPrefix}Fill`).style.width = `${percent}%`;
         }
 
-        /* --- ۹. رندر کردن و نمایش کارت‌ها --- */
         function renderCard() {
             isQuizMode = false;
             const dict = translations[currentLang];
-            // مخفی کردن منوی انتخاب آزمون در وسط کارت هنگام رندر شدن کارت جدید
             hideQuizSelection();
 
-            // نمایش مجدد محتوای اصلی کارت در صورتی که پنهان شده بود
             const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
             const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
             if (cardContent) cardContent.style.display = 'block';
@@ -1234,7 +1196,6 @@
             updateProgressBar(currentIndex + 1, workingDataset.length);
             localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
 
-            /* --- پخش صوتی خودکار --- */
             if (isAutoPlayActive && currentWord.audio) {
                 setTimeout(() => {
                     if (!isQuizMode && workingDataset[currentIndex] && workingDataset[currentIndex].id === currentWord.id) {
@@ -1242,20 +1203,15 @@
                     }
                 }, 400);
             }
-            // در انتهای تابع renderCard، ذخیره آخرین کارت دیده‌شده را اضافه کنید:
             if (window.updateCardProgress) {
                 window.updateCardProgress(selectedBook, selectedUnit, currentIndex);
             }
         }
 
-        /* ==========================================================================
-                    لمس و سوایپ
-            ========================================================================== */
-
-        // متغیرهای سوایپ لمسی روی موبایل
+        /* --- لمس و سوایپ به همراه افکت صوتی تعویض کارت --- */
         let touchstartX = 0;
         let touchendX = 0;
-        /* --- ۱۰. ردیابی حرکت سوایپ لمسی بر روی موبایل --- */
+
         function initSwipeGestures() {
             const displayBox = document.getElementById('displayBox');
 
@@ -1317,6 +1273,9 @@
             if (currentAudioObject) currentAudioObject.pause();
             if (direction === -1 && currentIndex === 0) return;
 
+            // اجرای افکت صوتی جابه‌جایی کارت
+            playSfx('cardSlide');
+
             currentIndex += direction;
             if (currentIndex >= workingDataset.length) {
                 showCompletionScreen();
@@ -1324,17 +1283,6 @@
                 renderCard();
             }
         }
-
-        /*  function toggleStar(wordId) {
-              let starredList = getStarredList();
-              if (starredList.includes(wordId)) {
-                  starredList = starredList.filter(id => id !== wordId);
-              } else {
-                  starredList.push(wordId);
-              }
-              localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(starredList));
-              applyFilters();
-          } */
 
         function toggleStar(wordId) {
             let starredList = getStarredList();
@@ -1347,12 +1295,10 @@
             }
             localStorage.setItem(`starred_words_${selectedUnitKey}`, JSON.stringify(starredList));
 
-            // ✅ اضافه شد: ارسال وضعیت جدید ستاره‌ها به Supabase
             if (window.toggleStarredWord) {
                 window.toggleStarredWord(selectedBook, selectedUnit, wordId);
             }
 
-            // اگر فیلتر "فقط ستاره‌دارها" فعال نیست، نیازی نیست کل فیلترها را از اول اجرا کنیم
             if (!isStarredFilterActive) {
                 const starIcon = document.querySelector('.star-icon');
                 if (starIcon) {
@@ -1365,7 +1311,6 @@
                     }
                 }
             } else {
-                // اگر فیلتر فعال است، فیلترها را با حفظ کارت فعلی اعمال می‌کنیم
                 applyFilters();
             }
         }
@@ -1388,24 +1333,7 @@
             applyFilters();
         }
 
-        /*  function applyFilters() {
-              let base = [...masterDataset];
-              if (isStarredFilterActive) {
-                  const starredList = getStarredList();
-                  base = base.filter(w => starredList.includes(w.id));
-              }
-              if (isWeakFilterActive) {
-                  const statusList = getWordsStatus();
-                  base = base.filter(w => statusList[w.id] === 'hard' || statusList[w.id] === 'medium');
-              }
-              if (isShuffleActive) base.sort(() => Math.random() - 0.5);
-              workingDataset = base;
-              currentIndex = 0;
-              renderCard();
-          } */
-
         function applyFilters() {
-            // ذخیره شناسه کلمه‌ای که در حال حاضر کاربر دارد آن را می‌بیند
             const currentWordId = workingDataset[currentIndex]?.id;
 
             let base = [...masterDataset];
@@ -1420,14 +1348,11 @@
             if (isShuffleActive) base.sort(() => Math.random() - 0.5);
             workingDataset = base;
 
-            // پیدا کردن جایگاه جدید همان کلمه در لیست فیلتر شده جدید
             if (currentWordId) {
                 const newIndex = workingDataset.findIndex(w => w.id === currentWordId);
                 if (newIndex !== -1) {
-                    currentIndex = newIndex; // ماندن روی همان کلمه قبلی
+                    currentIndex = newIndex;
                 } else {
-                    // اگر کلمه دیگر در لیست فیلتر شده وجود نداشت (مثلا ستاره‌اش را برداشتید)
-                    // ایندکس را کنترل می‌کنیم تا از طول آرایه جدید فراتر نرود
                     if (currentIndex >= workingDataset.length) {
                         currentIndex = Math.max(0, workingDataset.length - 1);
                     }
@@ -1439,31 +1364,17 @@
             renderCard();
         }
 
-        /* function playRealAudio(audioPath) {
-             if (!audioPath) return;
-             if (currentAudioObject) { currentAudioObject.pause(); currentAudioObject.currentTime = 0; }
-             currentAudioObject = new Audio(audioPath);
-             currentAudioObject.play().catch(e => console.log("Audio play error"));
-         
-         }
-     
-         */
-
-
         function playRealAudio(audioPath, wordText) {
             if (!audioPath) return;
 
-            // ۱. متوقف کردن صدای قبلی برای جلوگیری از تداخل
             if (currentAudioObject) {
                 currentAudioObject.pause();
                 currentAudioObject.removeAttribute('src');
                 currentAudioObject.load();
             }
 
-            // ۲. تعریف تابع پشتیبان (Fallback) برای استفاده از سخنگوی مرورگر
             const playFallbackTTS = () => {
                 try {
-                    // اگر پارامتر دوم فرستاده شده بود از آن استفاده کند، در غیر این صورت آن را از لینک گوگل استخراج کند
                     let textToSpeak = wordText;
 
                     if (!textToSpeak && typeof audioPath === 'string') {
@@ -1471,50 +1382,37 @@
                             const urlObj = new URL(audioPath);
                             textToSpeak = urlObj.searchParams.get('q');
                         } else {
-                            // اگر لینک محلی بود (مثلاً audio/respect.mp3)، نام فایل را به عنوان کلمه در نظر بگیرد
                             const fileName = audioPath.split('/').pop().split('.')[0];
-                            textToSpeak = fileName.replace(/[-_]/g, ' '); // جایگزینی خط فاصله با اسپیس
+                            textToSpeak = fileName.replace(/[-_]/g, ' ');
                         }
                     }
 
                     if (textToSpeak) {
-                        window.speechSynthesis.cancel(); // لغو سخنگوی قبلی
+                        window.speechSynthesis.cancel();
                         const utterance = new SpeechSynthesisUtterance(decodeURIComponent(textToSpeak));
                         utterance.lang = 'en-US';
                         utterance.rate = 0.9;
                         window.speechSynthesis.speak(utterance);
-                        console.log("صدا از طریق سخنگوی مرورگر (TTS) پخش شد.");
                     }
                 } catch (e) {
-                    console.log("حتی سخنگوی مرورگر هم پشتیبانی نمی‌شود یا با خطا مواجه شد:", e.message);
+                    console.log("سخنگوی مرورگر با خطا مواجه شد:", e.message);
                 }
             };
 
-            // ۳. ساخت المان صوتی جدید و تنظیم عدم ارسال هویت سایت (برای دور زدن فیلتر گوگل)
             currentAudioObject = document.createElement('audio');
             currentAudioObject.referrerPolicy = "no-referrer";
             currentAudioObject.src = audioPath;
 
-            // ۴. تلاش برای پخش فایل صوتی (چه گوگل، چه فایل داخل پوشه‌ها)
             const playPromise = currentAudioObject.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    // پخش فایل صوتی با موفقیت انجام شد
                 }).catch(error => {
-                    if (error.name === 'AbortError') return; // نادیده گرفتن توقف تعمدی کاربر
-
-                    console.log("لود فایل صوتی ناموفق بود؛ سوئیچ روی سخنگوی مرورگر...");
+                    if (error.name === 'AbortError') return;
                     playFallbackTTS();
                 });
             }
         }
 
-        /* ==========================================================================
-                         انیمیشن چرخش کارت و دیگر انیمیشن ها 
-                ========================================================================== */
-
-
-        /* --- ۱۱. انیمیشن چرخش کارت و نمایش ابزارهای راهنما --- */
         function toggleHint(type, element) {
             if (isQuizMode || workingDataset.length === 0) return;
             const displayBox = document.getElementById('displayBox');
@@ -1571,61 +1469,46 @@
         }
 
         /* ==========================================================================
-                         آزمون سازی ها 
-                ========================================================================== */
-
-        /* --- ۱۲. سیستم آزمون‌ها و کوئیزهای هوشمند کلمات --- */
-        // تابع نمایش گزینه‌های آزمون در وسط کارت
+           سیستم آزمون‌ها و مدیریت افکت‌های صوتی پاسخ‌ها
+           ========================================================================== */
         function showQuizSelectionInCard() {
-            // ۱. پنهان کردن باکس سه بعدی اصلی کارت‌ها
             const displayBox = document.getElementById('displayBox');
             if (displayBox) {
                 displayBox.style.display = 'none';
             }
 
-            // ۲. پنهان کردن تمام بخش‌های ناوبری، ابزارها، لایتنر و فیلترها
             hideInterfaceForQuiz();
 
-            // ۳. نمایش کانتینر انتخاب آزمون به صورت Flex جهت قرارگیری عالی در وسط
             const selectionContainer = document.getElementById('quizSelectionContainer');
             if (selectionContainer) {
                 selectionContainer.style.display = 'flex';
             }
         }
 
-        // تابع انتخاب نوع آزمون و شروع آن
         function selectQuizMode(type) {
-            // پنهان کردن منوی انتخاب آزمون
             const selectionContainer = document.getElementById('quizSelectionContainer');
             if (selectionContainer) {
                 selectionContainer.style.display = 'none';
             }
-
-            // اجرای تابع اصلی شروع آزمون
             startQuizMode(type);
         }
 
-        // تابع انصراف و بازگشت به حالت عادی کارت
         function cancelQuizSelection() {
-            // ۱. پنهان کردن کانتینر انتخاب آزمون
             const selectionContainer = document.getElementById('quizSelectionContainer');
             if (selectionContainer) {
                 selectionContainer.style.display = 'none';
             }
 
-            // ۲. ظاهر کردن مجدد باکس سه بعدی اصلی کارت‌ها
             const displayBox = document.getElementById('displayBox');
             if (displayBox) {
                 displayBox.style.display = 'block';
             }
 
-            // ۳. بازخوانی کارت فعلی برای فعال‌سازی و نمایش مجدد کنترل‌ها و ابزارها
             if (typeof renderCard === 'function') {
                 renderCard();
             }
         }
 
-        // تابع کمکی برای مخفی کردن ظرف انتخاب آزمون
         function hideQuizSelection() {
             const selectionContainer = document.getElementById('quizSelectionContainer');
             if (selectionContainer) {
@@ -1732,40 +1615,34 @@
                 `;
 
                 setTimeout(() => { playRealAudio(currentQuestionWord.audio); }, 300);
-            }
-            // 👇 بخش جدید و اصلاح‌شده برای آزمون املا (نمایش معنی فارسی + صوت)
-            else if (activeQuizType === 'spelling') {
+            } else if (activeQuizType === 'spelling') {
                 displayBox.innerHTML = `
-            <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
-            
-            <!-- نمایش معنی فارسی کلمه به عنوان راهنما -->
-            <div style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin: 10px 0; direction: rtl;">
-                ${currentQuestionWord.meaning}
-            </div>
+                    <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                    
+                    <div style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin: 10px 0; direction: rtl;">
+                        ${currentQuestionWord.meaning}
+                    </div>
 
-            <!-- دکمه پخش صوت کلمه انگلیسی -->
-            <button class="nav-btn next" style="margin: 8px auto 16px auto; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
-                <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
-            </button>
-            
-            <p class="sentence-example" style="direction:initial; font-size: 13px; text-align:center; margin: auto auto;">${dict.typeWhatYouHear}</p>
-            
-            <div class="quiz-choices-container" style="gap:12px;">
-                <!-- ورودی فقط برای نوشتن املای انگلیسی کلمه (چپ‌چین) -->
-                <input type="text" id="spellingInput" class="quiz-choice-btn en-lang-dir" 
-                       placeholder="${dict.placeholderSpelling}" 
-                       style="text-align:center; cursor:text; background:#fff; direction: ltr;" 
-                       autocomplete="off" autofocus>
-                
-                <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
-                    ${dict.checkSpelling}
-                </button>
-            </div>
-            
-            <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
-        `;
+                    <button class="nav-btn next" style="margin: 8px auto 16px auto; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
+                        <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
+                    </button>
+                    
+                    <p class="sentence-example" style="direction:initial; font-size: 13px; text-align:center; margin: auto auto;">${dict.typeWhatYouHear}</p>
+                    
+                    <div class="quiz-choices-container" style="gap:12px;">
+                        <input type="text" id="spellingInput" class="quiz-choice-btn en-lang-dir" 
+                               placeholder="${dict.placeholderSpelling}" 
+                               style="text-align:center; cursor:text; background:#fff; direction: ltr;" 
+                               autocomplete="off" autofocus>
+                        
+                        <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
+                            ${dict.checkSpelling}
+                        </button>
+                    </div>
+                    
+                    <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+                `;
 
-                // فوکوس خودکار روی باکس متن و امکان ثبت پاسخ با زدن دکمه اینتر کیبورد
                 setTimeout(() => {
                     const input = document.getElementById('spellingInput');
                     if (input) {
@@ -1778,6 +1655,7 @@
                 }, 300);
             }
         }
+
         function checkSpellingAnswer() {
             const inputElement = document.getElementById('spellingInput');
             const submitBtn = document.getElementById('spellingSubmitBtn');
@@ -1788,21 +1666,21 @@
             const correctAnswer = currentQuestionWord.name.trim().toLowerCase();
             const dict = translations[currentLang];
 
-            // غیرفعال کردن موقت برای جلوگیری از اسپم کلیک
             inputElement.disabled = true;
             submitBtn.disabled = true;
             submitBtn.style.pointerEvents = 'none';
 
             if (userAnswer === correctAnswer) {
+                playSfx('correct'); // پخش صدای پاسخ درست
                 inputElement.classList.add('correct');
                 inputElement.value = dict.correctSpelling;
                 quizScore++;
             } else {
+                playSfx('wrong'); // پخش صدای پاسخ نادرست
                 inputElement.classList.add('wrong');
                 inputElement.value = dict.wrongSpelling + ` "${currentQuestionWord.name}"`;
             }
 
-            // مکث ۱.۸ ثانیه‌ای برای دیدن نتیجه و سپس رفتن به کلمه بعدی
             setTimeout(() => {
                 quizStep++;
                 if (quizStep < quizQuestions.length) {
@@ -1818,9 +1696,11 @@
             allButtons.forEach(btn => btn.style.pointerEvents = 'none');
 
             if (chosenAnswer === correctAnswer) {
+                playSfx('correct'); // پخش صدای پاسخ درست
                 buttonElement.classList.add('correct');
                 quizScore++;
             } else {
+                playSfx('wrong'); // پخش صدای پاسخ نادرست
                 buttonElement.classList.add('wrong');
                 allButtons.forEach(btn => {
                     if (btn.innerText === correctAnswer) btn.classList.add('correct');
@@ -1842,6 +1722,13 @@
             const percent = Math.round((quizScore / quizQuestions.length) * 100);
             const dict = translations[currentLang];
 
+            // شرط پخش صدای پایان آزمون بر اساس تعداد پاسخ درست
+            if (quizScore > 3) {
+                playSfx('cheer');
+            } else {
+                playSfx('fail');
+            }
+
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
 
@@ -1860,7 +1747,6 @@
             if (currentAudioObject) currentAudioObject.pause();
             isQuizMode = false;
 
-            // اطمینان از نمایان شدن مجدد باکس اصلی کلمات
             const displayBox = document.getElementById('displayBox');
             if (displayBox) {
                 displayBox.style.display = 'block';
@@ -1869,7 +1755,6 @@
             renderCard();
         }
 
-        // تغییر زبان بر اساس زبان لیست یونیت ها در accordions قبلی
         window.addEventListener('languageChanged', function (e) {
             if (typeof renderCard === 'function') {
                 renderCard();

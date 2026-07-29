@@ -133,6 +133,13 @@
         
 
         @media (max-width:400px) {
+            .container {
+                padding: 0 8px;
+            }
+            .hamburger {
+                padding: 0 2px;
+
+            }
             .navStreak-bar-container {
                 margin-top: 10px;
             }
@@ -670,6 +677,7 @@
                 position: relative;
                 top: 0px;
                 right: 0px;
+                padding: 0 10px;
             }
     
             .menu-open-rotate {

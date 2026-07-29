@@ -854,6 +854,27 @@
     <script type="module" src="/assets/JS/save-progress.js"></script>
 
     <script>
+        /* ==========================================================================
+               تنظیم افکت‌های صوتی سیستم
+            ========================================================================== */
+        const sounds = {
+            correct: new Audio('/assets/audio/quiz/correct.mp3'),
+            wrong: new Audio('/assets/audio/quiz/wrong.mp3'),
+            cheer: new Audio('/assets/audio/quiz/cheer.mp3'),
+            fail: new Audio('/assets/audio/quiz/fail.mp3'),
+            cardSlide: new Audio('/assets/audio/quiz/swipe.mp3') // افکت تعویض کارت
+        };
+
+        // تابع کمکی برای پخش صداها بدون تداخل
+        function playSfx(soundKey) {
+            if (sounds[soundKey]) {
+                sounds[soundKey].currentTime = 0;
+                sounds[soundKey].play().catch(err => {
+                    console.warn("پخش افکت صوتی متوقف شد:", err);
+                });
+            }
+        }
+
         /* --- ۱. تنظیمات و متغیرهای سراسری سیستم --- */
         const urlParams = new URLSearchParams(window.location.search);
         const selectedBook = urlParams.get('book'); // اسم لیست/کتاب
@@ -1301,7 +1322,7 @@
         function navigateCard(direction) {
             if (currentAudioObject) currentAudioObject.pause();
             if (direction === -1 && currentIndex === 0) return;
-
+            playSfx('cardSlide');
             currentIndex += direction;
             if (currentIndex >= workingDataset.length) {
                 showCompletionScreen();
@@ -1529,6 +1550,9 @@
             hideInterfaceForQuiz();
             const displayBox = document.getElementById('displayBox');
             const dict = translations[currentLang] || translations['en'];
+
+            playSfx('cheer');
+
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
 
@@ -1673,10 +1697,12 @@
             if (userAnswer === correctAnswer) {
                 inputElement.classList.add('correct');
                 inputElement.value = dict.correctSpelling;
+                playSfx('correct');
                 quizScore++;
             } else {
                 inputElement.classList.add('wrong');
                 inputElement.value = dict.wrongSpelling + ` "${currentQuestionWord.name}"`;
+                playSfx('wrong');
             }
 
             setTimeout(() => {
@@ -1695,9 +1721,11 @@
 
             if (chosenAnswer === correctAnswer) {
                 buttonElement.classList.add('correct');
+                playSfx('correct');
                 quizScore++;
             } else {
                 buttonElement.classList.add('wrong');
+                playSfx('wrong');
                 allButtons.forEach(btn => {
                     if (btn.innerText === correctAnswer) btn.classList.add('correct');
                 });
@@ -1717,6 +1745,12 @@
             const displayBox = document.getElementById('displayBox');
             const percent = Math.round((quizScore / quizQuestions.length) * 100);
             const dict = translations[currentLang] || translations['en'];
+
+            if (percent > 60) {
+                playSfx('cheer');
+            } else {
+                playSfx('fail');
+            }
 
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
