@@ -90,6 +90,15 @@ async function initWordOfTheDay() {
     const audioBtn = document.getElementById('wotdAudioBtn');
     const revealBtn = document.getElementById('wotdRevealBtn');
     const meaningContent = document.getElementById('wotdMeaningContent');
+    const collapseBtn = document.getElementById('wotdCollapseBtn');
+
+    // مدیریت بستن کارت و برگشت به حالت اولیه
+    if (collapseBtn) {
+        collapseBtn.addEventListener('click', () => {
+            if (meaningContent) meaningContent.style.display = 'none';
+            if (revealBtn) revealBtn.style.display = 'flex';
+        });
+    }
 
     if (!wordEl || !revealBtn) return;
 

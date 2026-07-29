@@ -224,3 +224,61 @@
         padding: 12px;
     }
 }
+
+
+/* 🔽 دکمه بستن (Collapse Button) */
+.wotd-collapse-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 6px;
+}
+
+.wotd-collapse-btn {
+    background: #ffffff;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* افکت هوور و کلیک برای دکمه بستن */
+.wotd-collapse-btn:hover {
+    background-color: #4f46e5;
+    color: #ffffff;
+    border-color: #4f46e5;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+}
+
+.wotd-collapse-btn:active {
+    transform: translateY(0) scale(0.92);
+}
+
+/* اصلاح انیمیشن باز و بسته شدن */
+.wotd-meaning-content {
+    display: none;
+    animation: slideDownFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDownFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
