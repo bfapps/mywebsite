@@ -250,35 +250,70 @@ function toggleAccordion(element) {
  * دریافت تعداد استریک کاربر و نمایش آن در تمام المان‌های دارای کلاس navStreakCountText (فقط عدد)
  */
 async function updateGlobalNavStreak() {
-    // ۱. انتخاب تمام المان‌هایی که این کلاس را دارند
+    // ۱. انتخاب تمام المان‌های مربوط به عدد استریک، متن واحد و متن جامع استریک
     const streakElements = document.querySelectorAll('.navStreakCountText');
-    if (streakElements.length === 0) return;
+    const unitElements = document.querySelectorAll('[data-i18n="daysText"]');
+    const streakTextElements = document.querySelectorAll('.streakText');
 
-    // تابع کمکی برای مقداردهی به همه المان‌ها
+    if (streakElements.length === 0 && unitElements.length === 0 && streakTextElements.length === 0) return;
+
+    // تابع کمکی برای تبدیل اعداد انگلیسی به فارسی
+    const toPersianDigits = (num) => {
+        const id = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return num.toString().replace(/[0-9]/g, (w) => id[parseInt(w, 10)]);
+    };
+
+    // تابع کمکی برای آپدیت هم‌زمان عدد و متون وابسته
     const setStreakValue = (val) => {
+        const count = parseInt(val, 10) || 0;
+        const lang = document.documentElement.lang || 'en';
+
+        // آپدیت تمامی المان‌های عدد (با تبدیل به فارسی در صورت نیاز)
         streakElements.forEach(el => {
-            el.textContent = val;
+            if (lang === 'fa') {
+                el.textContent = toPersianDigits(count);
+            } else {
+                el.textContent = count;
+            }
+        });
+
+        // مدیریت هوشمند مفرد/جمع برای انگلیسی و فارسی در data-i18n="daysText"
+        unitElements.forEach(el => {
+            if (lang === 'en') {
+                el.textContent = count === 1 ? 'Day' : 'Days';
+            } else if (lang === 'fa') {
+                el.textContent = 'روز';
+            }
+        });
+
+        // مدیریت اختصاصی المان‌های با کلاس .streakText
+        streakTextElements.forEach(el => {
+            if (lang === 'en') {
+                el.textContent = count === 1 ? 'Day Streak' : 'Days Streak';
+            } else if (lang === 'fa') {
+                el.textContent = 'روز زنجیره فعال';
+            }
         });
     };
 
     const client = window.supabase || window.supabaseClient;
 
-    // ۲. اگر Supabase مقداردهی نشده بود، مقدار را 0 بگذار
+    // ۲. عدم وجود Supabase -> مقدار صفر
     if (!client) {
-        setStreakValue('0');
+        setStreakValue(0);
         return;
     }
 
     try {
-        // ۳. دریافت نشست فعلی کاربر
+        // ۳. دریافت نشست کاربر
         const { data: { session }, error: sessionError } = await client.auth.getSession();
 
         if (sessionError || !session) {
-            setStreakValue('0');
+            setStreakValue(0);
             return;
         }
 
-        // ۴. کوئری به جدول profiles برای گرفتن streak_count
+        // ۴. کوئری استریک از دیتابیس
         const { data, error } = await client
             .from('profiles')
             .select('streak_count')
@@ -287,31 +322,48 @@ async function updateGlobalNavStreak() {
 
         if (error) {
             console.error("خطا در دریافت استریک از دیتابیس:", error.message);
-            setStreakValue('0');
+            setStreakValue(0);
             return;
         }
 
-        // ۵. قرار دادن فقط و فقط عدد استریک در تمام المان‌های دارای این کلاس
+        // ۵. تنظیم عدد نهایی
         const count = (data && data.streak_count) ? data.streak_count : 0;
         setStreakValue(count);
 
     } catch (err) {
         console.error("خطا در اجرای updateGlobalNavStreak:", err);
-        setStreakValue('0');
+        setStreakValue(0);
     }
 }
 
-// ۶. اجرای تابع هنگام لود کامل DOM و گوش دادن به تغییرات Auth
+// ۶. اجرای اولیه و شنونده تغییرات نشست کاربر و تغییر زبان
 document.addEventListener('DOMContentLoaded', () => {
     updateGlobalNavStreak();
 
+    // ۱. گوش دادن به تغییرات نشست کاربر در Supabase
     const client = window.supabase || window.supabaseClient;
     if (client && client.auth) {
-        // اگر کاربر ورود یا خروج کرد، عدد استریک نوبار به‌روزرسانی شود
         client.auth.onAuthStateChange((event) => {
-            if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+            if (['SIGNED_IN', 'SIGNED_OUT', 'TOKEN_REFRESHED'].includes(event)) {
                 updateGlobalNavStreak();
             }
         });
     }
+
+    // ۲. رصد لحظه‌ای تغییر ویژگی lang در تگ <html> (MutationObserver)
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
+                updateGlobalNavStreak();
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['lang']
+    });
+
+    // ۳. اگر سیستم ترجمه‌تان Event اختصاصی صادر می‌کند (پشتیبان)
+    window.addEventListener('languageChanged', updateGlobalNavStreak);
 });

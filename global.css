@@ -115,6 +115,7 @@
             align-items: center;
             gap: 8px;
             background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 142, 83, 0.15));
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
             border: 1px solid rgba(255, 107, 107, 0.3);
             color: #ff5252;
             padding: 8px 16px;
