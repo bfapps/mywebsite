@@ -87,14 +87,8 @@
         }
 
         /* Keeps Prev on Left and Next on Right in Persian, identical to English */
-       /* html[dir="rtl"] .navigation-row {
+        html[dir="rtl"] .navigation-row {
             flex-direction: row-reverse;
-        }*/
-
-        [lang="fa"] .navigation-row .fa-solid {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-            /* برای نرم‌تر شدن انیمیشن هنگام تغییر زبان */
         }
 
         .container {
@@ -184,7 +178,7 @@
             border: 1px solid var(--border-color);
             padding: 10px 8px;
             border-radius: 12px;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-muted);
             cursor: pointer;
@@ -636,7 +630,7 @@
             }
 
             .word-title {
-                font-size: 30px;
+                font-size: 20px;
             }
 
             html[lang="fa"] .word-title {
@@ -676,11 +670,8 @@
                 <button class="util-btn" id="starredFilterBtn" onclick="toggleStarredFilter()">
                     <i class="fa-solid fa-star"></i> <span data-i18n="starredOnly">Starred Only</span>
                 </button>
-                <button style="display: none;" class="util-btn" id="weakFilterBtn" onclick="toggleWeakFilter()">
+                <button class="util-btn" id="weakFilterBtn" onclick="toggleWeakFilter()">
                     <i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="weakWords">Weak Words</span>
-                </button>
-                <button class="util-btn" id="srsFilterBtn" onclick="toggleSRSFilter()">
-                    <i class="fa-solid fa-boxes-stacked"></i> <span>Review</span>
                 </button>
                 <button class="util-btn" id="analyticsBtn" onclick="toggleAnalytics()">
                     <i class="fa-solid fa-chart-pie"></i> <span data-i18n="analytics">Analytics</span>
@@ -881,7 +872,6 @@
         let isAutoPlayActive = false;
         let isStarredFilterActive = false;
         let isWeakFilterActive = false;
-        let isSRSFilterActive = false;
         let isAnalyticsOpen = false;
 
         let isQuizMode = false;
@@ -957,15 +947,15 @@
                     }
 
                     updateAutoPlayUI();
-                    applyFilters();
+                    renderCard();
                 }).catch(err => {
                     console.error("خطا در دریافت پروگرس کاربر از Supabase:", err);
                     updateAutoPlayUI();
-                    applyFilters();
+                    renderCard();
                 });
             } else {
                 updateAutoPlayUI();
-                applyFilters();
+                renderCard();
             }
         };
 
@@ -1034,13 +1024,11 @@
                 isAutoPlayActive = false;
                 isStarredFilterActive = false;
                 isWeakFilterActive = false;
-                isSRSFilterActive = false;
 
-                document.getElementById('shuffleBtn')?.classList.remove('active');
-                document.getElementById('autoPlayBtn')?.classList.remove('active');
-                document.getElementById('starredFilterBtn')?.classList.remove('active');
-                document.getElementById('weakFilterBtn')?.classList.remove('active');
-                document.getElementById('srsFilterBtn')?.classList.remove('active');
+                document.getElementById('shuffleBtn').classList.remove('active');
+                document.getElementById('autoPlayBtn').classList.remove('active');
+                document.getElementById('starredFilterBtn').classList.remove('active');
+                document.getElementById('weakFilterBtn').classList.remove('active');
 
                 applyFilters();
                 if (isAnalyticsOpen) renderAnalytics();
@@ -1107,125 +1095,118 @@
         }
 
         function renderCard() {
-                isQuizMode = false;
-                const dict = translations[currentLang];
-                hideQuizSelection();
+            isQuizMode = false;
+            const dict = translations[currentLang];
+            hideQuizSelection();
 
-                const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
-                const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
-                if (cardContent) cardContent.style.display = 'block';
-                if (cardNavButtons) cardNavButtons.style.display = 'flex';
+            const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
+            const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
+            if (cardContent) cardContent.style.display = 'block';
+            if (cardNavButtons) cardNavButtons.style.display = 'flex';
 
-                document.getElementById('featuresGrid').style.display = 'grid';
-                document.getElementById('navigationRow').style.display = 'flex';
-                document.getElementById('utilitiesBar').style.display = 'grid';
-                document.getElementById('evaluationRow').style.display = 'flex';
+            document.getElementById('featuresGrid').style.display = 'grid';
+            document.getElementById('navigationRow').style.display = 'flex';
+            document.getElementById('utilitiesBar').style.display = 'grid';
+            document.getElementById('evaluationRow').style.display = 'flex';
 
-                document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
 
-                const displayBox = document.getElementById('displayBox');
-                const imageBtn = document.getElementById('imageFeatureBtn');
+            const displayBox = document.getElementById('displayBox');
+            const imageBtn = document.getElementById('imageFeatureBtn');
 
-                displayBox.classList.remove('quiz-style', 'flipped');
-                displayBox.classList.add('flashcard-perspective');
+            displayBox.classList.remove('quiz-style', 'flipped');
+            displayBox.classList.add('flashcard-perspective');
 
-                const prevBtn = document.getElementById('prevBtn');
-                const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
-                prevBtn.innerHTML = `<i class="fa-solid fa-arrow-left"></i> <span>${dict.prev}</span>`;
-                nextBtn.innerHTML = `<span>${dict.next}</span> <i class="fa-solid fa-arrow-right"></i>`;
+            prevBtn.innerHTML = `<i class="fa-solid fa-arrow-left"></i> <span>${dict.prev}</span>`;
+            nextBtn.innerHTML = `<span>${dict.next}</span> <i class="fa-solid fa-arrow-right"></i>`;
 
-                if (workingDataset.length === 0) {
-                    displayBox.classList.remove('flashcard-perspective');
-                    displayBox.classList.add('quiz-style');
-                    displayBox.innerHTML = `
-            <i class="fa-solid fa-folder-open" style="font-size: 40px; color: var(--text-muted);"></i>
-            <div class="word-title" style="font-size: 16px; margin-top:10px; direction:initial;">${dict.noMatches}</div>
-            <p class="sentence-example" style="direction:initial; margin: 4px auto;">${dict.noMatchesSub}</p>
-        `;
-                    updateProgressBar(0, 0);
-                    prevBtn.disabled = true;
-                    prevBtn.classList.add('disabled');
-                    document.getElementById('evaluationRow').style.display = 'none';
-                    if (imageBtn) { imageBtn.disabled = true; imageBtn.classList.add('disabled'); }
-                    return;
-                }
-
-                const currentWord = workingDataset[currentIndex];
-                if (!currentWord) return;
-
-                const starredList = getStarredList();
-                const isStarred = starredList.includes(currentWord.id);
-
-                // 🟢 دریافت هم‌زمان وضعیت کلمه از LocalStorage و داده‌های کش‌شده Supabase
-                const statusList = getWordsStatus();
-                const currentUnitData = window.lastFetchedUnitData || {};
-                const dbStatuses = currentUnitData?.words_status || {};
-                const mergedStatuses = { ...dbStatuses, ...statusList };
-
-                // وضعیت کلمه فعلی (hard / medium / easy)
-                const currentStatus = mergedStatuses[currentWord.id] || '';
-
-                let statusBadge = '';
-                const badgeOffsetStyle = currentLang === 'fa' ? 'left:16px;' : 'right:16px;';
-                if (currentStatus === 'hard') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--red-light); color:#ef4444; border-radius:12px; font-weight:700;">${dict.badgeForgot}</span>`;
-                if (currentStatus === 'medium') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--yellow-light); color:var(--yellow-dark); border-radius:12px; font-weight:700;">${dict.badgeNotSure}</span>`;
-                if (currentStatus === 'easy') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--green-light); color:#10b981; border-radius:12px; font-weight:700;">${dict.badgeKnew}</span>`;
-
+            if (workingDataset.length === 0) {
+                displayBox.classList.remove('flashcard-perspective');
+                displayBox.classList.add('quiz-style');
                 displayBox.innerHTML = `
-        <div class="card-inner">
-            <div class="card-front">
-                ${statusBadge}
-                <div class="word-header-row">
-                    <div class="word-title" id="wordTitle">${currentWord.name}</div>
-                    <i class="fa-star ${isStarred ? 'fa-solid starred' : 'fa-regular'} star-icon" onclick="toggleStar(${currentWord.id}); event.stopPropagation();"></i>
+                    <i class="fa-solid fa-folder-open" style="font-size: 40px; color: var(--text-muted);"></i>
+                    <div class="word-title" style="font-size: 16px; margin-top:10px; direction:initial;">${dict.noMatches}</div>
+                    <p class="sentence-example" style="direction:initial; margin: 4px auto;">${dict.noMatchesSub}</p>
+                `;
+                updateProgressBar(0, 0);
+                prevBtn.disabled = true;
+                prevBtn.classList.add('disabled');
+                document.getElementById('evaluationRow').style.display = 'none';
+                if (imageBtn) { imageBtn.disabled = true; imageBtn.classList.add('disabled'); }
+                return;
+            }
+
+            const currentWord = workingDataset[currentIndex];
+            if (!currentWord) return;
+
+            const starredList = getStarredList();
+            const isStarred = starredList.includes(currentWord.id);
+
+            const statusList = getWordsStatus();
+            const currentStatus = statusList[currentWord.id] || '';
+
+            let statusBadge = '';
+            const badgeOffsetStyle = currentLang === 'fa' ? 'left:16px;' : 'right:16px;';
+            if (currentStatus === 'hard') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--red-light); color:#ef4444; border-radius:12px; font-weight:700;">${dict.badgeForgot}</span>`;
+            if (currentStatus === 'medium') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--yellow-light); color:var(--yellow-dark); border-radius:12px; font-weight:700;">${dict.badgeNotSure}</span>`;
+            if (currentStatus === 'easy') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--green-light); color:#10b981; border-radius:12px; font-weight:700;">${dict.badgeKnew}</span>`;
+
+            displayBox.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-front">
+                        ${statusBadge}
+                        <div class="word-header-row">
+                            <div class="word-title" id="wordTitle">${currentWord.name}</div>
+                            <i class="fa-star ${isStarred ? 'fa-solid starred' : 'fa-regular'} star-icon" onclick="toggleStar(${currentWord.id}); event.stopPropagation();"></i>
+                        </div>
+                        <div class="sentence-example" id="wordExample">"${currentWord.example}"</div>
+                        <div class="dynamic-hint-area">
+                            <i class="fa-solid fa-circle-question" style="margin: 0 6px; opacity: 0.7; font-size: 12px;"></i> ${dict.tapClues}
+                        </div>
+                    </div>
+                    <div class="card-back" id="cardBack"></div>
                 </div>
-                <div class="sentence-example" id="wordExample">"${currentWord.example}"</div>
-                <div class="dynamic-hint-area">
-                    <i class="fa-solid fa-circle-question" style="margin: 0 6px; opacity: 0.7; font-size: 12px;"></i> ${dict.tapClues}
-                </div>
-            </div>
-            <div class="card-back" id="cardBack"></div>
-        </div>
-    `;
+            `;
 
-                // 🟢 آپدیت کلاس active دکمه‌های ارزیابی بر اساس mergedStatuses
-                document.getElementById('btnHard')?.classList.toggle('active', currentStatus === 'hard');
-                document.getElementById('btnMedium')?.classList.toggle('active', currentStatus === 'medium');
-                document.getElementById('btnEasy')?.classList.toggle('active', currentStatus === 'easy');
+            document.getElementById('btnHard').classList.toggle('active', currentStatus === 'hard');
+            document.getElementById('btnMedium').classList.toggle('active', currentStatus === 'medium');
+            document.getElementById('btnEasy').classList.toggle('active', currentStatus === 'easy');
 
-                if (imageBtn) {
-                    if (!currentWord.image || currentWord.image.trim() === "") {
-                        imageBtn.disabled = true;
-                        imageBtn.classList.add('disabled');
-                    } else {
-                        imageBtn.disabled = false;
-                        imageBtn.classList.remove('disabled');
-                    }
-                }
-
-                if (currentIndex === 0) {
-                    prevBtn.disabled = true;
-                    prevBtn.classList.add('disabled');
+            if (imageBtn) {
+                if (!currentWord.image || currentWord.image.trim() === "") {
+                    imageBtn.disabled = true;
+                    imageBtn.classList.add('disabled');
                 } else {
-                    prevBtn.disabled = false;
-                    prevBtn.classList.remove('disabled');
-                }
-
-                updateProgressBar(currentIndex + 1, workingDataset.length);
-                localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
-
-                if (isAutoPlayActive && currentWord.audio) {
-                    setTimeout(() => {
-                        if (!isQuizMode && workingDataset[currentIndex] && workingDataset[currentIndex].id === currentWord.id) {
-                            playRealAudio(currentWord.audio);
-                        }
-                    }, 400);
-                }
-                if (window.updateCardProgress) {
-                    window.updateCardProgress(selectedBook, selectedUnit, currentIndex);
+                    imageBtn.disabled = false;
+                    imageBtn.classList.remove('disabled');
                 }
             }
+
+            if (currentIndex === 0) {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('disabled');
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('disabled');
+            }
+
+            updateProgressBar(currentIndex + 1, workingDataset.length);
+            localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
+
+            if (isAutoPlayActive && currentWord.audio) {
+                setTimeout(() => {
+                    if (!isQuizMode && workingDataset[currentIndex] && workingDataset[currentIndex].id === currentWord.id) {
+                        playRealAudio(currentWord.audio);
+                    }
+                }, 400);
+            }
+            if (window.updateCardProgress) {
+                window.updateCardProgress(selectedBook, selectedUnit, currentIndex);
+            }
+        }
 
         /* --- لمس و سوایپ به همراه افکت صوتی تعویض کارت --- */
         let touchstartX = 0;
@@ -1260,30 +1241,27 @@
             }
         }
 
-        async function gradeWord(status) {
-                if (workingDataset.length === 0 || isQuizMode) return;
-                const currentWord = workingDataset[currentIndex];
+        function gradeWord(status) {
+            if (workingDataset.length === 0 || isQuizMode) return;
+            const currentWord = workingDataset[currentIndex];
+            const statusList = getWordsStatus();
+            const currentStatus = statusList[currentWord.id] || '';
 
-                // ۱. آپدیت وضعیت کلمه در LocalStorage
+            if (currentStatus === status) {
+                setWordStatus(currentWord.id, '');
+                document.getElementById('btnHard').classList.remove('active');
+                document.getElementById('btnMedium').classList.remove('active');
+                document.getElementById('btnEasy').classList.remove('active');
+                renderCard();
+            } else {
                 setWordStatus(currentWord.id, status);
+                document.getElementById('btnHard').classList.toggle('active', status === 'hard');
+                document.getElementById('btnMedium').classList.toggle('active', status === 'medium');
+                document.getElementById('btnEasy').classList.toggle('active', status === 'easy');
 
-                // ۲. ثبت هم‌زمان در Supabase (هم words_status و هم srs_data)
-                if (window.updateWordProgressAndSRS) {
-                    await window.updateWordProgressAndSRS(selectedBook, selectedUnit, currentWord.id, status);
-                }
-
-                // ۳. به‌روزرسانی ظاهری دکمه‌های ارزیابی
-                document.getElementById('btnHard')?.classList.toggle('active', status === 'hard');
-                document.getElementById('btnMedium')?.classList.toggle('active', status === 'medium');
-                document.getElementById('btnEasy')?.classList.toggle('active', status === 'easy');
-
-                // ۴. در صورتی که فیلتر Weak Words یا SRS فعال باشد، لیست فیلتر شده را رندر مجدد کن
-                if (isWeakFilterActive || isSRSFilterActive) {
-                    setTimeout(() => { applyFilters(); }, 250);
-                } else {
-                    setTimeout(() => { navigateCard(1); }, 250);
-                }
+                setTimeout(() => { navigateCard(1); }, 250);
             }
+        }
 
         function updateProgressBar(current, total) {
             const percent = total > 0 ? (current / total) * 100 : 0;
@@ -1355,79 +1333,36 @@
             applyFilters();
         }
 
-        function toggleSRSFilter() {
-            isSRSFilterActive = !isSRSFilterActive;
-            document.getElementById('srsFilterBtn')?.classList.toggle('active', isSRSFilterActive);
-            applyFilters();
-        }
+        function applyFilters() {
+            const currentWordId = workingDataset[currentIndex]?.id;
 
-        async function applyFilters() {
-                let base = [...masterDataset];
-
-                // دریافت اطلاعات پروگرس و SRS
-                const statusList = getWordsStatus();
-                const currentUnitData = (window.getUnitProgress ? await window.getUnitProgress(selectedBook, selectedUnit) : null) || {};
-                window.lastFetchedUnitData = currentUnitData; // ذخیره برای استفاده در renderCard
-
-                const srsData = currentUnitData?.srs_data || {};
-                const dbStatuses = currentUnitData?.words_status || {};
-                const mergedStatuses = { ...dbStatuses, ...statusList };
-                const now = new Date().toISOString();
-
-                // محاسبه تعداد کلمات موعد مرور (Due)
-                const dueWordsCount = masterDataset.filter(w => {
-                    const wordSrs = srsData[w.id];
-                    return !wordSrs || !wordSrs.nextReviewAt || wordSrs.nextReviewAt <= now;
-                }).length;
-
-                // 🔴 آپدیت لیبل دکمه همراه با Badge قرمز رنگ
-                const srsBtn = document.getElementById('srsFilterBtn');
-                if (srsBtn) {
-                    let reviewBtnText = '';
-                    if (currentLang === 'fa') {
-                        reviewBtnText = 'مرور';
-                    } else {
-                        reviewBtnText = 'Review';
-                    }
-                    srsBtn.innerHTML = `
-            
-            <i class="fa-solid fa-boxes-stacked"></i> <span data-i18n="reviewTitle">${reviewBtnText}</span>
-            <span style="background-color: var(--red, #ef4444); color: white; border-radius: 10px; padding: 2px 7px; font-size: 11px; font-weight: 800; margin-left: 4px;">${dueWordsCount}</span>
-        `;
-                }
-
-                // ۱. فیلتر کلمات ضعیف (Weak Words)
-                if (typeof isWeakFilterActive !== 'undefined' && isWeakFilterActive) {
-                    base = base.filter(w => mergedStatuses[w.id] === 'hard' || mergedStatuses[w.id] === 'medium');
-                }
-
-                // ۲. فیلتر لایتنر (Due Review)
-                if (isSRSFilterActive) {
-                    base = base.filter(w => {
-                        const wordSrs = srsData[w.id];
-                        return !wordSrs || !wordSrs.nextReviewAt || wordSrs.nextReviewAt <= now;
-                    });
-                }
-
-                // ۳. فیلتر ستاره‌دارها (Starred)
-                if (typeof isStarredFilterActive !== 'undefined' && isStarredFilterActive) {
-                    const starredList = getStarredList();
-                    base = base.filter(w => starredList.includes(w.id));
-                }
-
-                // ۴. مرتب‌سازی بر اساس کوچک‌ترین ID (صعودی)
-                base.sort((a, b) => a.id - b.id);
-
-                // ۵. برزدن (Shuffle)
-                if (typeof isShuffleActive !== 'undefined' && isShuffleActive) {
-                    base.sort(() => Math.random() - 0.5);
-                }
-
-                workingDataset = base;
-                currentIndex = 0;
-
-                renderCard();
+            let base = [...masterDataset];
+            if (isStarredFilterActive) {
+                const starredList = getStarredList();
+                base = base.filter(w => starredList.includes(w.id));
             }
+            if (isWeakFilterActive) {
+                const statusList = getWordsStatus();
+                base = base.filter(w => statusList[w.id] === 'hard' || statusList[w.id] === 'medium');
+            }
+            if (isShuffleActive) base.sort(() => Math.random() - 0.5);
+            workingDataset = base;
+
+            if (currentWordId) {
+                const newIndex = workingDataset.findIndex(w => w.id === currentWordId);
+                if (newIndex !== -1) {
+                    currentIndex = newIndex;
+                } else {
+                    if (currentIndex >= workingDataset.length) {
+                        currentIndex = Math.max(0, workingDataset.length - 1);
+                    }
+                }
+            } else {
+                currentIndex = 0;
+            }
+
+            renderCard();
+        }
 
         function playRealAudio(audioPath, wordText) {
             if (!audioPath) return;

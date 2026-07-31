@@ -24,7 +24,7 @@ async function getUnitProgress(bookId, unitId) {
     if (!user) return null;
 
     const { data, error } = await supabase
-        .from('user_unit_progress')
+        .from('wordlist_progress')
         .select('*')
         .eq('user_id', user.id)
         .eq('book_id', bookId)
@@ -45,7 +45,7 @@ async function saveUnitProgress(bookId, unitId, updatedData) {
     if (!user) return;
 
     const { error } = await supabase
-        .from('user_unit_progress')
+        .from('wordlist_progress')
         .upsert({
             user_id: user.id,
             book_id: bookId,
@@ -191,7 +191,7 @@ window.resetUnitDataInSupabase = async function (book, unit) {
     if (!user) return;
 
     const { error } = await supabase
-        .from('user_unit_progress')
+        .from('wordlist_progress')
         .delete()
         .eq('user_id', user.id)
         .eq('book_id', book)

@@ -1258,12 +1258,36 @@
                     deleteListBtn.disabled = true;
 
                     try {
-                        const { error } = await _supabase
+                        // ۱. ابتدا عنوان (title) لیست را بر اساس selectedListId از جدول user_lists می‌خوانیم
+                        const { data: listData, error: fetchError } = await _supabase
+                            .from('user_lists')
+                            .select('title')
+                            .eq('id', selectedListId)
+                            .single();
+
+                        if (fetchError) throw fetchError;
+
+                        const bookTitle = listData?.title;
+
+                        // ۲. اگر عنوان وجود داشت، سطر مربوطه را از wordlist_progress (جایی که book_id برابر با title است) حذف می‌کنیم
+                        if (bookTitle) {
+                            const { error: progressError } = await _supabase
+                                .from('wordlist_progress')
+                                .delete()
+                                .eq('book_id', bookTitle);
+
+                            if (progressError) {
+                                console.warn("خطا در حذف از wordlist_progress:", progressError);
+                            }
+                        }
+
+                        // ۳. در نهایت خود لیست را از user_lists حذف می‌کنیم
+                        const { error: deleteError } = await _supabase
                             .from('user_lists')
                             .delete()
                             .eq('id', selectedListId);
 
-                        if (error) throw error;
+                        if (deleteError) throw deleteError;
 
                         alert(t('deleteSuccess'));
 

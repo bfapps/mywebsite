@@ -25,16 +25,12 @@
             flex-direction: column;
         }
 
-
-
         /* Force fontawesome to keep its own font family in Persian mode */
         html[lang="fa"] .fa-solid,
         html[lang="fa"] .fa-regular,
         html[lang="fa"] i {
             font-family: "Font Awesome 6 Free" !important;
         }
-
-
 
         html[lang="fa"] .util-btn {
             font-size: 11px;
@@ -80,7 +76,6 @@
         }
 
         /* RTL Handling for specific elements */
-
         html[dir="rtl"] .progress-text {
             text-align: left;
         }
@@ -90,9 +85,14 @@
             margin-left: 4px;
         }
 
-        /* Keeps Prev on Left and Next on Right in Persian, identical to English */
+        /* Keeps Prev on Left and Next on Right in Persian, identical to English 
         html[dir="rtl"] .navigation-row {
             flex-direction: row-reverse;
+        } */
+        [lang="fa"] .navigation-row .fa-solid {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+            /* برای نرم‌تر شدن انیمیشن هنگام تغییر زبان */
         }
 
         .container {
@@ -118,14 +118,9 @@
             color: var(--text-muted);
         }
 
-
-
         /* ==========================================================================
             FLASHCARDS
             ========================================================================== */
-
-
-
         .flashcard-wrapper {
             background: #ffffff;
             border-radius: 24px;
@@ -287,7 +282,6 @@
             min-height: 290px;
             position: relative;
             touch-action: pan-y;
-            /* Allows scrolling but captures swipes */
         }
 
         .display-box.flashcard-perspective {
@@ -621,8 +615,6 @@
             pointer-events: none;
         }
 
-
-
         @media (max-width: 480px) {
             .flashcard-wrapper {
                 padding: 16px;
@@ -670,10 +662,9 @@
         </header>
         <main class="flashcard-wrapper">
 
-
-
             <!-- Utilities Bar -->
             <div class="utilities-bar" id="utilitiesBar">
+                
                 <button class="util-btn" id="shuffleBtn" onclick="toggleShuffle()">
                     <i class="fa-solid fa-shuffle"></i> <span data-i18n="shuffle">Shuffle Order</span>
                 </button>
@@ -683,8 +674,13 @@
                 <button class="util-btn" id="starredFilterBtn" onclick="toggleStarredFilter()">
                     <i class="fa-solid fa-star"></i> <span data-i18n="starredOnly">Starred Only</span>
                 </button>
+                <!-- 
                 <button class="util-btn" id="weakFilterBtn" onclick="toggleWeakFilter()">
                     <i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="weakWords">Weak Words</span>
+                </button>  -->
+                
+                <button class="util-btn" id="srsFilterBtn" onclick="toggleSRSFilter()">
+                    <i class="fa-solid fa-boxes-stacked"></i> <span data-i18n="reviewTitle">Review</span>
                 </button>
                 <button class="util-btn" id="analyticsBtn" onclick="toggleAnalytics()">
                     <i class="fa-solid fa-chart-pie"></i> <span data-i18n="analytics">Analytics</span>
@@ -792,7 +788,6 @@
                 <div class="progress-text" id="progressText">0 / 0</div>
             </div>
 
-
             <!-- Context Hint Grid -->
             <div class="features-grid" id="featuresGrid">
                 <button class="feature-btn" onclick="toggleHint('meaning', this)">
@@ -826,11 +821,9 @@
             <div class="navigation-row" id="navigationRow">
                 <button class="nav-btn prev" id="prevBtn" onclick="navigateCard(-1)"> <span data-i18n="prev"> Previous
                     </span>
-                    <!-- Icon & text injected by dynamic language setup -->
                 </button>
                 <button class="nav-btn next" id="nextBtn" onclick="navigateCard(1)"> <span data-i18n="next"> Next
                     </span>
-                    <!-- Icon & text injected by dynamic language setup -->
                 </button>
             </div>
 
@@ -850,8 +843,7 @@
     <script type="module" src="/assets/JS/auth-guard.js"></script>
     <script type="module" src="/assets/JS/auth-lock.js"></script>
 
-
-    <script type="module" src="/assets/JS/save-progress.js"></script>
+    <script type="module" src="/assets/JS/wordlist-progress.js"></script>
 
     <script>
         /* ==========================================================================
@@ -865,7 +857,6 @@
             cardSlide: new Audio('/assets/audio/quiz/swipe.mp3') // افکت تعویض کارت
         };
 
-        // تابع کمکی برای پخش صداها بدون تداخل
         function playSfx(soundKey) {
             if (sounds[soundKey]) {
                 sounds[soundKey].currentTime = 0;
@@ -880,7 +871,6 @@
         const selectedBook = urlParams.get('book'); // اسم لیست/کتاب
         const selectedUnit = urlParams.get('unit') || '1'; // شماره یونیت
 
-        // کلید منحصربه‌فرد برای ذخیره‌سازی اطلاعات در LocalStorage مربوط به هر یونیت و کتاب
         const selectedUnitKey = `${selectedBook}_u${selectedUnit}`;
 
         let masterDataset = [];
@@ -888,6 +878,7 @@
         let currentIndex = 0;
         let currentAudioObject = null;
 
+        let isSRSFilterActive = false;
         let isShuffleActive = false;
         let isAutoPlayActive = false;
         let isStarredFilterActive = false;
@@ -900,61 +891,52 @@
         let quizStep = 0;
         let quizQuestions = [];
 
-
-
         // ==========================================
         // دریافت کلمات از Supabase و راه اندازی کارت‌ها
         // ==========================================
         document.addEventListener('DOMContentLoaded', async () => {
-                initSwipeGestures();
+            initSwipeGestures();
 
-                if (!selectedBook) {
-                    alert("عنوان لیست مشخص نشده است.");
+            if (!selectedBook) {
+                alert("عنوان لیست مشخص نشده است.");
+                return;
+            }
+
+            const listSource = urlParams.get('source') || 'user_lists';
+
+            try {
+                const { data: { user } } = await window.supabase.auth.getUser();
+                if (!user) {
+                    alert("برای دسترسی به این لیست ابتدا باید وارد شوید.");
+                    window.location.href = '/pages/auth.html';
                     return;
                 }
 
-                // دریافت پارامتر source از URL (مقدار پیش‌فرض: user_lists)
-                const listSource = urlParams.get('source') || 'user_lists';
+                let query = window.supabase
+                    .from(listSource)
+                    .select('words')
+                    .eq('title', decodeURIComponent(selectedBook));
 
-                try {
-                    // ۱. بررسی لاگین بودن کاربر
-                    const { data: { user } } = await window.supabase.auth.getUser();
-                    if (!user) {
-                        alert("برای دسترسی به این لیست ابتدا باید وارد شوید.");
-                        window.location.href = '/pages/auth.html';
-                        return;
-                    }
-
-                    // ۲. ساخت کوئری بر اساس نوع source
-                    let query = window.supabase
-                        .from(listSource)
-                        .select('words')
-                        .eq('title', decodeURIComponent(selectedBook));
-
-                    // اگر لیست شخصی کاربر است، شرط user_id را اعمال کن
-                    // اگر لیست عمومی (community_lists) است، نیازی به فیلتر user_id نیست
-                    if (listSource !== 'community_lists') {
-                        query = query.eq('user_id', user.id);
-                    } else {
-                        // برای لیست‌های عمومی مطمئن می‌شویم تایید شده باشد
-                        query = query.eq('is_approved', true);
-                    }
-
-                    const { data, error } = await query.maybeSingle();
-
-                    if (error || !data || !data.words || data.words.length === 0) {
-                        console.error("Fetch Error:", error);
-                        alert("لیست مورد نظر یافت نشد یا خالی است.");
-                        return;
-                    }
-
-                    // ۳. آماده‌سازی داده‌های کلمات
-                    initFlashcards(data.words);
-
-                } catch (err) {
-                    console.error("Error loading flashcards:", err);
+                if (listSource !== 'community_lists') {
+                    query = query.eq('user_id', user.id);
+                } else {
+                    query = query.eq('is_approved', true);
                 }
-            });
+
+                const { data, error } = await query.maybeSingle();
+
+                if (error || !data || !data.words || data.words.length === 0) {
+                    console.error("Fetch Error:", error);
+                    alert("لیست مورد نظر یافت نشد یا خالی است.");
+                    return;
+                }
+
+                initFlashcards(data.words);
+
+            } catch (err) {
+                console.error("Error loading flashcards:", err);
+            }
+        });
 
         function initFlashcards(words) {
             masterDataset = words.map((w, index) => ({
@@ -970,7 +952,6 @@
 
             workingDataset = [...masterDataset];
 
-            // مقداردهی اولیه تنظیمات از LocalStorage و Supabase
             isAutoPlayActive = localStorage.getItem(`autoplay_${selectedUnitKey}`) === 'true';
 
             if (window.getUnitProgress) {
@@ -991,19 +972,18 @@
                         }
                     }
                     updateAutoPlayUI();
-                    renderCard();
+                    applyFilters();
                 }).catch(err => {
                     console.error("خطا در دریافت اطلاعات از Supabase:", err);
                     updateAutoPlayUI();
-                    renderCard();
+                    applyFilters();
                 });
             } else {
                 updateAutoPlayUI();
-                renderCard();
+                applyFilters();
             }
         }
 
-        // تابع کمکی برای بروزرسانی ظاهر دکمه Auto Play
         function updateAutoPlayUI() {
             const autoPlayBtn = document.getElementById('autoPlayBtn');
             if (autoPlayBtn) {
@@ -1066,15 +1046,17 @@
                     window.resetUnitDataInSupabase(selectedBook, selectedUnit);
                 }
 
+                isSRSFilterActive = false;
                 isShuffleActive = false;
                 isAutoPlayActive = false;
                 isStarredFilterActive = false;
                 isWeakFilterActive = false;
 
-                document.getElementById('shuffleBtn').classList.remove('active');
-                document.getElementById('autoPlayBtn').classList.remove('active');
-                document.getElementById('starredFilterBtn').classList.remove('active');
-                document.getElementById('weakFilterBtn').classList.remove('active');
+                document.getElementById('srsFilterBtn')?.classList.remove('active');
+                document.getElementById('shuffleBtn')?.classList.remove('active');
+                document.getElementById('autoPlayBtn')?.classList.remove('active');
+                document.getElementById('starredFilterBtn')?.classList.remove('active');
+                document.getElementById('weakFilterBtn')?.classList.remove('active');
 
                 applyFilters();
                 if (isAnalyticsOpen) renderAnalytics();
@@ -1291,24 +1273,27 @@
             }
         }
 
-        function gradeWord(status) {
+        async function gradeWord(status) {
             if (workingDataset.length === 0 || isQuizMode) return;
             const currentWord = workingDataset[currentIndex];
-            const statusList = getWordsStatus();
-            const currentStatus = statusList[currentWord.id] || '';
 
-            if (currentStatus === status) {
-                setWordStatus(currentWord.id, '');
-                document.getElementById('btnHard').classList.remove('active');
-                document.getElementById('btnMedium').classList.remove('active');
-                document.getElementById('btnEasy').classList.remove('active');
-                renderCard();
+            // ۱. آپدیت وضعیت کلمه در LocalStorage
+            setWordStatus(currentWord.id, status);
+
+            // ۲. ثبت هم‌زمان در Supabase (هم words_status و هم srs_data)
+            if (window.updateWordProgressAndSRS) {
+                await window.updateWordProgressAndSRS(selectedBook, selectedUnit, currentWord.id, status);
+            }
+
+            // ۳. به‌روزرسانی ظاهری دکمه‌های ارزیابی
+            document.getElementById('btnHard')?.classList.toggle('active', status === 'hard');
+            document.getElementById('btnMedium')?.classList.toggle('active', status === 'medium');
+            document.getElementById('btnEasy')?.classList.toggle('active', status === 'easy');
+
+            // ۴. در صورت فعال بودن فیلتر Weak Words یا SRS، اعمال مجدد فیلترها
+            if (isWeakFilterActive || isSRSFilterActive) {
+                setTimeout(() => { applyFilters(); }, 250);
             } else {
-                setWordStatus(currentWord.id, status);
-                document.getElementById('btnHard').classList.toggle('active', status === 'hard');
-                document.getElementById('btnMedium').classList.toggle('active', status === 'medium');
-                document.getElementById('btnEasy').classList.toggle('active', status === 'easy');
-
                 setTimeout(() => { navigateCard(1); }, 250);
             }
         }
@@ -1362,6 +1347,12 @@
             }
         }
 
+        function toggleSRSFilter() {
+            isSRSFilterActive = !isSRSFilterActive;
+            document.getElementById('srsFilterBtn')?.classList.toggle('active', isSRSFilterActive);
+            applyFilters();
+        }
+
         function toggleShuffle() {
             isShuffleActive = !isShuffleActive;
             document.getElementById('shuffleBtn').classList.toggle('active', isShuffleActive);
@@ -1380,33 +1371,61 @@
             applyFilters();
         }
 
-        function applyFilters() {
-            const currentWordId = workingDataset[currentIndex]?.id;
-
+        async function applyFilters() {
             let base = [...masterDataset];
+
+            // دریافت اطلاعات پروگرس و SRS
+            const statusList = getWordsStatus();
+            const currentUnitData = (window.getUnitProgress ? await window.getUnitProgress(selectedBook, selectedUnit) : null) || {};
+            window.lastFetchedUnitData = currentUnitData;
+
+            const srsData = currentUnitData?.srs_data || {};
+            const dbStatuses = currentUnitData?.words_status || {};
+            const mergedStatuses = { ...dbStatuses, ...statusList };
+            const now = new Date().toISOString();
+
+            // محاسبه تعداد کلمات موعد مرور (Due)
+            const dueWordsCount = masterDataset.filter(w => {
+                const wordSrs = srsData[w.id];
+                return !wordSrs || !wordSrs.nextReviewAt || wordSrs.nextReviewAt <= now;
+            }).length;
+
+            // آپدیت لیبل دکمه همراه با Badge
+            const srsBtn = document.getElementById('srsFilterBtn');
+            if (srsBtn) {
+                let reviewBtnText = (typeof currentLang !== 'undefined' && currentLang === 'fa') ? 'مرور' : 'Review';
+                srsBtn.innerHTML = `
+                    <i class="fa-solid fa-boxes-stacked"></i> <span data-i18n="reviewTitle">${reviewBtnText}</span>
+                    <span style="background-color: var(--red, #ef4444); color: white; border-radius: 10px; padding: 2px 7px; font-size: 11px; font-weight: 800; margin-left: 4px;">${dueWordsCount}</span>
+                `;
+            }
+
+            // ۱. فیلتر کلمات ضعیف (Weak Words)
+            if (isWeakFilterActive) {
+                base = base.filter(w => mergedStatuses[w.id] === 'hard' || mergedStatuses[w.id] === 'medium');
+            }
+
+            // ۲. فیلتر لایتنر (Due Review)
+            if (isSRSFilterActive) {
+                base = base.filter(w => {
+                    const wordSrs = srsData[w.id];
+                    return !wordSrs || !wordSrs.nextReviewAt || wordSrs.nextReviewAt <= now;
+                });
+            }
+
+            // ۳. فیلتر ستاره‌دارها (Starred)
             if (isStarredFilterActive) {
                 const starredList = getStarredList();
                 base = base.filter(w => starredList.includes(w.id));
             }
-            if (isWeakFilterActive) {
-                const statusList = getWordsStatus();
-                base = base.filter(w => statusList[w.id] === 'hard' || statusList[w.id] === 'medium');
-            }
-            if (isShuffleActive) base.sort(() => Math.random() - 0.5);
-            workingDataset = base;
 
-            if (currentWordId) {
-                const newIndex = workingDataset.findIndex(w => w.id === currentWordId);
-                if (newIndex !== -1) {
-                    currentIndex = newIndex;
-                } else {
-                    if (currentIndex >= workingDataset.length) {
-                        currentIndex = Math.max(0, workingDataset.length - 1);
-                    }
-                }
-            } else {
-                currentIndex = 0;
+            // ۴. برزدن (Shuffle)
+            if (isShuffleActive) {
+                base.sort(() => Math.random() - 0.5);
             }
+
+            workingDataset = base;
+            currentIndex = 0;
 
             renderCard();
         }

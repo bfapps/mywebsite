@@ -25,12 +25,16 @@
             flex-direction: column;
         }
 
+
+
         /* Force fontawesome to keep its own font family in Persian mode */
         html[lang="fa"] .fa-solid,
         html[lang="fa"] .fa-regular,
         html[lang="fa"] i {
             font-family: "Font Awesome 6 Free" !important;
         }
+
+
 
         html[lang="fa"] .util-btn {
             font-size: 11px;
@@ -87,14 +91,8 @@
         }
 
         /* Keeps Prev on Left and Next on Right in Persian, identical to English */
-       /* html[dir="rtl"] .navigation-row {
+        html[dir="rtl"] .navigation-row {
             flex-direction: row-reverse;
-        }*/
-
-        [lang="fa"] .navigation-row .fa-solid {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-            /* برای نرم‌تر شدن انیمیشن هنگام تغییر زبان */
         }
 
         .container {
@@ -120,9 +118,13 @@
             color: var(--text-muted);
         }
 
+
+
         /* ==========================================================================
             FLASHCARDS
             ========================================================================== */
+
+
 
         .flashcard-wrapper {
             background: #ffffff;
@@ -184,7 +186,7 @@
             border: 1px solid var(--border-color);
             padding: 10px 8px;
             border-radius: 12px;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-muted);
             cursor: pointer;
@@ -285,6 +287,7 @@
             min-height: 290px;
             position: relative;
             touch-action: pan-y;
+            /* Allows scrolling but captures swipes */
         }
 
         .display-box.flashcard-perspective {
@@ -586,6 +589,7 @@
             gap: 8px;
             transition: all 0.2s ease;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         .nav-btn.next {
@@ -617,6 +621,8 @@
             pointer-events: none;
         }
 
+
+
         @media (max-width: 480px) {
             .flashcard-wrapper {
                 padding: 16px;
@@ -636,7 +642,7 @@
             }
 
             .word-title {
-                font-size: 30px;
+                font-size: 20px;
             }
 
             html[lang="fa"] .word-title {
@@ -662,8 +668,9 @@
         <header id="header">
             <!--injected by JS from global JS-->
         </header>
-
         <main class="flashcard-wrapper">
+
+
 
             <!-- Utilities Bar -->
             <div class="utilities-bar" id="utilitiesBar">
@@ -676,17 +683,14 @@
                 <button class="util-btn" id="starredFilterBtn" onclick="toggleStarredFilter()">
                     <i class="fa-solid fa-star"></i> <span data-i18n="starredOnly">Starred Only</span>
                 </button>
-                <button style="display: none;" class="util-btn" id="weakFilterBtn" onclick="toggleWeakFilter()">
+                <button class="util-btn" id="weakFilterBtn" onclick="toggleWeakFilter()">
                     <i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="weakWords">Weak Words</span>
-                </button>
-                <button class="util-btn" id="srsFilterBtn" onclick="toggleSRSFilter()">
-                    <i class="fa-solid fa-boxes-stacked"></i> <span>Review</span>
                 </button>
                 <button class="util-btn" id="analyticsBtn" onclick="toggleAnalytics()">
                     <i class="fa-solid fa-chart-pie"></i> <span data-i18n="analytics">Analytics</span>
                 </button>
 
-                <!-- دکمه آزمون استاندارد -->
+                <!-- دکمه آزمون استاندارد و هم‌شکل با بقیه -->
                 <button class="util-btn" id="quizMenuBtn" onclick="showQuizSelectionInCard()">
                     <i class="fa-solid fa-list-check"></i> <span data-i18n="quizzes">Quizzes</span>
                 </button>
@@ -788,6 +792,7 @@
                 <div class="progress-text" id="progressText">0 / 0</div>
             </div>
 
+
             <!-- Context Hint Grid -->
             <div class="features-grid" id="featuresGrid">
                 <button class="feature-btn" onclick="toggleHint('meaning', this)">
@@ -821,9 +826,11 @@
             <div class="navigation-row" id="navigationRow">
                 <button class="nav-btn prev" id="prevBtn" onclick="navigateCard(-1)"> <span data-i18n="prev"> Previous
                     </span>
+                    <!-- Icon & text injected by dynamic language setup -->
                 </button>
                 <button class="nav-btn next" id="nextBtn" onclick="navigateCard(1)"> <span data-i18n="next"> Next
                     </span>
+                    <!-- Icon & text injected by dynamic language setup -->
                 </button>
             </div>
 
@@ -835,17 +842,21 @@
     </div>
     <audio id="globalAudioPlayer" style="display: none;"></audio>
     <script>
-        window.PAGE_NAME = 'flashcard';
+        window.PAGE_NAME = 'flashcard'; // تعیین نام صفحه برای دریافت ترجمه‌های اختصاصی
     </script>
     <script src="/global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="/assets/JS/auth.js"></script>
     <script type="module" src="/assets/JS/auth-guard.js"></script>
+    <script type="module" src="/assets/JS/auth-lock.js"></script>
+
+
     <script type="module" src="/assets/JS/save-progress.js"></script>
 
     <script>
         /* ==========================================================================
-           تنظیم افکت‌های صوتی سیستم
-           ========================================================================== */
+               تنظیم افکت‌های صوتی سیستم
+            ========================================================================== */
         const sounds = {
             correct: new Audio('/assets/audio/quiz/correct.mp3'),
             wrong: new Audio('/assets/audio/quiz/wrong.mp3'),
@@ -866,10 +877,10 @@
 
         /* --- ۱. تنظیمات و متغیرهای سراسری سیستم --- */
         const urlParams = new URLSearchParams(window.location.search);
-        const selectedBook = urlParams.get('book') || 'vision1';
-        const selectedUnit = urlParams.get('unit') || '1';
-        const listSource = urlParams.get('source');
+        const selectedBook = urlParams.get('book'); // اسم لیست/کتاب
+        const selectedUnit = urlParams.get('unit') || '1'; // شماره یونیت
 
+        // کلید منحصربه‌فرد برای ذخیره‌سازی اطلاعات در LocalStorage مربوط به هر یونیت و کتاب
         const selectedUnitKey = `${selectedBook}_u${selectedUnit}`;
 
         let masterDataset = [];
@@ -881,7 +892,6 @@
         let isAutoPlayActive = false;
         let isStarredFilterActive = false;
         let isWeakFilterActive = false;
-        let isSRSFilterActive = false;
         let isAnalyticsOpen = false;
 
         let isQuizMode = false;
@@ -890,52 +900,77 @@
         let quizStep = 0;
         let quizQuestions = [];
 
-        async function fetchFlashcardsFromSupabase(book, unit) {
-            try {
-                const parsedUnit = parseFloat(unit);
 
-                const { data, error } = await supabaseClient
-                    .from(listSource)
-                    .select('words_data')
-                    .eq('book_key', book)
-                    .eq('unit_number', parsedUnit)
-                    .single();
 
-                if (error || !data || !data.words_data) {
-                    console.error("خطا یا عدم وجود کلمات در دیتابیس:", error);
-                    return [{ id: 0, name: "No Data Available", pronunciation: "-", example: "Please check your database.", type: "-", meaning: "کلماتی برای این یونیت یافت نشد", audio: "", image: "" }];
-                }
-
-                return data.words_data;
-            } catch (err) {
-                console.error("خطا در ارتباط با دیتابیس:", err);
-                return [{ id: 0, name: "Error Loading", pronunciation: "-", example: "-", type: "-", meaning: "خطا در برقراری ارتباط با دیتابیس", audio: "", image: "" }];
-            }
-        }
-
-        /* --- راه‌اندازی و لود اولیه برنامه --- */
-        window.onload = async function () {
+        // ==========================================
+        // دریافت کلمات از Supabase و راه اندازی کارت‌ها
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', async () => {
             initSwipeGestures();
 
-            if (!window.supabaseClient && window.supabase) {
-                window.supabaseClient = window.supabase;
-            }
-
-            if (!window.supabaseClient) {
-                console.error("Supabase client is not initialized yet.");
+            if (!selectedBook) {
+                alert("عنوان لیست مشخص نشده است.");
                 return;
             }
 
-            masterDataset = await fetchFlashcardsFromSupabase(selectedBook, selectedUnit);
+            // دریافت پارامتر source از URL (مقدار پیش‌فرض: user_lists)
+            const listSource = urlParams.get('source') || 'user_lists';
+
+            try {
+                // ۱. بررسی لاگین بودن کاربر
+                const { data: { user } } = await window.supabase.auth.getUser();
+                if (!user) {
+                    alert("برای دسترسی به این لیست ابتدا باید وارد شوید.");
+                    window.location.href = '/pages/auth.html';
+                    return;
+                }
+
+                // ۲. ساخت کوئری بر اساس نوع source
+                let query = window.supabase
+                    .from(listSource)
+                    .select('words')
+                    .eq('title', decodeURIComponent(selectedBook));
+
+                // اگر لیست شخصی کاربر است، شرط user_id را اعمال کن
+                // اگر لیست عمومی (community_lists) است، نیازی به فیلتر user_id نیست
+                if (listSource !== 'community_lists') {
+                    query = query.eq('user_id', user.id);
+                } else {
+                    // برای لیست‌های عمومی مطمئن می‌شویم تایید شده باشد
+                    query = query.eq('is_approved', true);
+                }
+
+                const { data, error } = await query.maybeSingle();
+
+                if (error || !data || !data.words || data.words.length === 0) {
+                    console.error("Fetch Error:", error);
+                    alert("لیست مورد نظر یافت نشد یا خالی است.");
+                    return;
+                }
+
+                // ۳. آماده‌سازی داده‌های کلمات
+                initFlashcards(data.words);
+
+            } catch (err) {
+                console.error("Error loading flashcards:", err);
+            }
+        });
+
+        function initFlashcards(words) {
+            masterDataset = words.map((w, index) => ({
+                id: w.id || index + 1,
+                name: w.name || w.word || '',
+                meaning: w.meaning || '',
+                example: w.example || '',
+                pronunciation: w.pronunciation || '',
+                type: w.type || 'Word',
+                image: w.image || '',
+                audio: w.audio || `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(w.name || w.word || '')}`
+            }));
+
             workingDataset = [...masterDataset];
 
-            const savedIndex = localStorage.getItem(`saved_progress_${selectedUnitKey}`);
-            if (savedIndex && parseInt(savedIndex) < workingDataset.length) {
-                currentIndex = parseInt(savedIndex);
-            } else {
-                currentIndex = 0;
-            }
-
+            // مقداردهی اولیه تنظیمات از LocalStorage و Supabase
             isAutoPlayActive = localStorage.getItem(`autoplay_${selectedUnitKey}`) === 'true';
 
             if (window.getUnitProgress) {
@@ -955,20 +990,20 @@
                             localStorage.setItem(`autoplay_${selectedUnitKey}`, isAutoPlayActive);
                         }
                     }
-
                     updateAutoPlayUI();
-                    applyFilters();
+                    renderCard();
                 }).catch(err => {
-                    console.error("خطا در دریافت پروگرس کاربر از Supabase:", err);
+                    console.error("خطا در دریافت اطلاعات از Supabase:", err);
                     updateAutoPlayUI();
-                    applyFilters();
+                    renderCard();
                 });
             } else {
                 updateAutoPlayUI();
-                applyFilters();
+                renderCard();
             }
-        };
+        }
 
+        // تابع کمکی برای بروزرسانی ظاهر دکمه Auto Play
         function updateAutoPlayUI() {
             const autoPlayBtn = document.getElementById('autoPlayBtn');
             if (autoPlayBtn) {
@@ -976,6 +1011,7 @@
             }
         }
 
+        /* --- مدیریت کلیدهای حافظه و وضعیت لایتنر کلمات --- */
         function getStarredList() {
             return JSON.parse(localStorage.getItem(`starred_words_${selectedUnitKey}`)) || [];
         }
@@ -1034,13 +1070,11 @@
                 isAutoPlayActive = false;
                 isStarredFilterActive = false;
                 isWeakFilterActive = false;
-                isSRSFilterActive = false;
 
-                document.getElementById('shuffleBtn')?.classList.remove('active');
-                document.getElementById('autoPlayBtn')?.classList.remove('active');
-                document.getElementById('starredFilterBtn')?.classList.remove('active');
-                document.getElementById('weakFilterBtn')?.classList.remove('active');
-                document.getElementById('srsFilterBtn')?.classList.remove('active');
+                document.getElementById('shuffleBtn').classList.remove('active');
+                document.getElementById('autoPlayBtn').classList.remove('active');
+                document.getElementById('starredFilterBtn').classList.remove('active');
+                document.getElementById('weakFilterBtn').classList.remove('active');
 
                 applyFilters();
                 if (isAnalyticsOpen) renderAnalytics();
@@ -1062,6 +1096,7 @@
             }
         }
 
+        /* --- داشبورد آمار تحلیلی لایتنر --- */
         function toggleAnalytics() {
             const panel = document.getElementById('analyticsPanel');
             isAnalyticsOpen = !isAnalyticsOpen;
@@ -1106,133 +1141,129 @@
             document.getElementById(`${idPrefix}Fill`).style.width = `${percent}%`;
         }
 
+        /* --- رندر کردن و نمایش کارت‌ها --- */
         function renderCard() {
-                isQuizMode = false;
-                const dict = translations[currentLang];
-                hideQuizSelection();
+            isQuizMode = false;
+            const dict = translations[currentLang] || translations['en'];
+            hideQuizSelection();
 
-                const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
-                const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
-                if (cardContent) cardContent.style.display = 'block';
-                if (cardNavButtons) cardNavButtons.style.display = 'flex';
+            const cardContent = document.getElementById('cardContent') || document.querySelector('.card-body');
+            const cardNavButtons = document.getElementById('cardNavButtons') || document.querySelector('.card-navigation');
+            if (cardContent) cardContent.style.display = 'block';
+            if (cardNavButtons) cardNavButtons.style.display = 'flex';
 
-                document.getElementById('featuresGrid').style.display = 'grid';
-                document.getElementById('navigationRow').style.display = 'flex';
-                document.getElementById('utilitiesBar').style.display = 'grid';
-                document.getElementById('evaluationRow').style.display = 'flex';
+            document.getElementById('featuresGrid').style.display = 'grid';
+            document.getElementById('navigationRow').style.display = 'flex';
+            document.getElementById('utilitiesBar').style.display = 'grid';
+            document.getElementById('evaluationRow').style.display = 'flex';
 
-                document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
 
-                const displayBox = document.getElementById('displayBox');
-                const imageBtn = document.getElementById('imageFeatureBtn');
+            const displayBox = document.getElementById('displayBox');
+            const imageBtn = document.getElementById('imageFeatureBtn');
 
-                displayBox.classList.remove('quiz-style', 'flipped');
-                displayBox.classList.add('flashcard-perspective');
+            displayBox.classList.remove('quiz-style', 'flipped');
+            displayBox.classList.add('flashcard-perspective');
 
-                const prevBtn = document.getElementById('prevBtn');
-                const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
-                prevBtn.innerHTML = `<i class="fa-solid fa-arrow-left"></i> <span>${dict.prev}</span>`;
-                nextBtn.innerHTML = `<span>${dict.next}</span> <i class="fa-solid fa-arrow-right"></i>`;
+            prevBtn.innerHTML = `<i class="fa-solid fa-arrow-left"></i> <span>${dict.prev}</span>`;
+            nextBtn.innerHTML = `<span>${dict.next}</span> <i class="fa-solid fa-arrow-right"></i>`;
 
-                if (workingDataset.length === 0) {
-                    displayBox.classList.remove('flashcard-perspective');
-                    displayBox.classList.add('quiz-style');
-                    displayBox.innerHTML = `
-            <i class="fa-solid fa-folder-open" style="font-size: 40px; color: var(--text-muted);"></i>
-            <div class="word-title" style="font-size: 16px; margin-top:10px; direction:initial;">${dict.noMatches}</div>
-            <p class="sentence-example" style="direction:initial; margin: 4px auto;">${dict.noMatchesSub}</p>
-        `;
-                    updateProgressBar(0, 0);
-                    prevBtn.disabled = true;
-                    prevBtn.classList.add('disabled');
-                    document.getElementById('evaluationRow').style.display = 'none';
-                    if (imageBtn) { imageBtn.disabled = true; imageBtn.classList.add('disabled'); }
-                    return;
-                }
-
-                const currentWord = workingDataset[currentIndex];
-                if (!currentWord) return;
-
-                const starredList = getStarredList();
-                const isStarred = starredList.includes(currentWord.id);
-
-                // 🟢 دریافت هم‌زمان وضعیت کلمه از LocalStorage و داده‌های کش‌شده Supabase
-                const statusList = getWordsStatus();
-                const currentUnitData = window.lastFetchedUnitData || {};
-                const dbStatuses = currentUnitData?.words_status || {};
-                const mergedStatuses = { ...dbStatuses, ...statusList };
-
-                // وضعیت کلمه فعلی (hard / medium / easy)
-                const currentStatus = mergedStatuses[currentWord.id] || '';
-
-                let statusBadge = '';
-                const badgeOffsetStyle = currentLang === 'fa' ? 'left:16px;' : 'right:16px;';
-                if (currentStatus === 'hard') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--red-light); color:#ef4444; border-radius:12px; font-weight:700;">${dict.badgeForgot}</span>`;
-                if (currentStatus === 'medium') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--yellow-light); color:var(--yellow-dark); border-radius:12px; font-weight:700;">${dict.badgeNotSure}</span>`;
-                if (currentStatus === 'easy') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--green-light); color:#10b981; border-radius:12px; font-weight:700;">${dict.badgeKnew}</span>`;
-
+            if (workingDataset.length === 0) {
+                displayBox.classList.remove('flashcard-perspective');
+                displayBox.classList.add('quiz-style');
                 displayBox.innerHTML = `
-        <div class="card-inner">
-            <div class="card-front">
-                ${statusBadge}
-                <div class="word-header-row">
-                    <div class="word-title" id="wordTitle">${currentWord.name}</div>
-                    <i class="fa-star ${isStarred ? 'fa-solid starred' : 'fa-regular'} star-icon" onclick="toggleStar(${currentWord.id}); event.stopPropagation();"></i>
-                </div>
-                <div class="sentence-example" id="wordExample">"${currentWord.example}"</div>
-                <div class="dynamic-hint-area">
-                    <i class="fa-solid fa-circle-question" style="margin: 0 6px; opacity: 0.7; font-size: 12px;"></i> ${dict.tapClues}
-                </div>
-            </div>
-            <div class="card-back" id="cardBack"></div>
-        </div>
-    `;
+                        <i class="fa-solid fa-folder-open" style="font-size: 40px; color: var(--text-muted);"></i>
+                        <div class="word-title" style="font-size: 16px; margin-top:10px; direction:initial;">${dict.noMatches}</div>
+                        <p class="sentence-example" style="direction:initial; margin: 4px auto;">${dict.noMatchesSub}</p>
+                    `;
+                updateProgressBar(0, 0);
+                prevBtn.disabled = true;
+                prevBtn.classList.add('disabled');
+                document.getElementById('evaluationRow').style.display = 'none';
+                if (imageBtn) { imageBtn.disabled = true; imageBtn.classList.add('disabled'); }
+                return;
+            }
 
-                // 🟢 آپدیت کلاس active دکمه‌های ارزیابی بر اساس mergedStatuses
-                document.getElementById('btnHard')?.classList.toggle('active', currentStatus === 'hard');
-                document.getElementById('btnMedium')?.classList.toggle('active', currentStatus === 'medium');
-                document.getElementById('btnEasy')?.classList.toggle('active', currentStatus === 'easy');
+            const currentWord = workingDataset[currentIndex];
+            if (!currentWord) return;
 
-                if (imageBtn) {
-                    if (!currentWord.image || currentWord.image.trim() === "") {
-                        imageBtn.disabled = true;
-                        imageBtn.classList.add('disabled');
-                    } else {
-                        imageBtn.disabled = false;
-                        imageBtn.classList.remove('disabled');
-                    }
-                }
+            const starredList = getStarredList();
+            const isStarred = starredList.includes(currentWord.id);
 
-                if (currentIndex === 0) {
-                    prevBtn.disabled = true;
-                    prevBtn.classList.add('disabled');
+            const statusList = getWordsStatus();
+            const currentStatus = statusList[currentWord.id] || '';
+
+            let statusBadge = '';
+            const badgeOffsetStyle = currentLang === 'fa' ? 'left:16px;' : 'right:16px;';
+            if (currentStatus === 'hard') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--red-light); color:#ef4444; border-radius:12px; font-weight:700;">${dict.badgeForgot}</span>`;
+            if (currentStatus === 'medium') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--yellow-light); color:var(--yellow-dark); border-radius:12px; font-weight:700;">${dict.badgeNotSure}</span>`;
+            if (currentStatus === 'easy') statusBadge = `<span style="position:absolute; ${badgeOffsetStyle} top:16px; font-size:10px; padding:2px 8px; background:var(--green-light); color:#10b981; border-radius:12px; font-weight:700;">${dict.badgeKnew}</span>`;
+
+            displayBox.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">
+                            ${statusBadge}
+                            <div class="word-header-row">
+                                <div class="word-title" id="wordTitle">${currentWord.name}</div>
+                                <i class="fa-star ${isStarred ? 'fa-solid starred' : 'fa-regular'} star-icon" onclick="toggleStar(${currentWord.id}); event.stopPropagation();"></i>
+                            </div>
+                            <div class="sentence-example" id="wordExample">"${currentWord.example}"</div>
+                            <div class="dynamic-hint-area">
+                                <i class="fa-solid fa-circle-question" style="margin: 0 6px; opacity: 0.7; font-size: 12px;"></i> ${dict.tapClues}
+                            </div>
+                        </div>
+                        <div class="card-back" id="cardBack"></div>
+                    </div>
+                `;
+
+            document.getElementById('btnHard').classList.toggle('active', currentStatus === 'hard');
+            document.getElementById('btnMedium').classList.toggle('active', currentStatus === 'medium');
+            document.getElementById('btnEasy').classList.toggle('active', currentStatus === 'easy');
+
+            if (imageBtn) {
+                if (!currentWord.image || currentWord.image.trim() === "") {
+                    imageBtn.disabled = true;
+                    imageBtn.classList.add('disabled');
                 } else {
-                    prevBtn.disabled = false;
-                    prevBtn.classList.remove('disabled');
-                }
-
-                updateProgressBar(currentIndex + 1, workingDataset.length);
-                localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
-
-                if (isAutoPlayActive && currentWord.audio) {
-                    setTimeout(() => {
-                        if (!isQuizMode && workingDataset[currentIndex] && workingDataset[currentIndex].id === currentWord.id) {
-                            playRealAudio(currentWord.audio);
-                        }
-                    }, 400);
-                }
-                if (window.updateCardProgress) {
-                    window.updateCardProgress(selectedBook, selectedUnit, currentIndex);
+                    imageBtn.disabled = false;
+                    imageBtn.classList.remove('disabled');
                 }
             }
 
-        /* --- لمس و سوایپ به همراه افکت صوتی تعویض کارت --- */
+            if (currentIndex === 0) {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('disabled');
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('disabled');
+            }
+
+            updateProgressBar(currentIndex + 1, workingDataset.length);
+            localStorage.setItem(`saved_progress_${selectedUnitKey}`, currentIndex);
+
+            if (isAutoPlayActive && currentWord.audio) {
+                setTimeout(() => {
+                    if (!isQuizMode && workingDataset[currentIndex] && workingDataset[currentIndex].id === currentWord.id) {
+                        playRealAudio(currentWord.audio);
+                    }
+                }, 400);
+            }
+
+            if (window.updateCardProgress) {
+                window.updateCardProgress(selectedBook, selectedUnit, currentIndex);
+            }
+        }
+
+        /* --- لمس و سوایپ --- */
         let touchstartX = 0;
         let touchendX = 0;
 
         function initSwipeGestures() {
             const displayBox = document.getElementById('displayBox');
+            if (!displayBox) return;
 
             displayBox.addEventListener('touchstart', function (e) {
                 if (e.target.tagName.toLowerCase() === 'textarea') return;
@@ -1260,30 +1291,27 @@
             }
         }
 
-        async function gradeWord(status) {
-                if (workingDataset.length === 0 || isQuizMode) return;
-                const currentWord = workingDataset[currentIndex];
+        function gradeWord(status) {
+            if (workingDataset.length === 0 || isQuizMode) return;
+            const currentWord = workingDataset[currentIndex];
+            const statusList = getWordsStatus();
+            const currentStatus = statusList[currentWord.id] || '';
 
-                // ۱. آپدیت وضعیت کلمه در LocalStorage
+            if (currentStatus === status) {
+                setWordStatus(currentWord.id, '');
+                document.getElementById('btnHard').classList.remove('active');
+                document.getElementById('btnMedium').classList.remove('active');
+                document.getElementById('btnEasy').classList.remove('active');
+                renderCard();
+            } else {
                 setWordStatus(currentWord.id, status);
+                document.getElementById('btnHard').classList.toggle('active', status === 'hard');
+                document.getElementById('btnMedium').classList.toggle('active', status === 'medium');
+                document.getElementById('btnEasy').classList.toggle('active', status === 'easy');
 
-                // ۲. ثبت هم‌زمان در Supabase (هم words_status و هم srs_data)
-                if (window.updateWordProgressAndSRS) {
-                    await window.updateWordProgressAndSRS(selectedBook, selectedUnit, currentWord.id, status);
-                }
-
-                // ۳. به‌روزرسانی ظاهری دکمه‌های ارزیابی
-                document.getElementById('btnHard')?.classList.toggle('active', status === 'hard');
-                document.getElementById('btnMedium')?.classList.toggle('active', status === 'medium');
-                document.getElementById('btnEasy')?.classList.toggle('active', status === 'easy');
-
-                // ۴. در صورتی که فیلتر Weak Words یا SRS فعال باشد، لیست فیلتر شده را رندر مجدد کن
-                if (isWeakFilterActive || isSRSFilterActive) {
-                    setTimeout(() => { applyFilters(); }, 250);
-                } else {
-                    setTimeout(() => { navigateCard(1); }, 250);
-                }
+                setTimeout(() => { navigateCard(1); }, 250);
             }
+        }
 
         function updateProgressBar(current, total) {
             const percent = total > 0 ? (current / total) * 100 : 0;
@@ -1294,10 +1322,7 @@
         function navigateCard(direction) {
             if (currentAudioObject) currentAudioObject.pause();
             if (direction === -1 && currentIndex === 0) return;
-
-            // اجرای افکت صوتی جابه‌جایی کارت
             playSfx('cardSlide');
-
             currentIndex += direction;
             if (currentIndex >= workingDataset.length) {
                 showCompletionScreen();
@@ -1355,79 +1380,36 @@
             applyFilters();
         }
 
-        function toggleSRSFilter() {
-            isSRSFilterActive = !isSRSFilterActive;
-            document.getElementById('srsFilterBtn')?.classList.toggle('active', isSRSFilterActive);
-            applyFilters();
-        }
+        function applyFilters() {
+            const currentWordId = workingDataset[currentIndex]?.id;
 
-        async function applyFilters() {
-                let base = [...masterDataset];
-
-                // دریافت اطلاعات پروگرس و SRS
-                const statusList = getWordsStatus();
-                const currentUnitData = (window.getUnitProgress ? await window.getUnitProgress(selectedBook, selectedUnit) : null) || {};
-                window.lastFetchedUnitData = currentUnitData; // ذخیره برای استفاده در renderCard
-
-                const srsData = currentUnitData?.srs_data || {};
-                const dbStatuses = currentUnitData?.words_status || {};
-                const mergedStatuses = { ...dbStatuses, ...statusList };
-                const now = new Date().toISOString();
-
-                // محاسبه تعداد کلمات موعد مرور (Due)
-                const dueWordsCount = masterDataset.filter(w => {
-                    const wordSrs = srsData[w.id];
-                    return !wordSrs || !wordSrs.nextReviewAt || wordSrs.nextReviewAt <= now;
-                }).length;
-
-                // 🔴 آپدیت لیبل دکمه همراه با Badge قرمز رنگ
-                const srsBtn = document.getElementById('srsFilterBtn');
-                if (srsBtn) {
-                    let reviewBtnText = '';
-                    if (currentLang === 'fa') {
-                        reviewBtnText = 'مرور';
-                    } else {
-                        reviewBtnText = 'Review';
-                    }
-                    srsBtn.innerHTML = `
-            
-            <i class="fa-solid fa-boxes-stacked"></i> <span data-i18n="reviewTitle">${reviewBtnText}</span>
-            <span style="background-color: var(--red, #ef4444); color: white; border-radius: 10px; padding: 2px 7px; font-size: 11px; font-weight: 800; margin-left: 4px;">${dueWordsCount}</span>
-        `;
-                }
-
-                // ۱. فیلتر کلمات ضعیف (Weak Words)
-                if (typeof isWeakFilterActive !== 'undefined' && isWeakFilterActive) {
-                    base = base.filter(w => mergedStatuses[w.id] === 'hard' || mergedStatuses[w.id] === 'medium');
-                }
-
-                // ۲. فیلتر لایتنر (Due Review)
-                if (isSRSFilterActive) {
-                    base = base.filter(w => {
-                        const wordSrs = srsData[w.id];
-                        return !wordSrs || !wordSrs.nextReviewAt || wordSrs.nextReviewAt <= now;
-                    });
-                }
-
-                // ۳. فیلتر ستاره‌دارها (Starred)
-                if (typeof isStarredFilterActive !== 'undefined' && isStarredFilterActive) {
-                    const starredList = getStarredList();
-                    base = base.filter(w => starredList.includes(w.id));
-                }
-
-                // ۴. مرتب‌سازی بر اساس کوچک‌ترین ID (صعودی)
-                base.sort((a, b) => a.id - b.id);
-
-                // ۵. برزدن (Shuffle)
-                if (typeof isShuffleActive !== 'undefined' && isShuffleActive) {
-                    base.sort(() => Math.random() - 0.5);
-                }
-
-                workingDataset = base;
-                currentIndex = 0;
-
-                renderCard();
+            let base = [...masterDataset];
+            if (isStarredFilterActive) {
+                const starredList = getStarredList();
+                base = base.filter(w => starredList.includes(w.id));
             }
+            if (isWeakFilterActive) {
+                const statusList = getWordsStatus();
+                base = base.filter(w => statusList[w.id] === 'hard' || statusList[w.id] === 'medium');
+            }
+            if (isShuffleActive) base.sort(() => Math.random() - 0.5);
+            workingDataset = base;
+
+            if (currentWordId) {
+                const newIndex = workingDataset.findIndex(w => w.id === currentWordId);
+                if (newIndex !== -1) {
+                    currentIndex = newIndex;
+                } else {
+                    if (currentIndex >= workingDataset.length) {
+                        currentIndex = Math.max(0, workingDataset.length - 1);
+                    }
+                }
+            } else {
+                currentIndex = 0;
+            }
+
+            renderCard();
+        }
 
         function playRealAudio(audioPath, wordText) {
             if (!audioPath) return;
@@ -1460,7 +1442,7 @@
                         window.speechSynthesis.speak(utterance);
                     }
                 } catch (e) {
-                    console.log("سخنگوی مرورگر با خطا مواجه شد:", e.message);
+                    console.log("خطا در سیستم صوتی:", e.message);
                 }
             };
 
@@ -1470,21 +1452,21 @@
 
             const playPromise = currentAudioObject.play();
             if (playPromise !== undefined) {
-                playPromise.then(() => {
-                }).catch(error => {
+                playPromise.then(() => { }).catch(error => {
                     if (error.name === 'AbortError') return;
                     playFallbackTTS();
                 });
             }
         }
 
+        /* --- انیمیشن چرخش کارت --- */
         function toggleHint(type, element) {
             if (isQuizMode || workingDataset.length === 0) return;
             const displayBox = document.getElementById('displayBox');
             const cardBack = document.getElementById('cardBack');
             const currentWord = workingDataset[currentIndex];
             const isAlreadyActive = element.classList.contains('active');
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
 
             document.querySelectorAll('.feature-btn').forEach(btn => btn.classList.remove('active'));
 
@@ -1498,108 +1480,93 @@
 
                 if (type === 'image') {
                     coreContent = `
-                        <img src="${currentWord.image}" alt="${currentWord.name}" style="max-height: 140px; max-width: 100%; border-radius: 10px; object-fit: contain;">
-                        <div style="font-size: 13px; color: var(--text-muted); font-weight:600; direction:ltr; margin-top:2px;">${currentWord.name}</div>
-                    `;
+                            <img src="${currentWord.image}" alt="${currentWord.name}" style="max-height: 140px; max-width: 100%; border-radius: 10px; object-fit: contain;">
+                            <div style="font-size: 13px; color: var(--text-muted); font-weight:600; direction:ltr; margin-top:2px;">${currentWord.name}</div>
+                        `;
                 } else if (type === 'pronunciation') {
                     coreContent = `
-                        <i class="fa-solid fa-volume-high" style="font-size: 24px; color: var(--blue);"></i>
-                        <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); direction: ltr; margin: 4px 0;">${currentWord.pronunciation}</div>
-                        <button class="util-btn" style="padding: 4px 12px; font-size:11px;" onclick="playRealAudio('${currentWord.audio}'); event.stopPropagation();">
-                            <i class="fa-solid fa-rotate-right"></i> ${dict.listenAgain}
-                        </button>
-                    `;
+                            <i class="fa-solid fa-volume-high" style="font-size: 24px; color: var(--blue);"></i>
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); direction: ltr; margin: 4px 0;">${currentWord.pronunciation}</div>
+                            <button class="util-btn" style="padding: 4px 12px; font-size:11px;" onclick="playRealAudio('${currentWord.audio}'); event.stopPropagation();">
+                                <i class="fa-solid fa-rotate-right"></i> ${dict.listenAgain}
+                            </button>
+                        `;
                 } else if (type === 'type') {
                     coreContent = `
-                        <i class="fa-solid fa-tags" style="font-size: 24px; color: var(--blue);"></i>
-                        <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); background: var(--gray-btn); padding: 4px 14px; border-radius: 20px; direction: ltr; margin-top:5px;">${currentWord.type}</div>
-                    `;
+                            <i class="fa-solid fa-tags" style="font-size: 24px; color: var(--blue);"></i>
+                            <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); background: var(--gray-btn); padding: 4px 14px; border-radius: 20px; direction: ltr; margin-top:5px;">${currentWord.type}</div>
+                        `;
                 } else if (type === 'meaning') {
                     coreContent = `
-                        <i class="fa-solid fa-language" style="font-size: 28px; color: var(--blue);"></i>
-                        <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-top:5px; direction:rtl;">${currentWord.meaning}</div>
-                    `;
+                            <i class="fa-solid fa-language" style="font-size: 28px; color: var(--blue);"></i>
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-dark); margin-top:5px; direction:rtl;">${currentWord.meaning}</div>
+                        `;
                 }
 
                 const notesBlockHTML = `
-                    <div style="width:100%; margin-top:auto; padding-top:10px; border-top:1px dashed var(--border-color); display:flex; flex-direction:column; gap:4px;">
-                        <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-align:initial;"><i class="fa-regular fa-note-sticky"></i> ${dict.personalNotes}</label>
-                        <textarea style="width:100%; height:44px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-page); color:var(--text-dark); font-size:12px; padding:6px; resize:none;" oninput="saveWordNote(${currentWord.id}, this.value)" onclick="event.stopPropagation();" placeholder="${dict.notesPlaceholder}">${getWordNote(currentWord.id)}</textarea>
-                    </div>
-                `;
+                        <div style="width:100%; margin-top:auto; padding-top:10px; border-top:1px dashed var(--border-color); display:flex; flex-direction:column; gap:4px;">
+                            <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-align:initial;"><i class="fa-regular fa-note-sticky"></i> ${dict.personalNotes}</label>
+                            <textarea style="width:100%; height:44px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-page); color:var(--text-dark); font-size:12px; padding:6px; resize:none;" oninput="saveWordNote(${currentWord.id}, this.value)" onclick="event.stopPropagation();" placeholder="${dict.notesPlaceholder}">${getWordNote(currentWord.id)}</textarea>
+                        </div>
+                    `;
 
                 cardBack.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%;">${coreContent} ${notesBlockHTML}</div>`;
                 displayBox.classList.add('flipped');
             }
         }
 
-        /* ==========================================================================
-           سیستم آزمون‌ها و مدیریت افکت‌های صوتی پاسخ‌ها
-           ========================================================================== */
+        /* --- سیستم آزمون‌ها --- */
         function showQuizSelectionInCard() {
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'none';
-            }
+            if (displayBox) displayBox.style.display = 'none';
 
             hideInterfaceForQuiz();
 
             const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'flex';
-            }
+            if (selectionContainer) selectionContainer.style.display = 'flex';
         }
 
         function selectQuizMode(type) {
-            const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'none';
-            }
+            hideQuizSelection();
             startQuizMode(type);
         }
 
         function cancelQuizSelection() {
-            const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'none';
-            }
+            hideQuizSelection();
 
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'block';
-            }
+            if (displayBox) displayBox.style.display = 'block';
 
-            if (typeof renderCard === 'function') {
-                renderCard();
-            }
+            renderCard();
         }
 
         function hideQuizSelection() {
             const selectionContainer = document.getElementById('quizSelectionContainer');
-            if (selectionContainer) {
-                selectionContainer.style.display = 'none';
-            }
+            if (selectionContainer) selectionContainer.style.display = 'none';
         }
 
         function showCompletionScreen() {
             isQuizMode = true;
             hideInterfaceForQuiz();
             const displayBox = document.getElementById('displayBox');
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
+
+            playSfx('cheer');
+
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
 
             displayBox.innerHTML = `
-                <i class="fa-solid fa-trophy" style="font-size: 48px; color: #f59e0b;"></i>
-                <div class="word-title" style="margin-top: 10px; direction:initial;">${dict.goodJob}</div>
-                <p class="sentence-example" style="direction:initial;">${dict.reviewedAll}</p>
-                <div class="quiz-choices-container" style="margin-top:15px;">
-                    <button class="nav-btn next" onclick="startQuizMode('meaning')">${dict.meaningQuiz}</button>
-                    <button class="nav-btn next" style="background-color:#8b5cf6;" onclick="startQuizMode('listening')">${dict.listeningQuiz}</button>
-                    <button class="nav-btn prev" onclick="restartUnit()">${dict.reviewAgain}</button>
-                    <button class="nav-btn next" style="background-color:#10b981;" onclick="startQuizMode('spelling')">${dict.spellingQuiz}</button>
-                </div>
-            `;
+                    <i class="fa-solid fa-trophy" style="font-size: 48px; color: #f59e0b;"></i>
+                    <div class="word-title" style="margin-top: 10px; direction:initial;">${dict.goodJob}</div>
+                    <p class="sentence-example" style="direction:initial;">${dict.reviewedAll}</p>
+                    <div class="quiz-choices-container" style="margin-top:15px;">
+                        <button class="nav-btn next" onclick="startQuizMode('meaning')">${dict.meaningQuiz}</button>
+                        <button class="nav-btn next" style="background-color:#8b5cf6;" onclick="startQuizMode('listening')">${dict.listeningQuiz}</button>
+                        <button class="nav-btn prev" onclick="restartUnit()">${dict.reviewAgain}</button>
+                        <button class="nav-btn next" style="background-color:#10b981;" onclick="startQuizMode('spelling')">${dict.spellingQuiz}</button>
+                    </div>
+                `;
         }
 
         function restartUnit() {
@@ -1617,7 +1584,7 @@
 
         function startQuizMode(quizType) {
             if (masterDataset.length < 2) {
-                alert("Not enough words to generate a quiz!");
+                alert("کلمات کافی برای ساخت آزمون وجود ندارد!");
                 return;
             }
             if (currentAudioObject) currentAudioObject.pause();
@@ -1635,12 +1602,10 @@
 
         function generateQuizQuestion() {
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'block';
-            }
-            const currentQuestionWord = quizQuestions[quizStep];
+            if (displayBox) displayBox.style.display = 'block';
 
-            const dict = translations[currentLang];
+            const currentQuestionWord = quizQuestions[quizStep];
+            const dict = translations[currentLang] || translations['en'];
 
             displayBox.classList.remove('flashcard-perspective', 'flipped');
             displayBox.classList.add('quiz-style');
@@ -1653,14 +1618,14 @@
                 choices = choices.concat(wrongOptions.slice(0, 3)).sort(() => Math.random() - 0.5);
 
                 displayBox.innerHTML = `
-                    <div style="font-size:12px; font-weight:700; color:var(--blue); direction:initial;">${dict.meaningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
-                    <div class="word-title" style="margin-top:5px;">${currentQuestionWord.name}</div>
-                    <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whatIsMeaning}</p>
-                    <div class="quiz-choices-container">
-                        ${choices.map(choice => `<button class="quiz-choice-btn fa-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.meaning}')">${choice}</button>`).join('')}
-                    </div>
-                    <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
-                `;
+                        <div style="font-size:12px; font-weight:700; color:var(--blue); direction:initial;">${dict.meaningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                        <div class="word-title" style="margin-top:5px;">${currentQuestionWord.name}</div>
+                        <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whatIsMeaning}</p>
+                        <div class="quiz-choices-container">
+                            ${choices.map(choice => `<button class="quiz-choice-btn fa-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.meaning}')">${choice}</button>`).join('')}
+                        </div>
+                        <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+                    `;
             } else if (activeQuizType === 'listening') {
                 let choices = [currentQuestionWord.name];
                 let wrongOptions = masterDataset.filter(w => w.id !== currentQuestionWord.id).map(w => w.name);
@@ -1668,45 +1633,39 @@
                 choices = choices.concat(wrongOptions.slice(0, 3)).sort(() => Math.random() - 0.5);
 
                 displayBox.innerHTML = `
-                    <div style="font-size:12px; font-weight:700; color:#8b5cf6; direction:initial;">${dict.listeningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
-                    <button class="nav-btn next" style="margin: 16px auto; max-width: 180px; background-color:#8b5cf6; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
-                        <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
-                    </button>
-                    <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whichWordHear}</p>
-                    <div class="quiz-choices-container">
-                        ${choices.map(choice => `<button class="quiz-choice-btn en-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.name}')">${choice}</button>`).join('')}
-                    </div>
-                    <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
-                `;
+                        <div style="font-size:12px; font-weight:700; color:#8b5cf6; direction:initial;">${dict.listeningQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                        <button class="nav-btn next" style="margin: 16px auto; max-width: 180px; background-color:#8b5cf6; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
+                            <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
+                        </button>
+                        <p class="sentence-example" style="direction:initial; text-align:center; margin: auto auto;">${dict.whichWordHear}</p>
+                        <div class="quiz-choices-container">
+                            ${choices.map(choice => `<button class="quiz-choice-btn en-lang-dir" onclick="handleQuizAnswer(this, '${choice}', '${currentQuestionWord.name}')">${choice}</button>`).join('')}
+                        </div>
+                        <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+                    `;
 
                 setTimeout(() => { playRealAudio(currentQuestionWord.audio); }, 300);
             } else if (activeQuizType === 'spelling') {
                 displayBox.innerHTML = `
-                    <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
-                    
-                    <div style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin: 10px 0; direction: rtl;">
-                        ${currentQuestionWord.meaning}
-                    </div>
-
-                    <button class="nav-btn next" style="margin: 8px auto 16px auto; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
-                        <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
-                    </button>
-                    
-                    <p class="sentence-example" style="direction:initial; font-size: 13px; text-align:center; margin: auto auto;">${dict.typeWhatYouHear}</p>
-                    
-                    <div class="quiz-choices-container" style="gap:12px;">
-                        <input type="text" id="spellingInput" class="quiz-choice-btn en-lang-dir" 
-                               placeholder="${dict.placeholderSpelling}" 
-                               style="text-align:center; cursor:text; background:#fff; direction: ltr;" 
-                               autocomplete="off" autofocus>
-                        
-                        <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
-                            ${dict.checkSpelling}
+                        <div style="font-size:12px; font-weight:700; color:#10b981; direction:initial;">${dict.spellingQuizTitle} • ${quizStep + 1}/${quizQuestions.length}</div>
+                        <div style="font-size: 22px; font-weight: 800; color: var(--text-dark); margin: 10px 0; direction: rtl;">
+                            ${currentQuestionWord.meaning}
+                        </div>
+                        <button class="nav-btn next" style="margin: 8px auto 16px auto; max-width: 180px; background-color:#10b981; box-shadow:none;" onclick="playRealAudio('${currentQuestionWord.audio}')">
+                            <i class="fa-solid fa-volume-high"></i> ${dict.listenAgain}
                         </button>
-                    </div>
-                    
-                    <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
-                `;
+                        <p class="sentence-example" style="direction:initial; font-size: 13px; text-align:center; margin: auto auto;">${dict.typeWhatYouHear}</p>
+                        <div class="quiz-choices-container" style="gap:12px;">
+                            <input type="text" id="spellingInput" class="quiz-choice-btn en-lang-dir" 
+                                   placeholder="${dict.placeholderSpelling}" 
+                                   style="text-align:center; cursor:text; background:#fff; direction: ltr;" 
+                                   autocomplete="off" autofocus>
+                            <button class="nav-btn next" id="spellingSubmitBtn" style="background-color:#0f172a;" onclick="checkSpellingAnswer()">
+                                ${dict.checkSpelling}
+                            </button>
+                        </div>
+                        <button class="util-btn" style="margin-top: 14px; width:100%;" onclick="exitQuiz()"><i class="fa-solid fa-xmark"></i> ${dict.exitQuiz}</button>
+                    `;
 
                 setTimeout(() => {
                     const input = document.getElementById('spellingInput');
@@ -1729,21 +1688,21 @@
             const userAnswer = inputElement.value.trim().toLowerCase();
             const currentQuestionWord = quizQuestions[quizStep];
             const correctAnswer = currentQuestionWord.name.trim().toLowerCase();
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
 
             inputElement.disabled = true;
             submitBtn.disabled = true;
             submitBtn.style.pointerEvents = 'none';
 
             if (userAnswer === correctAnswer) {
-                playSfx('correct'); // پخش صدای پاسخ درست
                 inputElement.classList.add('correct');
                 inputElement.value = dict.correctSpelling;
+                playSfx('correct');
                 quizScore++;
             } else {
-                playSfx('wrong'); // پخش صدای پاسخ نادرست
                 inputElement.classList.add('wrong');
                 inputElement.value = dict.wrongSpelling + ` "${currentQuestionWord.name}"`;
+                playSfx('wrong');
             }
 
             setTimeout(() => {
@@ -1761,12 +1720,12 @@
             allButtons.forEach(btn => btn.style.pointerEvents = 'none');
 
             if (chosenAnswer === correctAnswer) {
-                playSfx('correct'); // پخش صدای پاسخ درست
                 buttonElement.classList.add('correct');
+                playSfx('correct');
                 quizScore++;
             } else {
-                playSfx('wrong'); // پخش صدای پاسخ نادرست
                 buttonElement.classList.add('wrong');
+                playSfx('wrong');
                 allButtons.forEach(btn => {
                     if (btn.innerText === correctAnswer) btn.classList.add('correct');
                 });
@@ -1785,10 +1744,9 @@
         function showQuizResult() {
             const displayBox = document.getElementById('displayBox');
             const percent = Math.round((quizScore / quizQuestions.length) * 100);
-            const dict = translations[currentLang];
+            const dict = translations[currentLang] || translations['en'];
 
-            // شرط پخش صدای پایان آزمون بر اساس تعداد پاسخ درست
-            if (quizScore > 3) {
+            if (percent > 60) {
                 playSfx('cheer');
             } else {
                 playSfx('fail');
@@ -1798,13 +1756,13 @@
             displayBox.classList.add('quiz-style');
 
             displayBox.innerHTML = `
-                <i class="fa-solid fa-square-poll-vertical" style="font-size: 46px; color: var(--blue);"></i>
-                <div class="word-title" style="margin-top:10px; direction:initial;">${dict.quizFinished}</div>
-                <p class="sentence-example" style="direction:initial;">${dict.score}: <strong>${quizScore}</strong> / ${quizQuestions.length} (${percent}%)</p>
-                <div class="quiz-choices-container" style="margin-top:15px;">
-                    <button class="nav-btn next" onclick="exitQuiz()">${dict.backToFlashcards}</button>
-                </div>
-            `;
+                    <i class="fa-solid fa-square-poll-vertical" style="font-size: 46px; color: var(--blue);"></i>
+                    <div class="word-title" style="margin-top:10px; direction:initial;">${dict.quizFinished}</div>
+                    <p class="sentence-example" style="direction:initial;">${dict.score}: <strong>${quizScore}</strong> / ${quizQuestions.length} (${percent}%)</p>
+                    <div class="quiz-choices-container" style="margin-top:15px;">
+                        <button class="nav-btn next" onclick="exitQuiz()">${dict.backToFlashcards}</button>
+                    </div>
+                `;
             updateProgressBar(quizQuestions.length, quizQuestions.length);
         }
 
@@ -1813,9 +1771,7 @@
             isQuizMode = false;
 
             const displayBox = document.getElementById('displayBox');
-            if (displayBox) {
-                displayBox.style.display = 'block';
-            }
+            if (displayBox) displayBox.style.display = 'block';
 
             renderCard();
         }

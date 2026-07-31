@@ -108,90 +108,14 @@ async function updateWordNote(bookId, unitId, wordId, noteText) {
     await saveUnitProgress(bookId, unitId, { word_notes: currentNotes });
 }
 
-// محاسبه متغیرهای لایتنر / SRS ترکیبی
-function calculateSRS(currentSrs = {}, grade) {
-    let stage = currentSrs.stage || 0;
-    let easeFactor = currentSrs.easeFactor || 2.5;
-    let interval = 1;
-
-    // جدول فواصل استاندارد جعبه لایتنر (بر حسب روز)
-    const leitnerIntervals = [1, 2, 4, 8, 16];
-
-    if (grade === 'easy') {
-        stage += 1;
-        easeFactor += 0.15; // افزایش ضریب برای کارت‌های آسان
-
-        if (stage <= 5) {
-            // استفاده از فواصل لایتنر همراه با اعمال ضریب آسان بودن
-            const baseInterval = leitnerIntervals[stage - 1];
-            interval = Math.round(baseInterval * (easeFactor / 2.5));
-        } else {
-            // کارت از ۵ خانه لایتنر خارج شده؛ محاسبه بر اساس SRS پیشرفته
-            interval = Math.round((currentSrs.interval || 16) * easeFactor);
-        }
-
-    } else if (grade === 'medium') {
-        stage += 1;
-        // کاهش جزیی ضریب سختی
-        easeFactor = Math.max(1.3, easeFactor - 0.05);
-
-        if (stage <= 5) {
-            // دقیقاً طبق فواصل استاندارد جعبه لایتنر
-            interval = leitnerIntervals[stage - 1];
-        } else {
-            // بعد از خانه ۵، رشد معمولی فواصل
-            interval = Math.round((currentSrs.interval || 16) * 1.5);
-        }
-
-    } else if (grade === 'hard') {
-        // برگشت به خانه اول (سقوط به مرحله ۱)
-        stage = 1;
-        easeFactor = Math.max(1.3, easeFactor - 0.2); // جریمه برای فراموشی
-        interval = leitnerIntervals[0]; // یعنی ۱ روز
-    }
-
-    // محاسبه زمان دقیق و تنظیم روی ساعت 00:00:00 بامداد
-    const now = new Date();
-    const nextReview = new Date(now.getFullYear(), now.getMonth(), now.getDate() + interval);
-    nextReview.setHours(0, 0, 0, 0);
-
-    return {
-        stage: stage,
-        easeFactor: Number(easeFactor.toFixed(2)),
-        interval: interval,
-        lastReviewedAt: now.toISOString(),
-        nextReviewAt: nextReview.toISOString()
-    };
-}
-
-// بروزرسانی هم‌زمان words_status و srs_data
-async function updateWordProgressAndSRS(bookId, unitId, wordId, grade) {
-    const currentData = await getUnitProgress(bookId, unitId) || {};
-
-    // ۱. آپدیت ستون words_status (ساده)
-    const currentStatuses = currentData.words_status || {};
-    currentStatuses[wordId] = grade;
-
-    // ۲. آپدیت ستون srs_data (پیشرفته)
-    const allSrsData = currentData.srs_data || {};
-    const wordSrs = allSrsData[wordId] || {};
-    allSrsData[wordId] = calculateSRS(wordSrs, grade);
-
-    // ذخیره هم‌زمان در Supabase
-    await saveUnitProgress(bookId, unitId, {
-        words_status: currentStatuses,
-        srs_data: allSrsData
-    });
-
-    return { status: grade, srs: allSrsData[wordId] };
-}
 
 window.resetUnitDataInSupabase = async function (book, unit) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
+    // فرض بر این است که جدول شما user_progress نام دارد و بر اساس user_id, book, unit رکورد را نگه می‌دارد
     const { error } = await supabase
-        .from('user_unit_progress')
+        .from('user_unit_progress') // نام جدول خود را در صورت متفاوت بودن اصلاح کنید
         .delete()
         .eq('user_id', user.id)
         .eq('book_id', book)
@@ -204,6 +128,9 @@ window.resetUnitDataInSupabase = async function (book, unit) {
     }
 };
 
+
+
+
 // متصل کردن توابع به window برای دسترسی اسکریپت‌های HTML
 window.getValidUser = getValidUser;
 window.getUnitProgress = getUnitProgress;
@@ -214,5 +141,3 @@ window.toggleStarredWord = toggleStarredWord;
 window.updateWordStatus = updateWordStatus;
 window.updateWordNote = updateWordNote;
 window.resetUnitDataInSupabase = resetUnitDataInSupabase;
-window.calculateSRS = calculateSRS;
-window.updateWordProgressAndSRS = updateWordProgressAndSRS;
