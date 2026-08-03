@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Island</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" href="/global.css">
+
+</head>
+<style>
+    .accordion-wrapper {
+
+        /* این گزینه رو در هر فایل خودش تغییر میدهیم */
+        /* direction: ltr !important; */
+    }
+</style>
+
+<body>
+
+    <div class="container">
+        <header id="header">
+            <!--injected by JS from global JS-->
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <span class="welcome-badge" data-i18n="WelcomeBadge">Vocabulary</span>
+                <h2 data-i18n="heroTitle">Learning German</h2>
+                <p data-i18n="heroSubtitle">Master your German vocabulary, unit by unit, with fun and
+                    interactive flashcards.</p>
+            </div>
+            <div class="hero-graphics">
+                <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="170" cy="215" rx="120" ry="6" fill="#E2E8F0" />
+                    <path d="M80 140C80 120 100 115 135 115H250V200H135C100 200 80 190 80 170V140Z" fill="#1D4ED8" />
+                    <path d="M70 145C70 125 90 120 125 120H240V205H125C90 205 70 195 70 175V145Z" fill="#3B82F6" />
+                    <path d="M125 120C105 120 85 125 75 135V190C85 185 105 180 125 180H240V120H125Z" fill="#FFFFFF" />
+                    <path d="M180 120V165L192 157L204 165V120H180Z" fill="#EF4444" />
+                    <g transform="translate(200, 40) rotate(10)">
+                        <rect width="85" height="55" rx="10" fill="white" stroke="#E2E8F0" stroke-width="1.5" />
+                        <rect x="12" y="12" width="40" height="6" rx="3" fill="#64748B" />
+                        <rect x="12" y="24" width="60" height="4" rx="2" fill="#94A3B8" />
+                        <rect x="12" y="34" width="50" height="4" rx="2" fill="#94A3B8" />
+                        <circle cx="70" cy="15" r="4" fill="#10B981" />
+                    </g>
+                    <g transform="translate(50, 45) rotate(-12)">
+                        <rect width="80" height="50" rx="10" fill="#10B981" />
+                        <text x="40" y="30" fill="white" font-size="12" font-weight="700" text-anchor="middle">Hallo!</text>
+                        <path d="M35 43L40 49L45 43H35Z" fill="#10B981" />
+                    </g>
+                    <g transform="translate(145, 25)">
+                        <rect width="52" height="24" rx="12" fill="#EFF6FF" stroke="#93C5FD" />
+                        <text x="26" y="16" fill="#1D4ED8" font-size="10" font-weight="700"
+                            text-anchor="middle">Deutsch</text>
+                    </g>
+                    <circle cx="280" cy="120" r="4" fill="#F59E0B" />
+                    <circle cx="50" cy="140" r="5" fill="#6366F1" />
+                </svg>
+            </div>
+        </section>
+
+        <div class="accordion-wrapper">
+
+
+
+
+            <!-- Menschen A1.1 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="header-left">
+                        <div class="header-icon-box red-theme">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div class="header-info" data-header-key="menschen_a11">
+                            <h3>Loading ...</h3>
+                            <p>Loading ...</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+                <div class="accordion-content">
+                    <!-- این خط مشخص میکند مکان یونیت ها را -->
+                    <div class="unit-list" id="menschen_a11"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer id="footer">
+            <!--injected by JS from global JS-->
+        </footer>
+    </div>
+    <script>
+        window.PAGE_NAME = 'gevocab';
+    </script>
+    <script src="/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+        // ذخیره داده‌های دریافتی در حافظه برای جلوگیری از درخواست مکرر به Supabase
+        let cachedBooksData = null;
+        let isFetchingBooks = false;
+        const tableSource = "german_words";
+
+        async function loadBooksAndRenderUnits() {
+            if (cachedBooksData) {
+                renderBooksAndUnits(cachedBooksData);
+                return;
+            }
+
+            if (isFetchingBooks) return;
+
+            try {
+                const client = window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+
+                if (!client) {
+                    console.warn("Supabase client is not ready yet. Retrying in 100ms...");
+                    setTimeout(loadBooksAndRenderUnits, 100);
+                    return;
+                }
+
+                const unitContainers = document.querySelectorAll('.unit-list[id]');
+                const bookKeys = Array.from(unitContainers)
+                    .map(container => container.id)
+                    .filter(id => id.trim() !== '');
+
+                if (bookKeys.length === 0) return;
+
+                isFetchingBooks = true;
+
+                const { data: books, error } = await client
+                    .from('books_data')
+                    .select('*')
+                    .in('book_key', bookKeys);
+
+                if (error) {
+                    console.error("خطا در دریافت اطلاعات کتاب‌ها:", error);
+                    return;
+                }
+
+                cachedBooksData = books;
+                renderBooksAndUnits(cachedBooksData);
+
+            } catch (err) {
+                console.error("خطای غیرمنتظره:", err);
+            } finally {
+                isFetchingBooks = false;
+            }
+        }
+
+        function renderBooksAndUnits(books) {
+            if (!books || books.length === 0) return;
+
+            const lang = (typeof currentLang !== 'undefined') ? currentLang : 'en';
+
+            books.forEach(book => {
+                // ۱. به‌روزرسانی هدر کتاب
+                const headerInfoBox = document.querySelector(`.header-info[data-header-key="${book.book_key}"]`);
+                if (headerInfoBox) {
+                    const titleH3 = headerInfoBox.querySelector('h3');
+                    const descP = headerInfoBox.querySelector('p');
+
+                    const bookTitle = (lang === 'fa') ? (book.title_fa || book.titleFa || book.title_en) : (book.title_en || book.titleFa);
+                    const bookDesc = (lang === 'fa') ? (book.desc_fa || book.descFa || book.desc_en) : (book.desc_en || book.descFa);
+
+                    if (titleH3 && bookTitle) titleH3.textContent = bookTitle;
+                    if (descP && bookDesc) descP.textContent = bookDesc;
+                }
+
+                // ۲. به‌روزرسانی یونیت‌ها (فلش‌کارت + دکمه اختصاصی بازی)
+                const targetContainer = document.getElementById(book.book_key);
+                if (targetContainer && book.units_data) {
+                    targetContainer.innerHTML = "";
+
+                    book.units_data.forEach(item => {
+                        // آدرس فلش‌کارت (لینک اصلی)
+                        const flashcardUrl = `/pages/flashcard.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
+                        // آدرس بازی Speed Match
+                        const gameUrl = `/pages/speedtest/speedtest.html?book=${book.book_key}&unit=${item.unit}&source=${tableSource}`;
+
+                        const title = (lang === 'fa') ? (item.titleFa || item.title_fa || item.titleEn) : (item.titleEn || item.title_en);
+                        const desc = (lang === 'fa') ? (item.descFa || item.desc_fa || item.descEn) : (item.descEn || item.desc_en);
+                        const textDirection = (lang === 'fa') ? 'style="direction: rtl; text-align: right;"' : 'style="direction: ltr; text-align: left;"';
+
+                        const unitRow = document.createElement("div");
+                        unitRow.className = "unit-row-item";
+
+                        unitRow.innerHTML = `
+                        <a href="${flashcardUrl}" class="unit-left-link" ${item.requireAuth ? 'data-require-auth="true"' : ''}>
+                            <div class="unit-left" ${textDirection}>
+                                <div class="unit-number-badge">${item.unit}</div>
+                                <i class="${item.icon || 'fa-solid fa-book'} unit-icon"></i>
+                                <div class="unit-details">
+                                    <h4>${title}</h4>
+                                    <p>${desc}</p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="unit-actions">
+                            <a href="${gameUrl}" class="game-btn-icon" title="Speed Match Game" ${item.requireAuth ? 'data-require-auth="true"' : ''}>
+                                <i class="fa-solid fa-gamepad"></i>
+                            </a>
+                            <a href="${flashcardUrl}" class="unit-arrow-link" ${item.requireAuth ? 'data-require-auth="true"' : ''}>
+                                <i class="fa-solid fa-chevron-right unit-arrow"></i>
+                            </a>
+                        </div>
+                    `;
+
+                        targetContainer.appendChild(unitRow);
+                    });
+                }
+            });
+
+            if (typeof updateLinksStyle === 'function') {
+                updateLinksStyle();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadBooksAndRenderUnits();
+        });
+
+        window.addEventListener('languageChanged', function (e) {
+            if (cachedBooksData) {
+                renderBooksAndUnits(cachedBooksData);
+            }
+        });
+    </script>
+    <script type="module" src="/assets/JS/auth.js"></script>
+    <script type="module" src="/assets/JS/auth-guard.js"></script>
+</body>
+
+</html>

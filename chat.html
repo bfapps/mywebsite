@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Chat Practice | تمرین مکالمه تعاملی</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --user-msg: #3b82f6;
+            --bot-msg: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 90vh;
+            background: var(--bg-card);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .chat-header {
+            padding: 16px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bot-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .audio-toggle {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .audio-toggle.active {
+            color: var(--primary);
+        }
+
+        /* Chat Body */
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* چیدمان کلی ردیف پیام */
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            max-width: 85%;
+        }
+
+        /* پیام‌های کاربر: چپ‌چین + اول آواتار بعد بابل */
+        .message-row.user {
+            align-self: flex-start;
+            direction: ltr;
+            flex-direction: row;
+        }
+
+        /* پیام‌های بات: چپ‌چین + اول آواتار بعد بابل */
+        .message-row.bot {
+            align-self: flex-end;
+            direction: ltr;
+            flex-direction: row;
+        }
+
+        /* استایل آواتار آیکونی کوچک کنار پیام */
+        .msg-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .message-row.user .msg-avatar {
+            background-color: #e2e8f0;
+            color: var(--text-muted);
+        }
+
+        .message-row.bot .msg-avatar {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* محتوای بدنه پیام */
+        .msg-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bubble {
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .message-row.user .bubble {
+            background-color: var(--user-msg);
+            color: #ffffff;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-row.bot .bubble {
+            background-color: var(--bot-msg);
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .msg-tools {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .speak-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .speak-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Input Bar */
+        .chat-input-area {
+            padding: 14px 16px;
+            background: #ffffff;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .text-input {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            direction: ltr;
+            transition: border-color 0.2s;
+        }
+
+        .text-input:focus {
+            border-color: var(--primary);
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-body);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .action-btn.send-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn.send-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .action-btn.mic-btn.listening {
+            background: #ef4444;
+            color: white;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .recording-status {
+            font-size: 12px;
+            color: #ef4444;
+            text-align: center;
+            padding-bottom: 4px;
+            display: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="bot-info">
+                <div class="avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <div class="header-title">English Voice Partner</div>
+                    <div class="header-subtitle">دستگاه آماده تمرین مکالمه</div>
+                </div>
+            </div>
+            <button class="audio-toggle active" id="audioToggleBtn" title="پخش صوتی خودکار">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- اولین پیام سیستم همراه با آواتار آیکونی -->
+            <div class="message-row bot">
+                <div class="msg-avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="msg-content">
+                    <div class="bubble">
+                        Hello! I'm your English practice partner. Press the microphone button and start speaking!
+                    </div>
+                    <div class="msg-tools">
+                        <button class="speak-btn"
+                            onclick="speakText('Hello! I\'m your English practice partner. Press the microphone button and start speaking!')">
+                            <i class="fa-solid fa-volume-low"></i> شنیدن
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recording-status" id="recordingStatus">
+            <i class="fa-solid fa-microphone"></i> در حال گوش دادن به صدای شما...
+        </div>
+
+        <!-- Input Section -->
+        <div class="chat-input-area">
+            <button class="action-btn mic-btn" id="micBtn" title="ضبط صدا">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+
+            <input type="text" id="textInput" class="text-input" placeholder="Type a message or use mic..."
+                autocomplete="off">
+
+            <button class="action-btn send-btn" id="sendBtn" title="ارسال">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // متغیرهای عمومی
+        let isAudioEnabled = true;
+        let isListening = false;
+
+        const chatMessages = document.getElementById('chatMessages');
+        const textInput = document.getElementById('textInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const micBtn = document.getElementById('micBtn');
+        const audioToggleBtn = document.getElementById('audioToggleBtn');
+        const recordingStatus = document.getElementById('recordingStatus');
+
+        // ۱. راه اندازی Web Speech API برای تشخیص صدا
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+
+            recognition.onstart = () => {
+                isListening = true;
+                micBtn.classList.add('listening');
+                recordingStatus.style.display = 'block';
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micBtn.classList.remove('listening');
+                recordingStatus.style.display = 'none';
+            };
+
+            recognition.onresult = (event) => {
+                const userSpeech = event.results[0][0].transcript;
+                if (userSpeech.trim() !== '') {
+                    handleUserMessage(userSpeech);
+                }
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Speech Recognition Error:", event.error);
+                isListening = false;
+                micBtn.classList.remove('listening');
+                recordingStatus.style.display = 'none';
+            };
+        } else {
+            micBtn.style.display = 'none';
+            console.warn("مرورگر شما از قابلیت تشخیص صدا پشتیبانی نمی‌کند.");
+        }
+
+        // ۲. ضبط/توقف صدا با کلیک روی میکروفون
+        micBtn.addEventListener('click', () => {
+            if (!recognition) return;
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        });
+
+        // ۳. ارسال متنی
+        sendBtn.addEventListener('click', () => {
+            const text = textInput.value.trim();
+            if (text !== '') {
+                handleUserMessage(text);
+                textInput.value = '';
+            }
+        });
+
+        textInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+
+        // ۴. خاموش/روشن کردن خروجی صوتی
+        audioToggleBtn.addEventListener('click', () => {
+            isAudioEnabled = !isAudioEnabled;
+            audioToggleBtn.classList.toggle('active', isAudioEnabled);
+            audioToggleBtn.innerHTML = isAudioEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
+        });
+
+        // ۵. پردازش پیام کاربر و ساخت پاسخ بات
+        function handleUserMessage(text) {
+            appendMessage(text, 'user');
+
+            // شبیه‌سازی زمان پاسخ‌دهی هوش مصنوعی
+            setTimeout(() => {
+                const botReply = generateBotResponse(text);
+                appendMessage(botReply, 'bot');
+                if (isAudioEnabled) {
+                    speakText(botReply);
+                }
+            }, 600);
+        }
+
+        // ۶. اضافه کردن پیام به صفحه چت همراه با آواتار FontAwesome
+        function appendMessage(text, sender) {
+            const msgRow = document.createElement('div');
+            msgRow.classList.add('message-row', sender);
+
+            // ۱. ساخت آواتار آیکونی
+            const avatar = document.createElement('div');
+            avatar.classList.add('msg-avatar');
+            avatar.innerHTML = sender === 'user'
+                ? '<i class="fa-solid fa-user"></i>'
+                : '<i class="fa-solid fa-robot"></i>';
+
+            // ۲. ساخت بدنه محتوایی پیام
+            const msgContent = document.createElement('div');
+            msgContent.classList.add('msg-content');
+
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            bubble.innerText = text;
+
+            msgContent.appendChild(bubble);
+
+            // افزودن دکمه شنیدن برای پیام‌های بات
+            if (sender === 'bot') {
+                const tools = document.createElement('div');
+                tools.classList.add('msg-tools');
+
+                const speakBtn = document.createElement('button');
+                speakBtn.classList.add('speak-btn');
+                speakBtn.innerHTML = '<i class="fa-solid fa-volume-low"></i> شنیدن';
+                speakBtn.onclick = () => speakText(text);
+
+                tools.appendChild(speakBtn);
+                msgContent.appendChild(tools);
+            }
+
+            // ۳. سرهم‌بندی عناصر
+            msgRow.appendChild(avatar);
+            msgRow.appendChild(msgContent);
+
+            chatMessages.appendChild(msgRow);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // ۷. منطق پاسخ‌دهی بات (مبتنی بر کلیدواژه‌ها)
+        function generateBotResponse(userText) {
+            const cleanText = userText.toLowerCase();
+
+            if (cleanText.includes('hello') || cleanText.includes('hi')) {
+                return "Hello there! How is your day going?";
+            } else if (cleanText.includes('how are you')) {
+                return "I'm doing great, thank you! Ready to help you practice English.";
+            } else if (cleanText.includes('name')) {
+                return "I am your ESL Assistant. What is your name?";
+            } else if (cleanText.includes('coffee') || cleanText.includes('order')) {
+                return "Great! Would you like a hot coffee or an iced coffee today?";
+            } else if (cleanText.includes('weather')) {
+                return "It seems like a wonderful day for learning! How is the weather near you?";
+            } else {
+                return `That's interesting! You said: "${userText}". Can you tell me more about that?`;
+            }
+        }
+
+        // ۸. خواندن متن با صدای انگلیسی (Text-to-Speech)
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // متوقف کردن صداهای قبلی
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9; // سرعت استاندارد و شمرده
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+    </script>
+</body>
+
+</html>
